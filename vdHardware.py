@@ -24,7 +24,7 @@ class VdHardware(Thread):
         
         GPIO.setmode(GPIO.BOARD)
 
-        # EIngaenge aktivieren
+        # Eingaenge aktivieren
         GPIO.setup(18, GPIO.IN) # Aufzeichnung stoppen
         GPIO.setup(16, GPIO.IN) # Herunterfahren
         
@@ -44,7 +44,7 @@ class VdHardware(Thread):
         herunterfahren = 0
         stoppen = 0
         
-        #prüfen, ob Modul angeschlossen ist
+        #pruefen, ob Modul angeschlossen ist
         if GPIO.input(16) != GPIO.LOW or GPIO.input(18) != GPIO.LOW:
             print("Hardwaremodul nicht erkannt")
             self.exit()
