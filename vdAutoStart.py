@@ -3,13 +3,14 @@
 
 '''
 @author: Florian Timm
-@version: 2017.11.02
+@version: 2017.11.12
 '''
 
 from vdBuffer import VdBuffer
 from vdInterface import VdInterface
 from vdConfig import VdConfig
 from vdTransformer import VdTransformer
+import time
 
 from datetime import datetime
 from multiprocessing import Queue, Manager
@@ -49,10 +50,11 @@ class VdAutoStart(object):
         manager = Manager()
         self.gnssStatus = "unbekannt"
         #self.gnssReady = manager.Value('gnssReady',False)
-        self.noBreak = manager.Value('noBreak', True)
+        self.noBreak = manager.Value('noBreak', False)
         self.scannerStatus = manager.Value('scannerStatus', "unbekannt")
         self.datensaetze = manager.Value('datensaetze', 0)
-        
+        self.date = manager.Value('date', datetime.now())
+
         # pruefe, ob root-Rechte vorhanden sind
         try:
             os.rename('/etc/foo', '/etc/bar')
@@ -79,18 +81,7 @@ class VdAutoStart(object):
             print ("Warte auf GNSS-Signal...")
             VdInterface.getGNSSTime(ms)
         
-        # Uhrzeit abfragen fuer Laufzeitlaenge und Dateinamen
-        self.date = datetime.now()
-        folder = self.date.strftime(VdConfig.fileTimeFormat) 
 
-        # Speicherordner anlegen und ausgeben
-        os.makedirs(folder)  
-        print ("Speicherordner: " + folder)      
-        
-        # Speicherprozess starten
-        self.pBuffer = VdBuffer(folder, self.noBreak,self.scannerStatus,
-                            self.datensaetze, self.warteschlange, self.admin);
-        self.pBuffer.start()
          
         # Transformerprozess gemaess Prozessoranzahl
         if VdConfig.activateTransformer:
@@ -99,35 +90,47 @@ class VdAutoStart(object):
                 n = 1
             self.pTransformer = []
             for i in range (n):
-                t = VdTransformer(self.warteschlange, i, folder, self.admin)
+                t = VdTransformer(self.warteschlange, i, self.admin)
                 t.start()
                 self.pTransformer.append(t)
     
     def aufzeichnungStarten (self):
-        self.noBreak.value = True
-        print("Aufzeichnung wird gestartet...")
-        self.scannerStatus.value = "Aufnahme gestartet"
+        if not(self.noBreak.value and self.pBuffer.is_alive()): 
+            self.noBreak.value = True
+            print("Aufzeichnung wird gestartet...")
+            self.scannerStatus.value = "Aufnahme gestartet"
+            # Speicherprozess starten
+            self.pBuffer = VdBuffer(self.noBreak,self.scannerStatus,
+                self.datensaetze, self.warteschlange, self.admin, self.date);
+            self.pBuffer.start()
     
     def aufzeichnungStoppen (self):
-        self.noBreak.value = False
-        print("Aufzeichnung wird innerhalb von 5 Sekunden gestoppt")
-        os.wait(5)
-        self.pBuffer.terminate()
-        self.scannerStatus.value = "Aufnahme gestoppt"
+        if self.noBreak.value and self.pBuffer.is_alive():
+            self.noBreak.value = False
+            print("Aufzeichnung wird innerhalb von 5 Sekunden gestoppt")
+            time.sleep(5)
+            self.pBuffer.terminate()
+            self.scannerStatus.value = "Aufnahme gestoppt"
+            del (self.pBuffer)
+            
+    def transformerStoppen (self):
+        for t in self.pTransformer:
+            t.terminate()
+            
     def herunterFahren(self):
         self.aufzeichnungStoppen();
+        self.transformerStoppen()
         os.system("sudo shutdown -h now")
         print ("Faehrt herunter")
-        
 # Websteuerung
 app = Flask(__name__)
 
 
 @app.route("/")
 def webIndex():
-    timediff = datetime.now()-ms.date
+    timediff = datetime.now()-ms.date.value
     laufzeit = str(timediff.seconds + (int(timediff.microseconds/1000)/1000.))
-    return """<html>
+    ausgabe = """<html>
     <head>
         <title>VLP16-Datenschnittstelle</title>
         <style>
@@ -138,6 +141,7 @@ def webIndex():
                 border: 1px solid black;
             }
         </style>
+        <meta http-equiv="refresh" content="10; URL=/">
     </head>
     <body>
         <h2>VLP16-Datenschnittstelle</h3>
@@ -149,34 +153,42 @@ def webIndex():
             <tr><td>Warteschleife:</td>
                 <td>"""+str(ms.warteschlange.qsize())+"""</td></tr>
             <tr><td>Laufzeit</td>
-                <td>"""+laufzeit+"""</td></tr>
-            <tr><td colspan="2">
-                <a href="/starten">Aufzeichnung starten</a></td></tr>
-            <tr><td colspan="2">
-                <a href="/stoppen">Aufzeichnung stoppen</a></td></tr>
-            <tr><td colspan="2">
+                <td>"""+laufzeit+"""</td></tr>"""
+    if ms.noBreak.value and ms.pBuffer.is_alive():
+        ausgabe += """<tr><td colspan="2">
+                <a href="/stoppen">Aufzeichnung stoppen</a></td></tr>"""
+    else:
+        ausgabe += """<tr><td colspan="2">
+                <a href="/starten">Aufzeichnung starten</a></td></tr>"""  
+    ausgabe += """<tr><td colspan="2">
                 <a href="/shutdown">Raspberry herunterfahren</a></td></tr>
             </tr>
         </table>
     </body>
     </html>"""
+    
+    return ausgabe
         
 @app.route("/shutdown")
 def webShutdown():
     ms.herunterFahren()
-    return "Wird in 10 Sekunden heruntergefahren..."
+    return """
+    <meta http-equiv="refresh" content="5; URL=/">
+    Wird in 10 Sekunden heruntergefahren..."""
 
 @app.route("/stoppen")
 def webStoppen():
     ms.aufzeichnungStoppen()
-    return "Aufzeichnung wird gestoppt..."
+    return """
+    <meta http-equiv="refresh" content="5; URL=/">
+    Aufzeichnung wird gestoppt..."""
 
 @app.route("/starten")
 def webStarten():
-    ms.noBreak.value = True
-    print("Aufzeichnung wird gestartet")
-    ms.scannerStatus.value = "Aufnahme gestartet"
-    return "Aufzeichnung wird gestartet..."
+    ms.aufzeichnungStarten()
+    return """
+    <meta http-equiv="refresh" content="5; URL=/">
+    Aufzeichnung wird gestartet..."""
 
 def startWeb():
     print("Webserver startet...")
@@ -187,6 +199,4 @@ if __name__ == '__main__':
     t = Thread(target=startWeb)
     t.start()
     ms.run()
-    
-    
     

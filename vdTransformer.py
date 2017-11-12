@@ -3,7 +3,7 @@
 
 '''
 @author: Florian Timm
-@version: 2017.10.27
+@version: 2017.11.12
 '''
 from multiprocessing import Process
 import os
@@ -17,7 +17,7 @@ class VdTransformer(Process):
     Velodyne VLP-16 zu TXT-Dateien
     '''
 
-    def __init__(self, warteschlange, nummer, folder, admin):
+    def __init__(self, warteschlange, nummer, admin):
         '''
         Konstruktor fuer Transformer-Prozess, erbt von multiprocessing.Process
         '''
@@ -27,8 +27,8 @@ class VdTransformer(Process):
         # Parameter sichern
         self.warteschlange = warteschlange
         self.nummer = nummer
-        self.folder = folder
         self.admin = admin
+        
         
     def run(self):
         '''
@@ -38,13 +38,20 @@ class VdTransformer(Process):
         if self.admin:
             os.nice(-15)
         # Erzeugen einer TXT-Datei pro Prozess
-        v = VdFile("txt",self.folder+"/file"+str(self.nummer))
         
+        oldFolder = ""
         # Dauerschleife
         while True:
             # Dateinummer aus Warteschleife abfragen und oeffnen
-            fileno = self.warteschlange.get()
-            f = open(self.folder+"/"+str(fileno)+".bin", "rb")
+            filename = self.warteschlange.get()
+            folder = os.path.dirname(filename)
+            if dir != oldFolder :
+                file = VdFile("txt", folder+"/file"+str(self.nummer))
+                oldFolder = folder
+                
+            self.oldDir = dir
+            
+            f = open(filename, "rb")
             
             # Anzahl an Datensaetzen in Datei pruefen
             fileSize = os.path.getsize(f.name)
@@ -58,17 +65,12 @@ class VdTransformer(Process):
                 vdData.convertData()
                 
                 # Datensatz zu Datei hinzufuegen
-                v.addDataset(vdData)
+                file.addDataset(vdData)
                 
             # Datei schreiben
-            v.writeTxt()
+            file.writeTxt()
             # Txt-Datei schliessen
             f.close()
             # Bin-Datei ggf. loeschen
             if VdConfig.binNachTransLoeschen:
                 os.remove(f.name)
-            
-            
-            #
-        
-        
