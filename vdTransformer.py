@@ -11,6 +11,7 @@ import os
 from vdDataset import VdDataset
 from vdFile import VdFile
 from vdConfig import VdConfig
+import signal
 
 class VdTransformer(Process):
     '''
@@ -18,7 +19,7 @@ class VdTransformer(Process):
     Velodyne VLP-16 zu TXT-Dateien
     '''
 
-    def __init__(self, warteschlange, nummer, admin, weiterUmformen):
+    def __init__(self, warteschlange, nummer, admin, weiterUmformen, masterSkript):
         '''
         Konstruktor fuer Transformer-Prozess, erbt von multiprocessing.Process
         '''
@@ -30,7 +31,12 @@ class VdTransformer(Process):
         self.nummer = nummer
         self.admin = admin
         self.weiterUmformen = weiterUmformen
+        self.masterSkript = masterSkript
         
+        signal.signal(signal.SIGINT, self.signal_handler)
+        
+    def signal_handler(self, signal, frame):
+        self.masterSkript.ende()
         
     def run(self):
         '''

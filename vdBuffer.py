@@ -12,6 +12,7 @@ from multiprocessing import Process
 import os
 from vdConfig import VdConfig
 from datetime import datetime
+import signal
 
 class VdBuffer(Process):
     '''
@@ -20,7 +21,7 @@ class VdBuffer(Process):
     
 
     def __init__(self, noBreak, scannerStatus, datensaetze, 
-                 warteschlange, admin, date):
+                 warteschlange, admin, date, masterSkript):
         '''
         Constructor
         '''
@@ -34,9 +35,13 @@ class VdBuffer(Process):
         self.warteschlange = warteschlange
         self.admin = admin
         self.date = date  
+        self.masterSkript = masterSkript
         
         self.dateinummer = 0
+        signal.signal(signal.SIGINT, signal.SIG_IGN)
         
+    def signal_handler(self, signal, frame):
+        self.masterSkript.ende()
         
     def neuerOrdner (self):
         # Uhrzeit abfragen fuer Laufzeitlaenge und Dateinamen

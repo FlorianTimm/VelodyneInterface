@@ -19,6 +19,7 @@ from threading import Thread
 from flask import Flask
 import os
 import sys
+import signal
 
 # Pruefen, ob es sich um einen Raspberry handelt
 try:
@@ -55,12 +56,15 @@ class VdAutoStart(object):
         self.weiterUmformen = manager.Value('weiterUmformen', False)
         self.scannerStatus = manager.Value('scannerStatus', "unbekannt")
         self.datensaetze = manager.Value('datensaetze', 0)
-        self.date = manager.Value('date', datetime.now())
+        self.date = manager.Value('date', None)
         
         self.pBuffer = None
         self.pTransformer = []
         
         self.webInterface = webInterface
+        
+        # Auf Signale reagieren
+        signal.signal(signal.SIGINT, self.signal_handler)
 
         # pruefe, ob root-Rechte vorhanden sind
         try:
@@ -99,9 +103,15 @@ class VdAutoStart(object):
                 n = 1
             self.pTransformer = []
             for i in range (n):
-                t = VdTransformer(self.warteschlange, i, self.admin, self.weiterUmformen)
+                t = VdTransformer(self.warteschlange, i, self.admin, 
+                                  self.weiterUmformen, self)
                 t.start()
                 self.pTransformer.append(t)
+                
+    def signal_handler(self, signal, frame):
+        print('You pressed Ctrl+C!')
+        self.ende()
+        #sys.exit(0)
     
     def aufzeichnungStarten (self):
         if not(self.noBreak.value and self.pBuffer.is_alive()): 
@@ -110,12 +120,13 @@ class VdAutoStart(object):
             self.scannerStatus.value = "Aufnahme gestartet"
             # Speicherprozess starten
             self.pBuffer = VdBuffer(self.noBreak,self.scannerStatus,
-                self.datensaetze, self.warteschlange, self.admin, self.date);
+                self.datensaetze, self.warteschlange, self.admin, self.date,self);
             self.pBuffer.start()
     
     def aufzeichnungStoppen (self):
         print("Aufzeichnung wird gestoppt... (10 Sekunden Timeout)")
         self.noBreak.value = False
+        self.date.value = None
         if self.pBuffer != None:
             self.pBuffer.join(10)
             if (self.pBuffer.is_alive()):
@@ -156,9 +167,11 @@ class VdAutoStart(object):
         print ("Unterprozesse gestoppt")
             
             
-    def exit(self):
-        self.stoppeKinder()
-        sys.exit(0)
+    def ende(self):
+        try:
+            self.stoppeKinder()
+        finally:
+            sys.exit()
         
     def herunterFahren(self):
         self.stoppeKinder()
@@ -172,8 +185,18 @@ app = Flask(__name__)
 
 @app.route("/")
 def webIndex():
-    timediff = datetime.now()-ms.date.value
-    laufzeit = str(timediff.seconds + (int(timediff.microseconds/1000)/1000.))
+    laufzeit = "(inaktiv)"
+    if ms.date.value != None:
+        timediff = datetime.now()-ms.date.value
+        td_sec = timediff.seconds + (int(timediff.microseconds/1000)/1000.)
+        sec = td_sec % 60
+        min = int((td_sec // 60) % 60)
+        h = int(td_sec // 3600)
+        
+        laufzeit = '{:02d}:{:02d}:{:06.3f}'.format(h,min,sec)
+    elif ms.noBreak.value == True:
+        laufzeit = "(noch keine Daten)"
+    
     ausgabe = """<html>
     <head>
         <title>VLP16-Datenschnittstelle</title>
@@ -191,7 +214,7 @@ def webIndex():
                 <td>"""+str(ms.datensaetze.value)+"""</td></tr>
             <tr><td>Warteschleife:</td>
                 <td>"""+str(ms.warteschlange.qsize())+"""</td></tr>
-            <tr><td>Laufzeit</td>
+            <tr><td>Aufnahmezeit:</td>
                 <td>"""+laufzeit+"""</td>
             </tr>
         </table><br />
@@ -275,7 +298,7 @@ def webShutdown():
     
 @app.route("/beenden")
 def webBeenden():
-    ms.exit()
+    ms.ende()
     return """
     <meta http-equiv="refresh" content="3; URL=/">
     Wird beendet..."""
