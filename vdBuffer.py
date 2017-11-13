@@ -7,6 +7,7 @@
 '''
 
 from vdInterface import VdInterface
+import socket
 from multiprocessing import Process
 import os
 from vdConfig import VdConfig
@@ -63,38 +64,42 @@ class VdBuffer(Process):
             os.nice(-18)
             
         # Dauerschleife, solange kein Unterbrechen-Befehl kommt
+        
+        sock.settimeout(1)
         while self.noBreak.value:
-            # Daten vom Scanner holen
-            data = sock.recvfrom(1248)[0]
-            
-            if (j == 0 and self.dateinummer == 0):
-                neuerOrdner()
-            # RAM-Buffer
-            minibuffer += data
-            j += 1
-            self.datensaetze.value += 1
-            # Alle 5 bzw. 10 Sekunden Daten speichern 
-            # oder wenn Abbrechenbefehl kommt
-            if (j >= 1500*5 or not self.noBreak.value):
-                # Datei schreiben
-                f = open(self.folder+"/"+str(self.dateiNummer)+".bin", "wb")
-                f.write(minibuffer)
+            try:
+                # Daten vom Scanner holen
+                data = sock.recvfrom(1248)[0]
                 
-                f.close()
+                if (j == 0 and self.dateinummer == 0):
+                    neuerOrdner()
+                # RAM-Buffer
+                minibuffer += data
+                j += 1
+                self.datensaetze.value += 1
+                # Alle 5 bzw. 10 Sekunden Daten speichern 
+                # oder wenn Abbrechenbefehl kommt
+                if (j >= 1500*5 or not self.noBreak.value):
+                    # Datei schreiben
+                    f = open(self.folder+"/"+str(self.dateiNummer)+".bin", "wb")
+                    f.write(minibuffer)
+                    
+                    f.close()
+                    
+                    if VdConfig.activateTransformer:
+                        self.warteschlange.put(f.name)
+                    
+                    #Buffer leeren
+                    minibuffer = b''# 
+                    j = 0
+                    
+                    # Dateizaehler
+                    self.dateiNummer += 1
                 
-                if VdConfig.activateTransformer:
-                    self.warteschlange.put(f.name)
-                
-                #Buffer leeren
-                minibuffer = b''# 
-                j = 0
-                
-                # Dateizaehler
-                self.dateiNummer += 1
-            
-            if data=='QUIT': 
-                break
-        f.close()
+                if data=='QUIT': 
+                    break
+            except socket.timeout:
+                continue
         sock.close()
         self.scannerStatus.value = "Aufnahme gestoppt"
         print ("Verbindung getrennt")

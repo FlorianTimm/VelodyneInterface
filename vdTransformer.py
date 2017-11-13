@@ -6,6 +6,7 @@
 @version: 2017.11.12
 '''
 from multiprocessing import Process
+from queue import Empty
 import os
 from vdDataset import VdDataset
 from vdFile import VdFile
@@ -17,7 +18,7 @@ class VdTransformer(Process):
     Velodyne VLP-16 zu TXT-Dateien
     '''
 
-    def __init__(self, warteschlange, nummer, admin):
+    def __init__(self, warteschlange, nummer, admin, weiterUmformen):
         '''
         Konstruktor fuer Transformer-Prozess, erbt von multiprocessing.Process
         '''
@@ -28,6 +29,7 @@ class VdTransformer(Process):
         self.warteschlange = warteschlange
         self.nummer = nummer
         self.admin = admin
+        self.weiterUmformen = weiterUmformen
         
         
     def run(self):
@@ -41,36 +43,40 @@ class VdTransformer(Process):
         
         oldFolder = ""
         # Dauerschleife
-        while True:
-            # Dateinummer aus Warteschleife abfragen und oeffnen
-            filename = self.warteschlange.get()
-            folder = os.path.dirname(filename)
-            if dir != oldFolder :
-                file = VdFile("txt", folder+"/file"+str(self.nummer))
-                oldFolder = folder
+        while self.weiterUmformen.value:
+            try:
+                # Dateinummer aus Warteschleife abfragen und oeffnen
+                filename = self.warteschlange.get(True, 1)
+                folder = os.path.dirname(filename)
+                if dir != oldFolder :
+                    file = VdFile("txt", folder+"/file"+str(self.nummer))
+                    oldFolder = folder
+                    
+                self.oldDir = dir
                 
-            self.oldDir = dir
-            
-            f = open(filename, "rb")
-            
-            # Anzahl an Datensaetzen in Datei pruefen
-            fileSize = os.path.getsize(f.name)
-            cntDatasets = int(fileSize/1206)
-            
-            for i in range(cntDatasets):
-                # naechsten Datensatz lesen
-                vdData = VdDataset(f.read(1206))
+                f = open(filename, "rb")
                 
-                # Daten konvertieren und speichern
-                vdData.convertData()
+                # Anzahl an Datensaetzen in Datei pruefen
+                fileSize = os.path.getsize(f.name)
+                cntDatasets = int(fileSize/1206)
                 
-                # Datensatz zu Datei hinzufuegen
-                file.addDataset(vdData)
+                for i in range(cntDatasets):
+                    # naechsten Datensatz lesen
+                    vdData = VdDataset(f.read(1206))
+                    
+                    # Daten konvertieren und speichern
+                    vdData.convertData()
+                    
+                    # Datensatz zu Datei hinzufuegen
+                    file.addDataset(vdData)
+                    
+                # Datei schreiben
+                file.writeTxt()
+                # Txt-Datei schliessen
+                f.close()
+                # Bin-Datei ggf. loeschen
+                if VdConfig.binNachTransLoeschen:
+                    os.remove(f.name)
+            except Empty:
+                continue
                 
-            # Datei schreiben
-            file.writeTxt()
-            # Txt-Datei schliessen
-            f.close()
-            # Bin-Datei ggf. loeschen
-            if VdConfig.binNachTransLoeschen:
-                os.remove(f.name)

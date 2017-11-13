@@ -137,4 +137,7 @@ class VdHardware(Thread):
             self.setDatenempfang(True)
         else:
             self.setDatenempfang(False)
-        
+    
+    def stoppe(self):
+        GPIO.cleanup()
+        self.exit()
