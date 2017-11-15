@@ -3,14 +3,14 @@
 
 '''
 @author: Florian Timm
-@version: 2017.11.12
+@version: 2017.11.15
 '''
 
 # Modul zur Steuerung der GPIO-Pins
 import time
 from threading import Thread
-from vdConfig import VdConfig
 from vdInterface import VdInterface
+
 
 class VdGNSStime(Thread):
     '''
@@ -23,7 +23,7 @@ class VdGNSStime(Thread):
         '''
         Thread.__init__(self)
         self.masterSkript = masterSkript
-        
+        self._conf = masterSkript.conf
         self.zeitGefunden = False
         
         
@@ -41,7 +41,7 @@ class VdGNSStime(Thread):
         
     def getGNSSTimeFromScanner(self):
         self.masterSkript.gnssStatus = "Verbinde..."
-        sock = VdInterface.getGNSSStream()
+        sock = VdInterface.getGNSSStream(self._conf)
         sock.settimeout(1)
         self.masterSkript.gnssStatus = "Warte auf Fix..."
         while not self.zeitGefunden:
@@ -65,7 +65,7 @@ class VdGNSStime(Thread):
         ser = None
         try:
             import serial
-            ser = serial.Serial(VdConfig.GNSSport, 9600, timeout=1)
+            ser = serial.Serial(self._conf.get("Seriell","GNSSport"), 9600, timeout=1)
             self.masterSkript.gnssStatus = "Warte auf Fix..."
             while not self.zeitGefunden:
                 line = ser.readline()

@@ -9,7 +9,9 @@
 # Modul zur Steuerung der GPIO-Pins
 import RPi.GPIO as GPIO
 import time
+import multiprocessing
 from threading import Thread
+import threading
 
 class VdHardware(Thread):
     '''
@@ -22,7 +24,7 @@ class VdHardware(Thread):
         '''
         Thread.__init__(self)
         
-        GPIO.setmode(GPIO.BOARD)
+        GPIO.setmode(GPIO.BCM)
         
         self.taster1 = 18 # Start / Stop
         self.taster2 = 25 # Herunterfahren
@@ -50,17 +52,23 @@ class VdHardware(Thread):
         for l in self.led:
             GPIO.setup(l, GPIO.OUT) # GPS-Fix
             GPIO.output(l, GPIO.LOW)
+            
+        self.weiter = True
         
-    def run(self):       
+    def run(self):
+        '''
+        Ausfuehrung des Prozesses
+        '''  
         GPIO.add_event_detect(self.taster1, GPIO.FALLING, self.taster1Pressed)
         GPIO.add_event_detect(self.taster2, GPIO.FALLING, self.taster1Pressed)
         
-        timerCheckLEDs()
+        self.timerCheckLEDs()
     
     def timerCheckLEDs(self):
-        checkLEDs()
-        t = threading.Timer(1, self.timerCheckLEDs)
-        t.start() 
+        self.checkLEDs()
+        if self.weiter:
+            t = threading.Timer(1, self.timerCheckLEDs)
+            t.start() 
         
     def checkLEDs(self):
         self.pruefeAufzeichung()
@@ -119,15 +127,15 @@ class VdHardware(Thread):
         
     def pruefeWarteschlange(self):
         if self.masterSkript.warteschlange.qsize() > 0:
-            self.setWarteschlange(true);
+            self.setWarteschlange(True);
         else:
-            self.setWarteschlange(true);
+            self.setWarteschlange(True);
             
     def pruefeAufzeichung(self):
-        if self.masterSkript.pBuffer.is_alive():
-            self.setWarteschlange(true);
+        if self.masterSkript.pBuffer != None and self.masterSkript.pBuffer.is_alive():
+            self.setAufzeichung(True);
         else:
-            self.setWarteschlange(true);       
+            self.setAufzeichung(True);       
     
     def pruefeDatenempfang(self):
         x = self.masterSkript.datensaetze.value;
@@ -139,5 +147,5 @@ class VdHardware(Thread):
             self.setDatenempfang(False)
     
     def stoppe(self):
+        self.weiter = False
         GPIO.cleanup()
-        self.exit()

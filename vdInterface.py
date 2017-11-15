@@ -3,14 +3,12 @@
 
 '''
 @author: Florian Timm
-@version: 2017.11.02
+@version: 2017.11.15
 '''
 
 import socket
 import sys
 import os
-from datetime import datetime
-from vdConfig import VdConfig
 
 class VdInterface(object):
     '''
@@ -18,11 +16,12 @@ class VdInterface(object):
     '''
     
     @staticmethod
-    def getDataStream():
-        return VdInterface.getStream(VdConfig.UDP_IP, VdConfig.UDP_PORT_DATA)
+    def getDataStream(config):
+        return VdInterface.getStream(config.get("Netzwerk","UDP_IP"),
+                                     config.get("Netzwerk","UDP_PORT_DATA"))
     
     @staticmethod
-    def getGNSSStream():
+    def getGNSSStream(config):
         return VdInterface.getStream(VdConfig.UDP_IP, VdConfig.UDP_PORT_GNSS)
     
     @staticmethod

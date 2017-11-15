@@ -3,17 +3,17 @@
 
 '''
 @author: Florian Timm
-@version: 2017.10.27
+@version: 2017.11.15
 '''
 
-from vdConfig import VdConfig
 from vdPoint import VdPoint
+import json
 
 class VdDataset(object):
-    '''
+    """
     Klasse zur Repraesentation eines Datensatzes des VLP-16
-    '''
-    def __init__(self, dataset):
+    """
+    def __init__(self, config, dataset):
         """
         Konstruktor
         
@@ -21,9 +21,15 @@ class VdDataset(object):
         ----------
         dataset : bin
             Datensatz in binären Format
+        masterSkript : VdAutoStart
+            Objekt des Hauptskriptes
         """
-        self.dataset = dataset
-        self.data = []
+        self._dataset = dataset
+        self._conf = config
+        
+        self._vertAngle = json.loads(self._conf.get("Geraet","vertAngle"))
+        self._offset = json.loads(self._conf.get("Geraet","offset"))
+        self._data = []
         
     def getAzimut (self, block):
         """
@@ -39,11 +45,10 @@ class VdDataset(object):
         azi : float
             Horizontalrichtung des Datenblockes
         """
+        offset = self._offset[block]
         # Horizontalrichtung zusammensetzen, Bytereihenfolge drehen
-        azi =  ord(self.dataset[VdConfig.offset[block]+
-                                2:VdConfig.offset[block]+3])
-        azi += ord(self.dataset[VdConfig.offset[block]+
-                                3:VdConfig.offset[block]+4]) << 8
+        azi =  ord(self._dataset[offset+2:offset+3])
+        azi += ord(self._dataset[offset+3:offset+4]) << 8
         azi /= 100.0
         return azi
     
@@ -56,10 +61,10 @@ class VdDataset(object):
         zeit : int
             Timestamp in Mikrosekunden
         """
-        zeit =  ord(self.dataset[1200:1201])
-        zeit += ord(self.dataset[1201:1202]) << 8
-        zeit += ord(self.dataset[1202:1203]) << 16
-        zeit += ord(self.dataset[1203:1204]) << 24
+        zeit =  ord(self._dataset[1200:1201])
+        zeit += ord(self._dataset[1201:1202]) << 8
+        zeit += ord(self._dataset[1202:1203]) << 16
+        zeit += ord(self._dataset[1203:1204]) << 24
         return zeit
     
     def isDualReturn(self):
@@ -72,7 +77,7 @@ class VdDataset(object):
         x : boolean
             Datensatz mit zwei Echos pro Messung?
         """
-        mode = ord(self.dataset[1204:1205])
+        mode = ord(self._dataset[1204:1205])
         if (mode == 57):
             return True
         else:
@@ -142,7 +147,7 @@ class VdDataset(object):
     
     def convertData(self):
         """
-        Wandelt die Daten vom Scanner in Objekte um
+        Wandelt die Datensätze vom Scanner in Objekte um
         """
         
         #Zeitstempel aus den Daten auslesen
@@ -153,29 +158,38 @@ class VdDataset(object):
     
         # Datenpaket besteht aus 12 Bloecken aus jeweils 32 Messergebnissen        
         for i in range(12):
-            versatz = VdConfig.offset[i]
+            versatz = self._offset[i]
             for l in range(2):
                 for k in range(16):
                     
                     # Entfernung zusammensetzen
-                    dist =  ord(self.dataset[4 + versatz:5 + versatz])
-                    dist += ord(self.dataset[5 + versatz:6 + versatz]) << 8
+                    dist =  ord(self._dataset[4 + versatz:5 + versatz])
+                    dist += ord(self._dataset[5 + versatz:6 + versatz]) << 8
                     dist /= 500.0
                     
                     # Reflektivitaet auslesen
-                    refl = ord(self.dataset[6 + versatz:7 + versatz])
+                    refl = ord(self._dataset[6 + versatz:7 + versatz])
                     
                     #Offset in Daten fuer den naechsten Durchlauf
                     versatz += 3
                 
                     #Horizontalwinkel interpolieren
-                    a = azimut[i+l] +  drehung[i] * k * VdConfig.antDrehung
+                    a =  azimut[i+l]
+                    a += drehung[i] * k * self._conf.get("Geraet","antDrehung")
                     # Punkt erzeugen und anhaengen
-                    p = VdPoint(round(zeit,1), a, VdConfig.vertAngle[k], 
+                    p = VdPoint(round(zeit,1), a, self._vertAngle[k], 
                                 dist, refl)
-                    self.data.append(p)
-                    zeit += VdConfig.tZwischenStrahl
-                zeit += VdConfig.tNachlade
+                    self._data.append(p)
+                    zeit += self._conf.get("Geraet","tZwischenStrahl")
+                zeit += self._conf.get("Geraet","tNachlade")
         
     def getData (self):
-        return self.data
+        """
+        Gibt die Daten als Liste zurück
+        
+        Returns
+        -------
+        self.data : list
+            Liste mit VdPoint-Objekten
+        """
+        return self._data

@@ -7,23 +7,25 @@
 '''
 
 import datetime
-from vdConfig import VdConfig
 import math
 
 
 class VdFile(object):  
      
-    def __init__ (self, fileType = "txt", fileName = ""):
+    def __init__ (self, conf, fileType = "txt", fileName = ""):
+        self._conf = conf
+        
         # Dateiname erzeugen, sofern kein Dateiname mitgeliefert
         if (fileName == ""):
             #Jahr-Monat-TagTStunde:Minute:Sekunde an Dateinamen anhaengen
-            fileName =  VdConfig.fileNamePre
-            fileName += datetime.datetime.now().strftime(VdConfig.fileTimeFormat)  
+            fileName =  self._conf.get("Datei","fileNamePre")
+            fileName += datetime.datetime.now().strftime(
+                self._conf.get("Datei","fileTimeFormat"))
         
         fileName += '.' + fileType
             
         # Datei erzeugen
-        self.txtFile = open(fileName, 'w')
+        self.txtFile = open(fileName, 'a')
         self.datasets = []
 
     
@@ -41,9 +43,10 @@ class VdFile(object):
         for ds in self.datasets:
             for d in ds.getData():
                 if d.distanz > 0.0:
-                    txt += VdConfig.fileFormatTXT(d.zeit, 
+                    txt += VdFile.fileFormatTXT(d.zeit, 
                                 d.azimut, d.vertikal, d.distanz, d.reflexion)
         self.write(txt)
+        print("Geschrieben!")
         self.datasets = []
             
     def addDataset(self, dataset):
@@ -78,6 +81,13 @@ class VdFile(object):
             obj += formatS.format(x,y,z)
         self.write(obj)
                        
+    @staticmethod
+    def fileFormatTXT (zeit, azimut, vertikal, distanz, reflexion):
+        ''' Einstellung fuer das Erzeugen der TXT-Datei'''
+        azimut = round(azimut, 3)
+        distanz = round(distanz, 3)
+        formatS = '{}\t{}\t{}\t{}\t{}\n'
+        return formatS.format(zeit, azimut, vertikal, distanz, reflexion)
     
     def close (self):
         ''' Datei schliessen '''

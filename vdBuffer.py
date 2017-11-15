@@ -3,25 +3,23 @@
 
 '''
 @author: Florian Timm
-@version: 2017.11.12
+@version: 2017.11.15
 '''
 
 from vdInterface import VdInterface
 import socket
 from multiprocessing import Process
 import os
-from vdConfig import VdConfig
 from datetime import datetime
 import signal
 
 class VdBuffer(Process):
-    '''
-    Prozess zum buffern von binaeren Dateien
-    '''
+    """
+    Prozess zum Buffern von binaeren Dateien
+    """
     
 
-    def __init__(self, noBreak, scannerStatus, datensaetze, 
-                 warteschlange, admin, date, masterSkript):
+    def __init__(self, masterSkript):
         '''
         Constructor
         '''
@@ -29,31 +27,37 @@ class VdBuffer(Process):
         Process.__init__(self)
         
         # Pipes sichern
-        self.noBreak = noBreak
-        self.scannerStatus = scannerStatus
-        self.datensaetze = datensaetze
-        self.warteschlange = warteschlange
-        self.admin = admin
-        self.date = date  
-        self.masterSkript = masterSkript
+        self._masterSkript = masterSkript
+        self._noBreak = masterSkript.noBreak
+        self._scannerStatus = masterSkript.scannerStatus
+        self._datensaetze = masterSkript.datensaetze
+        self._warteschlange = masterSkript.warteschlange
+        self._admin = masterSkript.admin
+        self._date = masterSkript.date  
+        self._conf = masterSkript.conf
         
-        self.dateinummer = 0
-        signal.signal(signal.SIGINT, signal.SIG_IGN)
+        self._dateiNummer = 0
         
-    def signal_handler(self, signal, frame):
-        self.masterSkript.ende()
+        
+    def _signal_handler(self, signal, frame):
+        #self.masterSkript.ende()
+        print("SIGINT vdBuffer")
         
     def neuerOrdner (self):
         # Uhrzeit abfragen fuer Laufzeitlaenge und Dateinamen
         self.date.value = datetime.now()
-        self.folder = self.date.value.strftime(VdConfig.fileTimeFormat) 
+        self.folder =  self._conf.get("Datei","fileNamePre") 
+        self.folder += self.date.value.strftime(
+            self._conf.get("Datei","fileTimeFormat")) 
         # Speicherordner anlegen und ausgeben
         os.makedirs(self.folder)  
         print ("Speicherordner: " + self.folder) 
          
     def run(self):
+        signal.signal(signal.SIGINT, _signal.SIG_IGN)
+        
         # Socket zum Scanner oeffnen
-        sock = VdInterface.getDataStream()
+        sock = VdInterface.getDataStream(self._conf)
         self.scannerStatus.value = "Socket verbunden"
         
         # Variablen initialisieren
@@ -73,22 +77,23 @@ class VdBuffer(Process):
                 # Daten vom Scanner holen
                 data = sock.recvfrom(1248)[0]
                 
-                if (j == 0 and self.dateinummer == 0):
-                    neuerOrdner()
+                if (j == 0 and self._dateiNummer == 0):
+                    self.neuerOrdner()
                 # RAM-Buffer
                 minibuffer += data
                 j += 1
-                self.datensaetze.value += 1
+                self.datensaetze.value += self._conf.get(
+                    "Funktionen", "messungProDatensatz")
                 # Alle 5 bzw. 10 Sekunden Daten speichern 
                 # oder wenn Abbrechenbefehl kommt
-                if (j >= 1500*5 or not self.noBreak.value):
+                if (j >= 1500) or (not self.noBreak.value):
                     # Datei schreiben
-                    f = open(self.folder+"/"+str(self.dateiNummer)+".bin", "wb")
+                    f = open(self.folder+"/"+str(self._dateiNummer)+".bin", "wb")
                     f.write(minibuffer)
                     
                     f.close()
                     
-                    if VdConfig.activateTransformer:
+                    if self._conf.get("Funktionen","activateTransformer"):
                         self.warteschlange.put(f.name)
                     
                     #Buffer leeren
@@ -96,11 +101,12 @@ class VdBuffer(Process):
                     j = 0
                     
                     # Dateizaehler
-                    self.dateiNummer += 1
+                    self._dateiNummer += 1
                 
                 if data=='QUIT': 
                     break
             except socket.timeout:
+                print ("Keine Daten")
                 continue
         sock.close()
         self.scannerStatus.value = "Aufnahme gestoppt"
