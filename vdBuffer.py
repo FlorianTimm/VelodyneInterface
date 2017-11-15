@@ -52,9 +52,6 @@ class VdBuffer(Process):
         print ("Speicherordner: " + self.folder) 
          
     def run(self):
-
-        
-        
         # Socket zum Scanner oeffnen
         sock = VdInterface.getDataStream()
         self.scannerStatus.value = "Socket verbunden"

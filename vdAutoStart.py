@@ -10,6 +10,7 @@ from vdBuffer import VdBuffer
 from vdInterface import VdInterface
 from vdConfig import VdConfig
 from vdTransformer import VdTransformer
+from vdGNSStime import VdGNSStime
 import time
 
 from datetime import datetime
@@ -89,11 +90,10 @@ class VdAutoStart(object):
             
             
         # Zeit gemaess GNSS einstellen
-        if VdConfig.aufGNSSwarten:
-            print ("Warte auf GNSS-Signal...")
-            VdInterface.getGNSSTime(ms)
-        
-
+        if VdConfig.GNSSZeitVerwenden:
+            from vdGNSStime import VdGNSStime
+            self.gnss = VdGNSStime(self)
+            self.gnss.start()
          
         # Transformerprozess gemaess Prozessoranzahl
         if VdConfig.activateTransformer:

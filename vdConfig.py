@@ -19,8 +19,10 @@ class VdConfig(object):
     # Zeitgleiche Transformation zu txt aktivieren
     activateTransformer = True
     
-    # Vor Aufzeichnung auf GPS warten
-    aufGNSSwarten = False
+    # GNSS-Zeit verwenden
+    GNSSZeitVerwenden = True
+    #GNSSport = "/dev/ttyAMA0"
+    GNSSport = "/dev/ttyUSB0"
     
     # Binaere Dateien nach deren Transformation loeschen
     binNachTransLoeschen = True

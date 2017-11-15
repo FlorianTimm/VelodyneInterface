@@ -42,9 +42,9 @@ class VdHardware(Thread):
         
         # Eingaenge aktivieren
         # Aufzeichnung starten/stoppen
-        GPIO.setup(taster1,GPIO.IN,pull_up_down=GPIO.PUD_UP)
+        GPIO.setup(self.taster1,GPIO.IN,pull_up_down=GPIO.PUD_UP)
         # Herunterfahren
-        GPIO.setup(taster2,GPIO.IN,pull_up_down=GPIO.PUD_UP)
+        GPIO.setup(self.taster2,GPIO.IN,pull_up_down=GPIO.PUD_UP)
         
         # Ausgaenge aktivieren und auf Low schalten
         for l in self.led:
@@ -52,8 +52,8 @@ class VdHardware(Thread):
             GPIO.output(l, GPIO.LOW)
         
     def run(self):       
-        GPIO.add_event_detect(taster1, GPIO.FALLING, self.taster1Pressed)
-        GPIO.add_event_detect(taster2, GPIO.FALLING, self.taster1Pressed)
+        GPIO.add_event_detect(self.taster1, GPIO.FALLING, self.taster1Pressed)
+        GPIO.add_event_detect(self.taster2, GPIO.FALLING, self.taster1Pressed)
         
         timerCheckLEDs()
     
@@ -71,7 +71,7 @@ class VdHardware(Thread):
         time.sleep(0.1) #Prellen abwarten
         
         #mindestens 2 Sekunden druecken
-        warten = GPIO.wait_for_edge(taster1, GPIO.RISING, timeout=1900)
+        warten = GPIO.wait_for_edge(self.taster1, GPIO.RISING, timeout=1900)
         
         if warten is None:
             # keine steigende Kante = gehalten
@@ -85,7 +85,7 @@ class VdHardware(Thread):
         time.sleep(0.1) #Prellen abwarten
         
         #mindestens 2 Sekunden druecken
-        warten = GPIO.wait_for_edge(taster2, GPIO.RISING, timeout=1900)
+        warten = GPIO.wait_for_edge(self.taster2, GPIO.RISING, timeout=1900)
         
         if warten is None:
             # keine steigende Kante = gehalten
@@ -98,9 +98,9 @@ class VdHardware(Thread):
             GPIO.output(self.led[led], GPIO.LOW)
             
     def aktualisiereLEDs(self):
-        schalteLED(0, self.datenempfang)
-        schalteLED(1, self.warteschlange)
-        schalteLED(2, self.aufzeichung)
+        self.schalteLED(0, self.datenempfang)
+        self.schalteLED(1, self.warteschlange)
+        self.schalteLED(2, self.aufzeichung)
         
     def setDatenempfang(self, janein):
         if self.datenempfang != janein:

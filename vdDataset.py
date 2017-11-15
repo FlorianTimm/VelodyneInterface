@@ -14,16 +14,31 @@ class VdDataset(object):
     Klasse zur Repraesentation eines Datensatzes des VLP-16
     '''
     def __init__(self, dataset):
-        '''
-        Constructor
-        '''
+        """
+        Konstruktor
+        
+        Parameters
+        ----------
+        dataset : bin
+            Datensatz in binären Format
+        """
         self.dataset = dataset
         self.data = []
         
-        
     def getAzimut (self, block):
+        """
+        Gibt den Horizontalrichtung eines Datenblockes zurück
         
-        """ Gibt den Horizontalwinkel aus Datensatz an """
+        Parameters
+        ----------
+        block : int
+            Nummer des Datenblockes
+            
+        Returns
+        -------
+        azi : float
+            Horizontalrichtung des Datenblockes
+        """
         # Horizontalrichtung zusammensetzen, Bytereihenfolge drehen
         azi =  ord(self.dataset[VdConfig.offset[block]+
                                 2:VdConfig.offset[block]+3])
@@ -33,7 +48,14 @@ class VdDataset(object):
         return azi
     
     def getZeit (self):
-        """Zeit aus Datensatz mit gedrehter Bytereihenfolge zusammensetzen"""
+        """
+        Gibt den Timestamp des Datensatzes zurück
+            
+        Returns
+        -------
+        zeit : int
+            Timestamp in Mikrosekunden
+        """
         zeit =  ord(self.dataset[1200:1201])
         zeit += ord(self.dataset[1201:1202]) << 8
         zeit += ord(self.dataset[1202:1203]) << 16
@@ -42,8 +64,13 @@ class VdDataset(object):
     
     def isDualReturn(self):
         """
-        Prueft, ob es sich um einen Datensatz mit zwei Ergebnissen 
+        Prueft, ob es sich um einen Datensatz mit zwei Echos 
         pro Messung (DualReturn) handelt
+        
+        Returns
+        -------
+        x : boolean
+            Datensatz mit zwei Echos pro Messung?
         """
         mode = ord(self.dataset[1204:1205])
         if (mode == 57):
@@ -52,7 +79,15 @@ class VdDataset(object):
             return False
 
     def getAzimuts (self):
-        """Ruft alle Horizontalwinkel aus dem Datensatz ab"""
+        """
+        Ruft alle Horizontalrichtungen und Drehwinkel
+        pro Messung aus dem Datensatz ab
+        
+        Returns
+        -------
+        [azimuts, drehung] : list
+            Mehrdimensionale Listen
+        """
         
         # Leere Listen erzeugen
         azimuts = [None] * 24
@@ -105,10 +140,9 @@ class VdDataset(object):
                 
         return [azimuts, drehung]
     
-    def convertData(self): 
+    def convertData(self):
         """
-        Wandelt die Daten vom Scanner in Text um
-        @return: String mit Tab-getrennten Daten
+        Wandelt die Daten vom Scanner in Objekte um
         """
         
         #Zeitstempel aus den Daten auslesen

@@ -58,43 +58,5 @@ class VdInterface(object):
         print('Listening on: ' + ip + ':' + str(port))
         
         return sock
-
-    @staticmethod
-    def getGNSSTime(ms):
-        ms.gnssStatus = "Verbinde..."
-        sock = VdInterface.getGNSSStream()
-        print ("Warte auf GNSS-Fix")
-        while True:
-            # Daten empfangen vom Scanner
-            #print("Daten kommen...")
-            data = sock.recvfrom(2048)[0] # buffer size is 2048 bytes
-            message = data[206:278].decode('utf-8', 'replace')
-            if message[0:6] == "$GPRMC":
-                p = message.split(",")
-                if p[2]=="A":
-                    print("GNSS-Fix")
-                    timestamp = datetime.strptime(p[1]+"D"+p[9], 
-                                                  '%H%M%S.00D%d%m%y')
-                    VdInterface.setSystemZeit(timestamp)
-                    break
-                else:
-                    print("noch kein Fix")
-                print
-            if data=='QUIT': 
-                break
-        sock.close()
-    
-    
-    @staticmethod
-    def setSystemZeit(timestamp):
-        '''
-        Uhrzeit des Systems setzen
-        '''
-        os.system("timedatectl set-ntp 0")
-        os.system("timedatectl set-time \"" + 
-                  timestamp.strftime("%Y-%m-%d %H:%M:%S") + "\"")
-        os.system(" timedatectl set-ntp 1") 
-
-        
         
         
