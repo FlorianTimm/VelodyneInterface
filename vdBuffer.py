@@ -70,6 +70,10 @@ class VdBuffer(Process):
         # Prozessprioritaet hochschalten, sofern Adminrechte
         if self._admin:
             os.nice(-18)
+            
+        transformer = self._conf.get("Funktionen", "activateTransformer")
+        messungProDatensatz = int(self._conf.get(
+                    "Geraet", "messungProDatensatz"))
 
         # Dauerschleife, solange kein Unterbrechen-Befehl kommt
 
@@ -84,8 +88,7 @@ class VdBuffer(Process):
                 # RAM-Buffer
                 minibuffer += data
                 j += 1
-                self._datensaetze.value += int(self._conf.get(
-                    "Geraet", "messungProDatensatz"))
+                self._datensaetze.value += messungProDatensatz
                 # Alle 5 bzw. 10 Sekunden Daten speichern
                 # oder wenn Abbrechenbefehl kommt
                 if (j >= 1500) or (not self._noBreak.value):
@@ -97,11 +100,11 @@ class VdBuffer(Process):
 
                     f.close()
 
-                    if self._conf.get("Funktionen", "activateTransformer"):
+                    if transformer:
                         self._warteschlange.put(f.name)
 
                     # Buffer leeren
-                    minibuffer = b''
+                    minibuffer = b''   
                     j = 0
 
                     # Dateizaehler

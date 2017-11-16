@@ -57,17 +57,18 @@ class VdFile(object):
         obj = ""
         
         beamCenter = float(self._conf.get("Geraet", "beamCenter"))
-        pi180 = 180.0 * math.pi
+        dRho = math.pi / 180.0
                 
         for p in data:
             # Schraegstrecke zum Strahlenzentrum
             d = p.distanz - beamCenter
 
             # Vertikalwinkel in Bogenmass
-            v = p.vertikal / pi180
+            
+            v = p.vertikal * dRho
 
             # Azimut in Bogenmass
-            a = p.azimut / pi180
+            a = p.azimut * dRho
 
             # Z-Komponente
             z = d * math.sin(v)

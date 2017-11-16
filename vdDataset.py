@@ -158,11 +158,17 @@ class VdDataset(object):
 
         # Richtung und Drehwinkel auslesen
         [azimut, drehung] = self.getAzimuts()
-
+        
+        dualReturn = self.isDualReturn()
+        tZwischenStrahl = float(self._conf.get("Geraet", "tZwischenStrahl"))
+        tNachlade = float(self._conf.get("Geraet", "tNachlade"))
+        antDrehung = float(self._conf.get("Geraet", "antDrehung"))
+        
         # Datenpaket besteht aus 12 Bloecken aus jeweils 32 Messergebnissen
         for i in range(12):
             versatz = self._offset[i]
             for l in range(2):
+                aziBlock = azimut[i + l]
                 for k in range(16):
 
                     # Entfernung zusammensetzen
@@ -177,16 +183,17 @@ class VdDataset(object):
                     versatz += 3
 
                     # Horizontalwinkel interpolieren
-                    a = azimut[i + l]
-                    a += drehung[i] * k * float(self._conf.get(
-                        "Geraet", "antDrehung"))
+                    a = aziBlock + drehung[i] * k * antDrehung
                     # Punkt erzeugen und anhaengen
                     p = VdPoint(round(zeit, 1), a, self._vertAngle[k],
                                 dist, refl)
                     self._data.append(p)
-                    zeit += float(self._conf.get("Geraet", "tZwischenStrahl"))
-                zeit += float(self._conf.get("Geraet", "tNachlade"))
-
+                    zeit += tZwischenStrahl
+                
+                if dualReturn and l == 0:
+                    zeit -= tZwischenStrahl * 16
+                else:
+                    zeit += tNachlade
     def getData(self):
         """
         Gibt die Daten als Liste zurück
