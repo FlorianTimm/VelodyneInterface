@@ -82,7 +82,7 @@ class VdTransformer(Process):
 
                     for i in range(cntDatasets):
                         # naechsten Datensatz lesen
-                        vdData = VdDataset(f.read(1206))
+                        vdData = VdDataset(self._conf, f.read(1206))
 
                         # Daten konvertieren und speichern
                         vdData.convertData()
@@ -100,5 +100,5 @@ class VdTransformer(Process):
                 except Empty:
                     print ("Warteschlange leer!")
                     continue
-        except Exception:
+        except BrokenPipeError:
             print ("vdTransformer-Pipe defekt")

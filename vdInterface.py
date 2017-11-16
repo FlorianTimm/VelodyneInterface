@@ -3,7 +3,7 @@
 
 '''
 @author: Florian Timm
-@version: 2017.11.15
+@version: 2017.11.16
 '''
 
 import socket
@@ -18,13 +18,14 @@ class VdInterface(object):
     '''
 
     @staticmethod
-    def getDataStream(config):
-        return VdInterface.getStream(config.get("Netzwerk", "UDP_IP"),
-                                     config.get("Netzwerk", "UDP_PORT_DATA"))
+    def getDataStream(conf):
+        return VdInterface.getStream(conf.get("Netzwerk", "UDP_IP"),
+                                     int(conf.get("Netzwerk", "UDP_PORT_DATA")))
 
     @staticmethod
-    def getGNSSStream(config):
-        return VdInterface.getStream(VdConfig.UDP_IP, VdConfig.UDP_PORT_GNSS)
+    def getGNSSStream(conf):
+        return VdInterface.getStream(conf.get("Netzwerk", "UDP_IP"),
+                                     int(conf.get("Netzwerk", "UDP_PORT_GNSS")))
 
     @staticmethod
     def getStream(ip, port):

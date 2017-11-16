@@ -3,7 +3,7 @@
 
 '''
 @author: Florian Timm
-@version: 2017.11.15
+@version: 2017.11.16
 '''
 
 from vdPoint import VdPoint
@@ -16,7 +16,7 @@ class VdDataset(object):
     Klasse zur Repraesentation eines Datensatzes des VLP-16
     """
 
-    def __init__(self, config, dataset):
+    def __init__(self, conf, dataset):
         """
         Konstruktor
 
@@ -28,7 +28,7 @@ class VdDataset(object):
             Objekt des Hauptskriptes
         """
         self._dataset = dataset
-        self._conf = config
+        self._conf = conf
 
         self._vertAngle = json.loads(self._conf.get("Geraet", "vertAngle"))
         self._offset = json.loads(self._conf.get("Geraet", "offset"))
@@ -178,14 +178,14 @@ class VdDataset(object):
 
                     # Horizontalwinkel interpolieren
                     a = azimut[i + l]
-                    a += drehung[i] * k * self._conf.get(
-                        "Geraet", "antDrehung")
+                    a += drehung[i] * k * float(self._conf.get(
+                        "Geraet", "antDrehung"))
                     # Punkt erzeugen und anhaengen
                     p = VdPoint(round(zeit, 1), a, self._vertAngle[k],
                                 dist, refl)
                     self._data.append(p)
-                    zeit += self._conf.get("Geraet", "tZwischenStrahl")
-                zeit += self._conf.get("Geraet", "tNachlade")
+                    zeit += float(self._conf.get("Geraet", "tZwischenStrahl"))
+                zeit += float(self._conf.get("Geraet", "tNachlade"))
 
     def getData(self):
         """

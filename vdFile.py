@@ -55,21 +55,25 @@ class VdFile(object):
 
     def writeDataToObj(self, data):
         obj = ""
+        
+        beamCenter = float(self._conf.get("Geraet", "beamCenter"))
+        pi180 = 180.0 * math.pi
+                
         for p in data:
             # Schraegstrecke zum Strahlenzentrum
-            d = p.distanz - VdConfig.beamCenter
+            d = p.distanz - beamCenter
 
             # Vertikalwinkel in Bogenmass
-            v = p.vertikal / 180.0 * math.pi
+            v = p.vertikal / pi180
 
             # Azimut in Bogenmass
-            a = p.azimut / 180.0 * math.pi
+            a = p.azimut / pi180
 
             # Z-Komponente
             z = d * math.sin(v)
 
             # Horizontalstrecke bis Drehpunkt
-            s = d * math.cos(v) + VdConfig.beamCenter
+            s = d * math.cos(v) + beamCenter
 
             # X-Komponente
             x = s * math.sin(a)
@@ -77,7 +81,7 @@ class VdFile(object):
             # Y-Komponente
             y = s * math.cos(a)
 
-            formatS = 'v {} {} {}\n'
+            formatS = 'v {:.3f} {:.3f} {:.3f}\n'
             obj += formatS.format(x, y, z)
         self.write(obj)
 

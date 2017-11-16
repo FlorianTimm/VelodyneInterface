@@ -43,59 +43,62 @@ class VdBuffer(Process):
         # self.masterSkript.ende()
         print("SIGINT vdBuffer")
 
-    def neuerOrdner(self):
+    def _neuerOrdner(self):
         # Uhrzeit abfragen fuer Laufzeitlaenge und Dateinamen
-        self.date.value = datetime.now()
-        self.folder = self._conf.get("Datei", "fileNamePre")
-        self.folder += self.date.value.strftime(
+        self._date.value = datetime.now()
+        self._folder = self._conf.get("Datei", "fileNamePre")
+        self._folder += self._date.value.strftime(
             self._conf.get("Datei", "fileTimeFormat"))
         # Speicherordner anlegen und ausgeben
-        os.makedirs(self.folder)
-        print ("Speicherordner: " + self.folder)
+        os.makedirs(self._folder)
+        print ("Speicherordner: " + self._folder)
 
     def run(self):
-        signal.signal(signal.SIGINT, _signal.SIG_IGN)
+        
+        signal.signal(signal.SIGINT, self._signal_handler)
 
         # Socket zum Scanner oeffnen
         sock = VdInterface.getDataStream(self._conf)
-        self.scannerStatus.value = "Socket verbunden"
+        self._scannerStatus.value = "Socket verbunden"
 
         # Variablen initialisieren
         minibuffer = b''
         j = 0
+        
+        self._datensaetze.value = 0
 
         # Prozessprioritaet hochschalten, sofern Adminrechte
-        if self.admin:
+        if self._admin:
             os.nice(-18)
 
         # Dauerschleife, solange kein Unterbrechen-Befehl kommt
 
         sock.settimeout(1)
-        while self.noBreak.value:
+        while self._noBreak.value:
             try:
                 # Daten vom Scanner holen
                 data = sock.recvfrom(1248)[0]
 
                 if (j == 0 and self._dateiNummer == 0):
-                    self.neuerOrdner()
+                    self._neuerOrdner()
                 # RAM-Buffer
                 minibuffer += data
                 j += 1
-                self.datensaetze.value += self._conf.get(
-                    "Funktionen", "messungProDatensatz")
+                self._datensaetze.value += int(self._conf.get(
+                    "Geraet", "messungProDatensatz"))
                 # Alle 5 bzw. 10 Sekunden Daten speichern
                 # oder wenn Abbrechenbefehl kommt
-                if (j >= 1500) or (not self.noBreak.value):
+                if (j >= 1500) or (not self._noBreak.value):
                     # Datei schreiben
                     f = open(
-                        self.folder + "/" + str(self._dateiNummer) + ".bin",
+                        self._folder + "/" + str(self._dateiNummer) + ".bin",
                         "wb")
                     f.write(minibuffer)
 
                     f.close()
 
                     if self._conf.get("Funktionen", "activateTransformer"):
-                        self.warteschlange.put(f.name)
+                        self._warteschlange.put(f.name)
 
                     # Buffer leeren
                     minibuffer = b''
@@ -110,5 +113,5 @@ class VdBuffer(Process):
                 print ("Keine Daten")
                 continue
         sock.close()
-        self.scannerStatus.value = "Aufnahme gestoppt"
+        self._scannerStatus.value = "Aufnahme gestoppt"
         print ("Verbindung getrennt")

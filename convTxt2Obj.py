@@ -7,6 +7,7 @@
 '''
 from vdPoint import VdPoint
 from vdFile import VdFile
+import configparser
 
 
 class ConvTxt2Obj:
@@ -16,15 +17,19 @@ class ConvTxt2Obj:
 
     def run(self):
         data = []
+        conf = configparser.ConfigParser()
+        conf.read("config.ini")
         txt = open(self.fileName, 'rb')
+        f = VdFile(conf,"obj", self.fileName)
         for line in txt:
             l = line.split()
             data.append(VdPoint(float(l[0]), float(l[1]), float(l[2]),
                                 float(l[3]), int(l[4])))
             # print ("test")
-        f = VdFile("obj", self.fileName)
-        f.writeDataToObj(data)
-
+            if len(data) > 50000:
+                f.writeDataToObj(data)
+                data = []
+        
 
 if __name__ == '__main__':
     ConvTxt2Obj().run()

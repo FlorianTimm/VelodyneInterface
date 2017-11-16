@@ -3,7 +3,7 @@
 
 '''
 @author: Florian Timm
-@version: 2017.11.15
+@version: 2017.11.16
 '''
 
 from vdBuffer import VdBuffer
@@ -196,6 +196,7 @@ app = Flask(__name__)
 @app.route("/")
 def webIndex():
     laufzeit = "(inaktiv)"
+    pps = "(inaktiv)"
     if ms.date.value is not None:
         timediff = datetime.now() - ms.date.value
         td_sec = timediff.seconds + (int(timediff.microseconds / 1000) / 1000.)
@@ -204,6 +205,9 @@ def webIndex():
         h = int(td_sec // 3600)
 
         laufzeit = '{:02d}:{:02d}:{:06.3f}'.format(h, min, sec)
+        
+        pps = '{:.0f}'.format(ms.datensaetze.value/td_sec)
+        
     elif ms.noBreak.value:
         laufzeit = "(noch keine Daten)"
 
@@ -226,6 +230,9 @@ def webIndex():
                 <td>""" + str(ms.warteschlange.qsize()) + """</td></tr>
             <tr><td>Aufnahmezeit:</td>
                 <td>""" + laufzeit + """</td>
+            </tr>
+            <tr><td>Punkt/Sekunde:</td>
+                <td>""" + pps + """</td>
             </tr>
         </table><br />
                 """
