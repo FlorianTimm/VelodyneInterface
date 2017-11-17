@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-'''
+"""
 @author: Florian Timm
 @version: 2017.10.22
-'''
+"""
 from vdPoint import VdPoint
 from vdFile import VdFile
 import configparser
@@ -20,16 +20,18 @@ class ConvTxt2Obj:
         conf = configparser.ConfigParser()
         conf.read("config.ini")
         txt = open(self.fileName, 'rb')
-        f = VdFile(conf,"obj", self.fileName)
+        f = VdFile(conf, "obj", self.fileName)
         for line in txt:
-            l = line.split()
-            data.append(VdPoint(float(l[0]), float(l[1]), float(l[2]),
-                                float(l[3]), int(l[4])))
+            daten = line.split()
+            data.append(
+                VdPoint(
+                    conf, float(daten[0]), float(daten[1]), float(daten[2]),
+                    float(daten[3]), int(daten[4])))
             # print ("test")
             if len(data) > 50000:
-                f.writeDataToObj(data)
+                f.writeDataset(data)
                 data = []
-        
+
 
 if __name__ == '__main__':
     ConvTxt2Obj().run()

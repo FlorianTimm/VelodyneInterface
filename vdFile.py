@@ -1,99 +1,97 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-'''
+"""
 @author: Florian Timm
-@version: 2017.10.27
-'''
+@version: 2017.11.17
+"""
 
 import datetime
-import math
 
 
 class VdFile(object):
 
-    def __init__(self, conf, fileType="txt", fileName=""):
+    def __init__(self, conf, filename="", fileformat="txt"):
         self._conf = conf
-
         # Dateiname erzeugen, sofern kein Dateiname mitgeliefert
-        if (fileName == ""):
-            # Jahr-Monat-TagTStunde:Minute:Sekunde an Dateinamen anhaengen
-            fileName = self._conf.get("Datei", "fileNamePre")
-            fileName += datetime.datetime.now().strftime(
-                self._conf.get("Datei", "fileTimeFormat"))
-
-        fileName += '.' + fileType
-
+        if filename == "":
+            filename = self._make_filename(fileformat)
+        elif not filename.endswith("." + fileformat):
+            filename += "." + fileformat
         # Datei erzeugen
-        self.txtFile = open(fileName, 'a')
-        self.datasets = []
+        self._file = open(filename, 'a')
+        self._data = []
 
-    def write(self, data):
-        ''' Daten in Datei schreiben '''
-        self.txtFile.write(data)
+    def _make_filename(self, fileformat):
+        # Jahr-Monat-TagTStunde:Minute:Sekunde an Dateinamen anhaengen
+        filename = self._conf.get("Datei", "fileNamePre")
+        filename += datetime.datetime.now().strftime(
+            self._conf.get("Datei", "fileTimeFormat"))
+        filename = "." + fileformat
+        return filename
 
-    def writeDatasetToTxt(self, dataset):
-        self.addDataset(dataset)
-        self.writeTxt()
+    def _write2file(self, data):
+        """ Daten in Datei schreiben """
+        self._file.write(data)
 
-    def writeTxt(self):
-        txt = ""
-        for ds in self.datasets:
-            for d in ds.getData():
-                if d.distanz > 0.0:
-                    txt += VdFile.fileFormatTXT(d.zeit,
-                                                d.azimut,
-                                                d.vertikal, 
-                                                d.distanz, 
-                                                d.reflexion)
-        self.write(txt)
-        print("Geschrieben!")
-        self.datasets = []
+    def write_data(self, data):
+        self.add_dataset(data)
+        self.write()
 
-    def addDataset(self, dataset):
-        self.datasets.append(dataset)
+    def write(self):
+        print("nicht implementiert")
 
-    def writeDataToObj(self, data):
-        obj = ""
-        
-        beamCenter = float(self._conf.get("Geraet", "beamCenter"))
-        dRho = math.pi / 180.0
-                
-        for p in data:
-            # Schraegstrecke zum Strahlenzentrum
-            d = p.distanz - beamCenter
+    def add_point(self, p):
+        self._data.append(p)
 
-            # Vertikalwinkel in Bogenmass
-            
-            v = p.vertikal * dRho
-
-            # Azimut in Bogenmass
-            a = p.azimut * dRho
-
-            # Z-Komponente
-            z = d * math.sin(v)
-
-            # Horizontalstrecke bis Drehpunkt
-            s = d * math.cos(v) + beamCenter
-
-            # X-Komponente
-            x = s * math.sin(a)
-
-            # Y-Komponente
-            y = s * math.cos(a)
-
-            formatS = 'v {:.3f} {:.3f} {:.3f}\n'
-            obj += formatS.format(x, y, z)
-        self.write(obj)
-
-    @staticmethod
-    def fileFormatTXT(zeit, azimut, vertikal, distanz, reflexion):
-        ''' Einstellung fuer das Erzeugen der TXT-Datei'''
-        azimut = round(azimut, 3)
-        distanz = round(distanz, 3)
-        formatS = '{}\t{}\t{}\t{}\t{}\n'
-        return formatS.format(zeit, azimut, vertikal, distanz, reflexion)
+    def add_dataset(self, dataset):
+        self._data.extend(dataset)
 
     def close(self):
-        ''' Datei schliessen '''
-        self.txtFile.close()
+        """ Datei schliessen """
+        self._file.close()
+
+
+class VdObjFile(VdFile):
+
+    def __init__(self, conf, filename=""):
+        VdFile.__init__(self, conf, filename, "obj")
+
+    def write(self):
+        obj = ""
+
+        for p in self._data:
+            if p.get_distance() > 0.0:
+                x, y, z = p.get_yxz()
+                format_string = 'v {:.3f} {:.3f} {:.3f}\n'
+                obj += format_string.format(x, y, z)
+        self._write2file(obj)
+        self._data = []
+
+
+class VdTxtFile(VdFile):
+
+    def __init__(self, conf, filename=""):
+        VdFile.__init__(self, conf, filename, "txt")
+
+    def write(self):
+        txt = ""
+        for d in self._data:
+            if d.get_distance() > 0.0:
+                txt += self._fileformat_txt(d.get_time(),
+                                            d.get_azimuth(),
+                                            d.get_vertical(),
+                                            d.get_distance(),
+                                            d.get_reflection())
+        self._write2file(txt)
+        self._data = []
+
+    @staticmethod
+    def _fileformat_txt(zeit, azimut, vertikal, distanz, reflexion):
+        """ Einstellung fuer das Erzeugen der TXT-Datei"""
+        format_string = '{:012.1f}\t{:07.3f}\t{: 03.0f}\t{:06.3f}\t{:03.0f}\n'
+        return format_string.format(zeit,
+                                    azimut,
+                                    vertikal,
+                                    distanz,
+                                    reflexion)

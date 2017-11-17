@@ -1,151 +1,135 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-'''
+"""
 @author: Florian Timm
 @version: 2017.11.12
-'''
+"""
 
 # Modul zur Steuerung der GPIO-Pins
 import RPi.GPIO as GPIO
 import time
-import multiprocessing
 from threading import Thread
 import threading
 
 
 class VdHardware(Thread):
 
-    '''
+    """
     classdocs
-    '''
+    """
 
-    def __init__(self, masterSkript):
-        '''
+    def __init__(self, master):
+        """
         Constructor
-        '''
+        """
         Thread.__init__(self)
 
         GPIO.setmode(GPIO.BCM)
 
-        self.taster1 = 18  # Start / Stop
-        self.taster2 = 25  # Herunterfahren
+        self._taster1 = 18  # Start / Stop
+        self._taster2 = 25  # Herunterfahren
 
         # LED-Pins:
         # 0: Datenempfang
         # 1: Warteschleife
         # 2: Aufzeichnung
-        self.led = [10, 9, 11]
-        self.datenempfang = False
-        self.warteschlange = False
-        self.aufzeichung = False
+        self._led = [10, 9, 11]
+        self._receiving = False
+        self._queue = False
+        self._recording = False
 
         # Masterobjekt sichern
-        self.masterSkript = masterSkript
+        self._master = master
 
         # Eingaenge aktivieren
         # Aufzeichnung starten/stoppen
-        GPIO.setup(self.taster1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        GPIO.setup(self._taster1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         # Herunterfahren
-        GPIO.setup(self.taster2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        GPIO.setup(self._taster2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
         # Ausgaenge aktivieren und auf Low schalten
-        for l in self.led:
+        for l in self._led:
             GPIO.setup(l, GPIO.OUT)  # GPS-Fix
             GPIO.output(l, GPIO.LOW)
 
-        self.weiter = True
+        self._go_on = True
 
     def run(self):
-        '''
+        """
         Ausfuehrung des Prozesses
-        '''
-        GPIO.add_event_detect(self.taster1, GPIO.FALLING, self.taster1Pressed)
-        GPIO.add_event_detect(self.taster2, GPIO.FALLING, self.taster1Pressed)
+        """
+        GPIO.add_event_detect(
+            self._taster1,
+            GPIO.FALLING,
+            self._button1_pressed)
+        GPIO.add_event_detect(
+            self._taster2,
+            GPIO.FALLING,
+            self._button1_pressed)
 
-        self.timerCheckLEDs()
+        self._timer_check_leds()
 
-    def timerCheckLEDs(self):
-        self.checkLEDs()
-        if self.weiter:
-            t = threading.Timer(1, self.timerCheckLEDs)
+    def _timer_check_leds(self):
+        self._check_leds()
+        if self._go_on:
+            t = threading.Timer(1, self._timer_check_leds)
             t.start()
 
-    def checkLEDs(self):
-        self.pruefeAufzeichung()
-        self.pruefeDatenempfang()
-        self.pruefeWarteschlange()
+    def _check_leds(self):
+        self._set_recording(self._master.check_recording())
+        self._set_receiving(self._master.check_receiving())
+        self._set_queue(self._master.check_queue())
 
-    def taster1Pressed(self):
+    def _button1_pressed(self):
         time.sleep(0.1)  # Prellen abwarten
 
         # mindestens 2 Sekunden druecken
-        warten = GPIO.wait_for_edge(self.taster1, GPIO.RISING, timeout=1900)
+        warten = GPIO.wait_for_edge(self._taster1, GPIO.RISING, timeout=1900)
 
         if warten is None:
             # keine steigende Kante = gehalten
-            if self.masterSkript.noBreak.value:
-                self.masterSkript.aufzeichnungStoppen()
+            if self._master.get_go_on_buffer().value:
+                self._master.stop_recording()
             else:
-                self.masterSkript.aufzeichnungStarten()
+                self._master.start_recording()
 
-    def taster2Pressed(self):
+    def _button2_pressed(self):
         time.sleep(0.1)  # Prellen abwarten
 
         # mindestens 2 Sekunden druecken
-        warten = GPIO.wait_for_edge(self.taster2, GPIO.RISING, timeout=1900)
+        wait = GPIO.wait_for_edge(self._taster2, GPIO.RISING, timeout=1900)
 
-        if warten is None:
+        if wait is None:
             # keine steigende Kante = gehalten
-            self.masterSkript.herunterFahren()
+            self._master.shutdown()
 
-    def schalteLED(self, led, janein):
-        if janein:
-            GPIO.output(self.led[led], GPIO.HIGH)
+    def _switch_leds(self, led, yesno):
+        if yesno:
+            GPIO.output(self._led[led], GPIO.HIGH)
         else:
-            GPIO.output(self.led[led], GPIO.LOW)
+            GPIO.output(self._led[led], GPIO.LOW)
 
-    def aktualisiereLEDs(self):
-        self.schalteLED(0, self.datenempfang)
-        self.schalteLED(1, self.warteschlange)
-        self.schalteLED(2, self.aufzeichung)
+    def _update_leds(self):
+        self._switch_leds(0, self._receiving)
+        self._switch_leds(1, self._queue)
+        self._switch_leds(2, self._recording)
 
-    def setDatenempfang(self, janein):
-        if self.datenempfang != janein:
-            self.datenempfang = janein
-            self.aktualisiereLEDs()
+    def _set_receiving(self, yesno):
+        if self._receiving != yesno:
+            self._receiving = yesno
+            self._update_leds()
 
-    def setWarteschlange(self, janein):
-        if self.warteschlange != janein:
-            self.warteschlange = janein
-            self.aktualisiereLEDs()
+    def _set_queue(self, yesno):
+        if self._queue != yesno:
+            self._queue = yesno
+            self._update_leds()
 
-    def setAufzeichung(self, janein):
-        if self.aufzeichung != janein:
-            self.aufzeichung = janein
-            self.aktualisiereLEDs()
+    def _set_recording(self, yesno):
+        if self._recording != yesno:
+            self._recording = yesno
+            self._update_leds()
 
-    def pruefeWarteschlange(self):
-        if self.masterSkript.warteschlange.qsize() > 0:
-            self.setWarteschlange(True)
-        else:
-            self.setWarteschlange(True)
-
-    def pruefeAufzeichung(self):
-        if self.masterSkript.pBuffer is not None and self.masterSkript.pBuffer.is_alive():
-            self.setAufzeichung(True)
-        else:
-            self.setAufzeichung(True)
-
-    def pruefeDatenempfang(self):
-        x = self.masterSkript.datensaetze.value
-        time.sleep(0.2)
-        y = self.masterSkript.datensaetze.value
-        if x - y > 0:
-            self.setDatenempfang(True)
-        else:
-            self.setDatenempfang(False)
-
-    def stoppe(self):
-        self.weiter = False
+    def stop(self):
+        self._go_on = False
         GPIO.cleanup()

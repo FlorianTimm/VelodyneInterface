@@ -1,42 +1,40 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-'''
+"""
 @author: Florian Timm
 @version: 2017.11.16
-'''
+"""
 
 import socket
 import sys
-import os
 
 
 class VdInterface(object):
 
-    '''
+    """
     classdocs
-    '''
+    """
 
     @staticmethod
-    def getDataStream(conf):
-        return VdInterface.getStream(conf.get("Netzwerk", "UDP_IP"),
-                                     int(conf.get("Netzwerk", "UDP_PORT_DATA")))
+    def get_data_stream(conf):
+        return VdInterface.get_stream(conf.get("Netzwerk", "UDP_IP"),
+                                      int(conf.get("Netzwerk", "UDP_PORT_DATA")))
 
     @staticmethod
-    def getGNSSStream(conf):
-        return VdInterface.getStream(conf.get("Netzwerk", "UDP_IP"),
-                                     int(conf.get("Netzwerk", "UDP_PORT_GNSS")))
+    def get_gnss_stream(conf):
+        return VdInterface.get_stream(conf.get("Netzwerk", "UDP_IP"),
+                                      int(conf.get("Netzwerk", "UDP_PORT_GNSS")))
 
     @staticmethod
-    def getStream(ip, port):
+    def get_stream(ip, port):
                 # Create Datagram Socket (UDP)
         try:
             sock = socket.socket(socket.AF_INET,    # Socket Family: IPv4
                                  socket.SOCK_DGRAM)  # Socket Type: UDP
             print('Socket erstellt')
         except socket.error as msg:
-            print('Socket konnte nicht erstellt werden! Fehler ' +
-                  str(msg[0]) + ': ' + msg[1])
+            print('Socket konnte nicht erstellt werden!')
             sys.exit()
 
         # Sockets Options
@@ -50,8 +48,7 @@ class VdInterface(object):
         try:
             sock.bind((ip, port))
         except socket.error as msg:
-            print('Bind failed. Fehler ' + str(msg[0]) + ': ' + msg[1])
-            sys.exit()
+            print('Bind failed. Fehler')
 
         print('Socket verbunden')
 

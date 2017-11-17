@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-'''
+"""
 @author: Florian Timm
-@version: 2017.11.15
-'''
+@version: 2017.11.17
+"""
+import os
+import signal
 from multiprocessing import Process
 from queue import Empty
-import os
+from vdFile import VdTxtFile
 from vdDataset import VdDataset
-from vdFile import VdFile
-import signal
 
 
 class VdTransformer(Process):
@@ -20,13 +20,15 @@ class VdTransformer(Process):
     Velodyne VLP-16 zu TXT-Dateien
     """
 
-    def __init__(self, nummer, masterSkript):
+    def __init__(self, nummer, master):
         """
         Konstruktor fuer Transformer-Prozess, erbt von multiprocessing.Process
 
         Parameters
         ----------
-        masterSkript : VdAutoStart
+        nummer : int
+            Nummer des Transformerprozess
+        master : VdAutoStart
             Objekt des Hauptskriptes
         """
 
@@ -34,16 +36,17 @@ class VdTransformer(Process):
         Process.__init__(self)
 
         # Parameter sichern
-        self._masterSkript = masterSkript
-        self._warteschlange = masterSkript.warteschlange
-        self._nummer = nummer
-        self._admin = masterSkript.admin
-        self._weiterUmformen = masterSkript.weiterUmformen
-        self._conf = masterSkript.conf
+        # self._master = master
+        self._queue = master.get_queue()
+        self._number = nummer
+        self._root = master.get_root()
+        self._go_on_transform = master.get_go_on_transform()
+        self._conf = master.conf
 
-    def _signal_handler(self, signal, frame):
+    @staticmethod
+    def _signal_handler(signal, frame):
         """ Behandelt SIGINT-Signale """
-        # self.masterSkript.ende()
+        # self.master.ende()
         print("SIGINT vdTransformer")
 
     def run(self):
@@ -54,44 +57,43 @@ class VdTransformer(Process):
         """
         signal.signal(signal.SIGINT, self._signal_handler)
 
-        if self._admin:
+        if self._root:
             os.nice(-15)
         # Erzeugen einer TXT-Datei pro Prozess
 
-        oldFolder = ""
+        old_folder = ""
         # Dauerschleife
 
         try:
-            while self._weiterUmformen.value:
+            while self._go_on_transform.value:
                 try:
                     # Dateinummer aus Warteschleife abfragen und oeffnen
-                    filename = self._warteschlange.get(True, 2)
+                    filename = self._queue.get(True, 2)
                     folder = os.path.dirname(filename)
-                    if dir != oldFolder:
-                        file = VdFile(
+                    if dir != old_folder:
+                        vd_file = VdTxtFile(
                             self._conf,
-                            "txt",
-                            folder + "/file" + str(self._nummer))
-                        oldFolder = folder
+                            folder + "/vd_file" + str(self._number))
+                        old_folder = folder
 
                     f = open(filename, "rb")
 
                     # Anzahl an Datensaetzen in Datei pruefen
-                    fileSize = os.path.getsize(f.name)
-                    cntDatasets = int(fileSize / 1206)
+                    file_size = os.path.getsize(f.name)
+                    dataset_cnt = int(file_size / 1206)
 
-                    for i in range(cntDatasets):
+                    for i in range(dataset_cnt):
                         # naechsten Datensatz lesen
-                        vdData = VdDataset(self._conf, f.read(1206))
+                        vd_data = VdDataset(self._conf, f.read(1206))
 
                         # Daten konvertieren und speichern
-                        vdData.convertData()
+                        vd_data.convert_data()
 
                         # Datensatz zu Datei hinzufuegen
-                        file.addDataset(vdData)
+                        vd_file.add_dataset(vd_data)
 
                     # Datei schreiben
-                    file.writeTxt()
+                    vd_file.write()
                     # Txt-Datei schliessen
                     f.close()
                     # Bin-Datei ggf. loeschen
