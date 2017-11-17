@@ -41,7 +41,7 @@ class VdTransformer(Process):
         self._number = nummer
         self._root = master.get_root()
         self._go_on_transform = master.get_go_on_transform()
-        self._conf = master.conf
+        self._conf = master.get_conf()
 
     @staticmethod
     def _signal_handler(signal, frame):

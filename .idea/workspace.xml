@@ -2,17 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="12e3964b-6e22-4f7a-aa04-47b3061cfcab" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Upload2GitHub.sh" afterPath="$PROJECT_DIR$/Upload2GitHub.sh" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/conBin2Obj.py" afterPath="$PROJECT_DIR$/conBin2Obj.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/vdGNSStime.py" afterPath="$PROJECT_DIR$/vdGNSSTime.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/Quelltext.iml" afterPath="$PROJECT_DIR$/.idea/Quelltext.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/convTxt2Obj.py" afterPath="$PROJECT_DIR$/convTxt2Obj.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vdAutoStart.py" afterPath="$PROJECT_DIR$/vdAutoStart.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vdBuffer.py" afterPath="$PROJECT_DIR$/vdBuffer.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vdDataset.py" afterPath="$PROJECT_DIR$/vdDataset.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vdFile.py" afterPath="$PROJECT_DIR$/vdFile.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vdGNSStime.py" afterPath="$PROJECT_DIR$/vdGNSStime.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vdHardware.py" afterPath="$PROJECT_DIR$/vdHardware.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vdInterface.py" afterPath="$PROJECT_DIR$/vdInterface.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vdPoint.py" afterPath="$PROJECT_DIR$/vdPoint.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vdTransformer.py" afterPath="$PROJECT_DIR$/vdTransformer.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -27,78 +23,10 @@
       <file leaf-file-name="vdAutoStart.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vdAutoStart.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4131">
-              <caret line="258" column="58" lean-forward="false" selection-start-line="258" selection-start-column="58" selection-end-line="258" selection-end-column="58" />
+            <state relative-caret-position="3760">
+              <caret line="288" column="27" lean-forward="false" selection-start-line="288" selection-start-column="27" selection-end-line="288" selection-end-column="27" />
               <folding>
                 <element signature="e#99#118#0" expanded="true" />
-                <marker date="1510959281919" expanded="true" signature="611:6835" ph="..." />
-                <marker date="1510959281919" expanded="true" signature="617:644" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-                <marker date="1510959281919" expanded="true" signature="705:1944" ph="..." />
-                <marker date="1510959281919" expanded="true" signature="714:749" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-                <marker date="1510959281919" expanded="true" signature="1811:1888" ph="..." />
-                <marker date="1510959281919" expanded="true" signature="1964:2643" ph="..." />
-                <marker date="1510959281919" expanded="true" signature="2115:2337" ph="..." />
-                <marker date="1510959281919" expanded="true" signature="2351:2464" ph="..." />
-                <marker date="1510959281919" expanded="true" signature="2566:2643" ph="..." />
-                <marker date="1510959281919" expanded="true" signature="2677:3207" ph="..." />
-                <marker date="1510959281919" expanded="true" signature="2834:3207" ph="..." />
-                <marker date="1510959281919" expanded="true" signature="3040:3154" ph="..." />
-                <marker date="1510959281919" expanded="true" signature="3239:3660" ph="..." />
-                <marker date="1510959281919" expanded="true" signature="3311:3584" ph="..." />
-                <marker date="1510959281919" expanded="true" signature="3691:4186" ph="..." />
-                <marker date="1510959281919" expanded="true" signature="3871:4118" ph="..." />
-                <marker date="1510959281919" expanded="true" signature="3947:4068" ph="..." />
-                <marker date="1510959281919" expanded="true" signature="4219:4729" ph="..." />
-                <marker date="1510959281919" expanded="true" signature="4371:4664" ph="..." />
-                <marker date="1510959281919" expanded="true" signature="4413:4618" ph="..." />
-                <marker date="1510959281919" expanded="true" signature="4475:4618" ph="..." />
-                <marker date="1510959281919" expanded="true" signature="4778:4870" ph="..." />
-                <marker date="1510959281919" expanded="true" signature="4787:4829" ph="..." />
-                <marker date="1510959281919" expanded="true" signature="4908:5025" ph="..." />
-                <marker date="1510959281919" expanded="true" signature="4950:5025" ph="..." />
-                <marker date="1510959281919" expanded="true" signature="5053:5265" ph="..." />
-                <marker date="1510959281919" expanded="true" signature="5285:5331" ph="..." />
-                <marker date="1510959281919" expanded="true" signature="5378:5458" ph="..." />
-                <marker date="1510959281919" expanded="true" signature="5483:5656" ph="..." />
-                <marker date="1510959281919" expanded="true" signature="5684:5765" ph="..." />
-                <marker date="1510959281919" expanded="true" signature="5797:5909" ph="..." />
-                <marker date="1510959281919" expanded="true" signature="5941:6104" ph="..." />
-                <marker date="1510959281919" expanded="true" signature="6151:6177" ph="..." />
-                <marker date="1510959281919" expanded="true" signature="6209:6242" ph="..." />
-                <marker date="1510959281919" expanded="true" signature="6275:6309" ph="..." />
-                <marker date="1510959281919" expanded="true" signature="6345:6382" ph="..." />
-                <marker date="1510959281919" expanded="true" signature="6417:6453" ph="..." />
-                <marker date="1510959281919" expanded="true" signature="6482:6515" ph="..." />
-                <marker date="1510959281919" expanded="true" signature="6540:6566" ph="..." />
-                <marker date="1510959281919" expanded="true" signature="6591:6618" ph="..." />
-                <marker date="1510959281919" expanded="true" signature="6644:6671" ph="..." />
-                <marker date="1510959281919" expanded="true" signature="6724:6750" ph="..." />
-                <marker date="1510959281919" expanded="true" signature="6795:6835" ph="..." />
-                <marker date="1510959281919" expanded="true" signature="6909:8992" ph="..." />
-                <marker date="1510959281919" expanded="true" signature="6998:7363" ph="..." />
-                <marker date="1510959281919" expanded="true" signature="7456:7873" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-                <marker date="1510959281919" expanded="true" signature="7905:7959" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-                <marker date="1510959281919" expanded="true" signature="7994:8073" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-                <marker date="1510959281919" expanded="true" signature="8107:8184" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-                <marker date="1510959281919" expanded="true" signature="8217:8293" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-                <marker date="1510959281919" expanded="true" signature="8307:8397" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-                <marker date="1510959281919" expanded="true" signature="8406:8475" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-                <marker date="1510959281919" expanded="true" signature="8504:8605" ph="..." />
-                <marker date="1510959281919" expanded="true" signature="8524:8605" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-                <marker date="1510959281919" expanded="true" signature="8615:8716" ph="..." />
-                <marker date="1510959281919" expanded="true" signature="8635:8716" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-                <marker date="1510959281919" expanded="true" signature="8732:8972" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-                <marker date="1510959281919" expanded="true" signature="9036:9803" ph="..." />
-                <marker date="1510959281919" expanded="true" signature="9048:9803" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-                <marker date="1510959281919" expanded="true" signature="9849:9980" ph="..." />
-                <marker date="1510959281919" expanded="true" signature="9879:9980" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-                <marker date="1510959281919" expanded="true" signature="10021:10123" ph="..." />
-                <marker date="1510959281919" expanded="true" signature="10046:10123" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-                <marker date="1510959281919" expanded="true" signature="10164:10291" ph="..." />
-                <marker date="1510959281919" expanded="true" signature="10200:10291" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-                <marker date="1510959281919" expanded="true" signature="10333:10462" ph="..." />
-                <marker date="1510959281919" expanded="true" signature="10370:10462" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-                <marker date="1510959281919" expanded="true" signature="10481:10544" ph="..." />
               </folding>
             </state>
           </provider>
@@ -107,21 +35,10 @@
       <file leaf-file-name="vdBuffer.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vdBuffer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1360">
+            <state relative-caret-position="334">
               <caret line="86" column="19" lean-forward="false" selection-start-line="86" selection-start-column="19" selection-end-line="86" selection-end-column="19" />
               <folding>
                 <element signature="e#99#134#0" expanded="true" />
-                <marker date="1510959283252" expanded="true" signature="271:327" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-                <marker date="1510959283252" expanded="true" signature="360:881" ph="..." />
-                <marker date="1510959283252" expanded="true" signature="369:404" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-                <marker date="1510959283252" expanded="true" signature="484:531" ph="..." />
-                <marker date="1510959283252" expanded="true" signature="940:1002" ph="..." />
-                <marker date="1510959283252" expanded="true" signature="1030:1432" ph="..." />
-                <marker date="1510959283252" expanded="true" signature="2193:3380" ph="..." />
-                <marker date="1510959283252" expanded="true" signature="2210:3282" ph="..." />
-                <marker date="1510959283252" expanded="true" signature="2557:2648" ph="..." />
-                <marker date="1510959283252" expanded="true" signature="2717:3220" ph="..." />
-                <marker date="1510959283252" expanded="true" signature="3317:3380" ph="..." />
               </folding>
             </state>
           </provider>
@@ -130,8 +47,8 @@
       <file leaf-file-name="vdDataset.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vdDataset.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="20">
-              <caret line="173" column="25" lean-forward="false" selection-start-line="173" selection-start-column="25" selection-end-line="173" selection-end-column="25" />
+            <state relative-caret-position="34">
+              <caret line="195" column="35" lean-forward="true" selection-start-line="195" selection-start-column="35" selection-end-line="195" selection-end-column="35" />
               <folding />
             </state>
           </provider>
@@ -149,98 +66,45 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="convTxt2Obj.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="convTxt2Obj.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/convTxt2Obj.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="122">
-              <caret line="27" column="20" lean-forward="false" selection-start-line="27" selection-start-column="20" selection-end-line="27" selection-end-column="20" />
-              <folding />
+            <state relative-caret-position="164">
+              <caret line="31" column="28" lean-forward="false" selection-start-line="31" selection-start-column="28" selection-end-line="31" selection-end-column="28" />
+              <folding>
+                <element signature="e#98#125#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="vdFile.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="vdFile.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vdFile.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="122">
+            <state relative-caret-position="589">
               <caret line="65" column="0" lean-forward="false" selection-start-line="65" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="vdGNSStime.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/vdGNSStime.py">
+      <file leaf-file-name="vdInterface.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/vdInterface.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1479">
-              <caret line="93" column="37" lean-forward="false" selection-start-line="93" selection-start-column="37" selection-end-line="93" selection-end-column="37" />
+            <state relative-caret-position="164">
+              <caret line="37" column="22" lean-forward="false" selection-start-line="37" selection-start-column="22" selection-end-line="37" selection-end-column="22" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="vdGNSSTime.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/vdGNSSTime.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-419">
+              <caret line="60" column="33" lean-forward="false" selection-start-line="60" selection-start-column="33" selection-end-line="60" selection-end-column="33" />
               <folding>
                 <element signature="e#135#150#0" expanded="true" />
-                <marker date="1510959283935" expanded="true" signature="274:299" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-                <marker date="1510959283935" expanded="true" signature="332:651" ph="..." />
-                <marker date="1510959283935" expanded="true" signature="341:376" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-                <marker date="1510959283935" expanded="true" signature="671:909" ph="..." />
-                <marker date="1510959283935" expanded="true" signature="953:1649" ph="..." />
-                <marker date="1510959283935" expanded="true" signature="1131:1628" ph="..." />
-                <marker date="1510959283935" expanded="true" signature="1144:1212" ph="..." />
-                <marker date="1510959283935" expanded="true" signature="1229:1458" ph="..." />
-                <marker date="1510959283935" expanded="true" signature="1536:1575" ph="..." />
-                <marker date="1510959283935" expanded="true" signature="1692:2426" ph="..." />
-                <marker date="1510959283935" expanded="true" signature="1724:2283" ph="..." />
-                <marker date="1510959283935" expanded="true" signature="2032:2283" ph="..." />
-                <marker date="1510959283935" expanded="true" signature="2189:2283" ph="..." />
-                <marker date="1510959283935" expanded="true" signature="2236:2283" ph="..." />
-                <marker date="1510959283935" expanded="true" signature="2366:2426" ph="..." />
-                <marker date="1510959283935" expanded="true" signature="2478:2950" ph="..." />
-                <marker date="1510959283935" expanded="true" signature="2515:2929" ph="..." />
-                <marker date="1510959283935" expanded="true" signature="2578:2929" ph="..." />
-                <marker date="1510959283935" expanded="true" signature="2994:3308" ph="..." />
-                <marker date="1510959283935" expanded="true" signature="3003:3053" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="vdHardware.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/vdHardware.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="9" column="7" lean-forward="false" selection-start-line="9" selection-start-column="7" selection-end-line="9" selection-end-column="7" />
-              <folding>
-                <marker date="1510959281358" expanded="true" signature="1236:1566" ph="..." />
-                <marker date="1510959281358" expanded="true" signature="1600:1732" ph="..." />
-                <marker date="1510959281358" expanded="true" signature="1651:1732" ph="..." />
-                <marker date="1510959281358" expanded="true" signature="1760:1932" ph="..." />
-                <marker date="1510959281358" expanded="true" signature="1965:2369" ph="..." />
-                <marker date="1510959281358" expanded="true" signature="2157:2369" ph="..." />
-                <marker date="1510959281358" expanded="true" signature="2402:2673" ph="..." />
-                <marker date="1510959281358" expanded="true" signature="2590:2673" ph="..." />
-                <marker date="1510959281358" expanded="true" signature="2714:2847" ph="..." />
-                <marker date="1510959281358" expanded="true" signature="2876:3010" ph="..." />
-                <marker date="1510959281358" expanded="true" signature="3048:3153" ph="..." />
-                <marker date="1510959281358" expanded="true" signature="3085:3153" ph="..." />
-                <marker date="1510959281358" expanded="true" signature="3187:3284" ph="..." />
-                <marker date="1510959281358" expanded="true" signature="3220:3284" ph="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="vdPoint.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/vdPoint.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="13" column="31" lean-forward="false" selection-start-line="13" selection-start-column="31" selection-end-line="13" selection-end-column="31" />
-              <folding>
-                <marker date="1510959283665" expanded="true" signature="274:461" ph="..." />
-                <marker date="1510959283665" expanded="true" signature="492:525" ph="..." />
-                <marker date="1510959283665" expanded="true" signature="550:621" ph="..." />
-                <marker date="1510959283665" expanded="true" signature="649:733" ph="..." />
-                <marker date="1510959283665" expanded="true" signature="769:876" ph="..." />
-                <marker date="1510959283665" expanded="true" signature="905:984" ph="..." />
-                <marker date="1510959283665" expanded="true" signature="1021:1125" ph="..." />
-                <marker date="1510959283665" expanded="true" signature="1156:1248" ph="..." />
-                <marker date="1510959283665" expanded="true" signature="1277:1353" ph="..." />
               </folding>
             </state>
           </provider>
@@ -249,28 +113,21 @@
       <file leaf-file-name="vdTransformer.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vdTransformer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1173">
-              <caret line="75" column="39" lean-forward="false" selection-start-line="75" selection-start-column="39" selection-end-line="75" selection-end-column="39" />
+            <state relative-caret-position="11">
+              <caret line="43" column="38" lean-forward="false" selection-start-line="43" selection-start-column="38" selection-end-line="43" selection-end-column="38" />
               <folding>
                 <element signature="e#98#107#0" expanded="true" />
-                <marker date="1510959280846" expanded="true" signature="280:389" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-                <marker date="1510959280846" expanded="true" signature="430:1037" ph="..." />
-                <marker date="1510959280846" expanded="true" signature="439:701" ph="&quot;&quot;&quot;Konstruktor fuer Transformer-Prozess, erbt von multiprocessing.Process...&quot;&quot;&quot;" />
-                <marker date="1510959280846" expanded="true" signature="782:833" ph="..." />
-                <marker date="1510959280846" expanded="true" signature="1096:1204" ph="..." />
-                <marker date="1510959280846" expanded="true" signature="1233:1407" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-                <marker date="1510959280846" expanded="true" signature="1625:3145" ph="..." />
-                <marker date="1510959280846" expanded="true" signature="1672:3145" ph="..." />
-                <marker date="1510959280846" expanded="true" signature="1693:3036" ph="..." />
-                <marker date="1510959280846" expanded="true" signature="1919:2117" ph="..." />
-                <marker date="1510959280846" expanded="true" signature="2388:2728" ph="..." />
-                <marker date="1510959280846" expanded="true" signature="3066:3145" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>master</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -281,21 +138,40 @@
         <option value="$PROJECT_DIR$/vdHardware.py" />
         <option value="$PROJECT_DIR$/vdInterface.py" />
         <option value="$PROJECT_DIR$/vdPoint.py" />
-        <option value="$PROJECT_DIR$/vdGNSStime.py" />
         <option value="$PROJECT_DIR$/vdBuffer.py" />
-        <option value="$PROJECT_DIR$/vdTransformer.py" />
-        <option value="$PROJECT_DIR$/vdAutoStart.py" />
         <option value="$PROJECT_DIR$/conBin2Obj.py" />
-        <option value="$PROJECT_DIR$/convTxt2Obj.py" />
-        <option value="$PROJECT_DIR$/vdDataset.py" />
         <option value="$PROJECT_DIR$/vdFile.py" />
+        <option value="$PROJECT_DIR$/vdGNSStime.py" />
+        <option value="$USER_HOME$/.local/lib/python3.6/site-packages/txtorcon/torcontrolprotocol.py" />
+        <option value="$PROJECT_DIR$/vdGNSSTime.py" />
+        <option value="$PROJECT_DIR$/vdAutoStart.py" />
+        <option value="$PROJECT_DIR$/vdTransformer.py" />
+        <option value="$PROJECT_DIR$/vdDataset.py" />
+        <option value="$PROJECT_DIR$/convTxt2Obj.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-4" />
-    <option name="width" value="1374" />
-    <option name="height" value="742" />
+    <option name="x" value="550" />
+    <option name="y" value="76" />
+    <option name="width" value="902" />
+    <option name="height" value="488" />
+  </component>
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State>
+            <id />
+          </State>
+        </expanded-state>
+        <selected-state>
+          <State>
+            <id>Buildout</id>
+          </State>
+        </selected-state>
+      </profile-state>
+    </entry>
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -312,6 +188,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -323,13 +200,12 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="PyConsoleConfigurable.Python Console" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
   </component>
   <component name="PyConsoleOptionsProvider">
@@ -352,6 +228,71 @@
       </list>
     </option>
   </component>
+  <component name="RunManager" selected="Python.convTxt2Obj">
+    <configuration name="conBin2Obj" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="Quelltext" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/conBin2Obj.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+    </configuration>
+    <configuration name="convTxt2Obj" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="Quelltext" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/convTxt2Obj.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+    </configuration>
+    <configuration name="vdAutoStart" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="Quelltext" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/vdAutoStart.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+    </configuration>
+    <list size="3">
+      <item index="0" class="java.lang.String" itemvalue="Python.vdAutoStart" />
+      <item index="1" class="java.lang.String" itemvalue="Python.conBin2Obj" />
+      <item index="2" class="java.lang.String" itemvalue="Python.convTxt2Obj" />
+    </list>
+    <recent_temporary>
+      <list size="3">
+        <item index="0" class="java.lang.String" itemvalue="Python.convTxt2Obj" />
+        <item index="1" class="java.lang.String" itemvalue="Python.conBin2Obj" />
+        <item index="2" class="java.lang.String" itemvalue="Python.vdAutoStart" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="ShelveChangesManager" show_recycled="false">
     <option name="remove_strategy" value="false" />
   </component>
@@ -366,26 +307,27 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-4" y="0" width="1366" height="738" extended-state="6" />
+    <frame x="0" y="0" width="1366" height="738" extended-state="6" />
+    <editor active="true" />
     <layout>
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24450952" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3296355" sideWeight="0.50292826" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24450952" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3296355" sideWeight="0.49707174" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3296355" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3296355" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3296355" sideWeight="0.49707174" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3296355" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -399,78 +341,102 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/vdAutoStart.py">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4148">
+          <caret line="258" column="58" lean-forward="false" selection-start-line="258" selection-start-column="58" selection-end-line="258" selection-end-column="58" />
+          <folding>
+            <element signature="e#99#118#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vdBuffer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1377">
+          <caret line="86" column="19" lean-forward="false" selection-start-line="86" selection-start-column="19" selection-end-line="86" selection-end-column="19" />
+          <folding>
+            <element signature="e#99#134#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vdDataset.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2924">
+          <caret line="173" column="25" lean-forward="false" selection-start-line="173" selection-start-column="25" selection-end-line="173" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/conBin2Obj.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="20" column="6" lean-forward="false" selection-start-line="20" selection-start-column="6" selection-end-line="20" selection-end-column="6" />
+          <folding>
+            <element signature="e#99#108#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/convTxt2Obj.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="27" column="20" lean-forward="false" selection-start-line="27" selection-start-column="20" selection-end-line="27" selection-end-column="20" />
+          <folding>
+            <element signature="e#98#125#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vdGNSSTime.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1496">
+          <caret line="93" column="37" lean-forward="false" selection-start-line="93" selection-start-column="37" selection-end-line="93" selection-end-column="37" />
+          <folding>
+            <element signature="e#135#150#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vdHardware.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="7" lean-forward="false" selection-start-line="9" selection-start-column="7" selection-end-line="9" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vdPoint.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" column="31" lean-forward="false" selection-start-line="13" selection-start-column="31" selection-end-line="13" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vdTransformer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1190">
+          <caret line="75" column="39" lean-forward="false" selection-start-line="75" selection-start-column="39" selection-end-line="75" selection-end-column="39" />
+          <folding>
+            <element signature="e#98#107#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vdFile.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1105">
+          <caret line="65" column="0" lean-forward="false" selection-start-line="65" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vdAutoStart.py">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4131">
           <caret line="257" column="58" lean-forward="false" selection-start-line="257" selection-start-column="58" selection-end-line="257" selection-end-column="58" />
           <folding>
             <element signature="e#99#118#0" expanded="true" />
-            <marker date="1510959281919" expanded="true" signature="611:6835" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="617:644" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1510959281919" expanded="true" signature="705:1944" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="714:749" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1510959281919" expanded="true" signature="1811:1888" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="1964:2643" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="2115:2337" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="2351:2464" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="2566:2643" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="2677:3207" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="2834:3207" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="3040:3154" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="3239:3660" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="3311:3584" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="3691:4186" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="3871:4118" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="3947:4068" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="4219:4729" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="4371:4664" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="4413:4618" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="4475:4618" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="4778:4870" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="4787:4829" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="4908:5025" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="4950:5025" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="5053:5265" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="5285:5331" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="5378:5458" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="5483:5656" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="5684:5765" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="5797:5909" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="5941:6104" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="6151:6177" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="6209:6242" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="6275:6309" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="6345:6382" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="6417:6453" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="6482:6515" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="6540:6566" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="6591:6618" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="6644:6671" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="6724:6750" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="6795:6835" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="6909:8992" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="6998:7363" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="7456:7873" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1510959281919" expanded="true" signature="7905:7959" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1510959281919" expanded="true" signature="7994:8073" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1510959281919" expanded="true" signature="8107:8184" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1510959281919" expanded="true" signature="8217:8293" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1510959281919" expanded="true" signature="8307:8397" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1510959281919" expanded="true" signature="8406:8475" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1510959281919" expanded="true" signature="8504:8605" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="8524:8605" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1510959281919" expanded="true" signature="8615:8716" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="8635:8716" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1510959281919" expanded="true" signature="8732:8972" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1510959281919" expanded="true" signature="9036:9803" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="9048:9803" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1510959281919" expanded="true" signature="9849:9980" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="9879:9980" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1510959281919" expanded="true" signature="10021:10123" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="10046:10123" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1510959281919" expanded="true" signature="10164:10291" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="10200:10291" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1510959281919" expanded="true" signature="10333:10462" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="10370:10462" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1510959281919" expanded="true" signature="10481:10544" ph="..." />
           </folding>
         </state>
       </provider>
@@ -481,17 +447,6 @@
           <caret line="85" column="19" lean-forward="false" selection-start-line="85" selection-start-column="19" selection-end-line="85" selection-end-column="19" />
           <folding>
             <element signature="e#99#134#0" expanded="true" />
-            <marker date="1510959283252" expanded="true" signature="271:327" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1510959283252" expanded="true" signature="360:881" ph="..." />
-            <marker date="1510959283252" expanded="true" signature="369:404" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1510959283252" expanded="true" signature="484:531" ph="..." />
-            <marker date="1510959283252" expanded="true" signature="940:1002" ph="..." />
-            <marker date="1510959283252" expanded="true" signature="1030:1432" ph="..." />
-            <marker date="1510959283252" expanded="true" signature="2193:3380" ph="..." />
-            <marker date="1510959283252" expanded="true" signature="2210:3282" ph="..." />
-            <marker date="1510959283252" expanded="true" signature="2557:2648" ph="..." />
-            <marker date="1510959283252" expanded="true" signature="2717:3220" ph="..." />
-            <marker date="1510959283252" expanded="true" signature="3317:3380" ph="..." />
           </folding>
         </state>
       </provider>
@@ -512,32 +467,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vdGNSStime.py">
+    <entry file="file://$PROJECT_DIR$/vdGNSSTime.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1479">
           <caret line="92" column="37" lean-forward="false" selection-start-line="92" selection-start-column="37" selection-end-line="92" selection-end-column="37" />
           <folding>
             <element signature="e#135#150#0" expanded="true" />
-            <marker date="1510959283935" expanded="true" signature="274:299" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1510959283935" expanded="true" signature="332:651" ph="..." />
-            <marker date="1510959283935" expanded="true" signature="341:376" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1510959283935" expanded="true" signature="671:909" ph="..." />
-            <marker date="1510959283935" expanded="true" signature="953:1649" ph="..." />
-            <marker date="1510959283935" expanded="true" signature="1131:1628" ph="..." />
-            <marker date="1510959283935" expanded="true" signature="1144:1212" ph="..." />
-            <marker date="1510959283935" expanded="true" signature="1229:1458" ph="..." />
-            <marker date="1510959283935" expanded="true" signature="1536:1575" ph="..." />
-            <marker date="1510959283935" expanded="true" signature="1692:2426" ph="..." />
-            <marker date="1510959283935" expanded="true" signature="1724:2283" ph="..." />
-            <marker date="1510959283935" expanded="true" signature="2032:2283" ph="..." />
-            <marker date="1510959283935" expanded="true" signature="2189:2283" ph="..." />
-            <marker date="1510959283935" expanded="true" signature="2236:2283" ph="..." />
-            <marker date="1510959283935" expanded="true" signature="2366:2426" ph="..." />
-            <marker date="1510959283935" expanded="true" signature="2478:2950" ph="..." />
-            <marker date="1510959283935" expanded="true" signature="2515:2929" ph="..." />
-            <marker date="1510959283935" expanded="true" signature="2578:2929" ph="..." />
-            <marker date="1510959283935" expanded="true" signature="2994:3308" ph="..." />
-            <marker date="1510959283935" expanded="true" signature="3003:3053" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
           </folding>
         </state>
       </provider>
@@ -546,22 +481,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
           <caret line="9" column="7" lean-forward="false" selection-start-line="9" selection-start-column="7" selection-end-line="9" selection-end-column="7" />
-          <folding>
-            <marker date="1510959281358" expanded="true" signature="1236:1566" ph="..." />
-            <marker date="1510959281358" expanded="true" signature="1600:1732" ph="..." />
-            <marker date="1510959281358" expanded="true" signature="1651:1732" ph="..." />
-            <marker date="1510959281358" expanded="true" signature="1760:1932" ph="..." />
-            <marker date="1510959281358" expanded="true" signature="1965:2369" ph="..." />
-            <marker date="1510959281358" expanded="true" signature="2157:2369" ph="..." />
-            <marker date="1510959281358" expanded="true" signature="2402:2673" ph="..." />
-            <marker date="1510959281358" expanded="true" signature="2590:2673" ph="..." />
-            <marker date="1510959281358" expanded="true" signature="2714:2847" ph="..." />
-            <marker date="1510959281358" expanded="true" signature="2876:3010" ph="..." />
-            <marker date="1510959281358" expanded="true" signature="3048:3153" ph="..." />
-            <marker date="1510959281358" expanded="true" signature="3085:3153" ph="..." />
-            <marker date="1510959281358" expanded="true" signature="3187:3284" ph="..." />
-            <marker date="1510959281358" expanded="true" signature="3220:3284" ph="..." />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -570,7 +490,7 @@
         <state relative-caret-position="612">
           <caret line="37" column="22" lean-forward="false" selection-start-line="37" selection-start-column="22" selection-end-line="37" selection-end-column="22" />
           <folding>
-            <element signature="e#99#112#0" expanded="true" />
+            <element signature="e#99#112#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -579,17 +499,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
           <caret line="12" column="31" lean-forward="false" selection-start-line="12" selection-start-column="31" selection-end-line="12" selection-end-column="31" />
-          <folding>
-            <marker date="1510959283665" expanded="true" signature="274:461" ph="..." />
-            <marker date="1510959283665" expanded="true" signature="492:525" ph="..." />
-            <marker date="1510959283665" expanded="true" signature="550:621" ph="..." />
-            <marker date="1510959283665" expanded="true" signature="649:733" ph="..." />
-            <marker date="1510959283665" expanded="true" signature="769:876" ph="..." />
-            <marker date="1510959283665" expanded="true" signature="905:984" ph="..." />
-            <marker date="1510959283665" expanded="true" signature="1021:1125" ph="..." />
-            <marker date="1510959283665" expanded="true" signature="1156:1248" ph="..." />
-            <marker date="1510959283665" expanded="true" signature="1277:1353" ph="..." />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -599,18 +509,6 @@
           <caret line="74" column="39" lean-forward="false" selection-start-line="74" selection-start-column="39" selection-end-line="74" selection-end-column="39" />
           <folding>
             <element signature="e#98#107#0" expanded="true" />
-            <marker date="1510959280846" expanded="true" signature="280:389" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1510959280846" expanded="true" signature="430:1037" ph="..." />
-            <marker date="1510959280846" expanded="true" signature="439:701" ph="&quot;&quot;&quot;Konstruktor fuer Transformer-Prozess, erbt von multiprocessing.Process...&quot;&quot;&quot;" />
-            <marker date="1510959280846" expanded="true" signature="782:833" ph="..." />
-            <marker date="1510959280846" expanded="true" signature="1096:1204" ph="..." />
-            <marker date="1510959280846" expanded="true" signature="1233:1407" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1510959280846" expanded="true" signature="1625:3145" ph="..." />
-            <marker date="1510959280846" expanded="true" signature="1672:3145" ph="..." />
-            <marker date="1510959280846" expanded="true" signature="1693:3036" ph="..." />
-            <marker date="1510959280846" expanded="true" signature="1919:2117" ph="..." />
-            <marker date="1510959280846" expanded="true" signature="2388:2728" ph="..." />
-            <marker date="1510959280846" expanded="true" signature="3066:3145" ph="..." />
           </folding>
         </state>
       </provider>
@@ -629,17 +527,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vdInterface.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="612">
-          <caret line="37" column="22" lean-forward="false" selection-start-line="37" selection-start-column="22" selection-end-line="37" selection-end-column="22" />
-          <folding>
-            <element signature="e#99#112#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -647,190 +534,86 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
           <caret line="9" column="7" lean-forward="false" selection-start-line="9" selection-start-column="7" selection-end-line="9" selection-end-column="7" />
-          <folding>
-            <marker date="1510959281358" expanded="true" signature="1236:1566" ph="..." />
-            <marker date="1510959281358" expanded="true" signature="1600:1732" ph="..." />
-            <marker date="1510959281358" expanded="true" signature="1651:1732" ph="..." />
-            <marker date="1510959281358" expanded="true" signature="1760:1932" ph="..." />
-            <marker date="1510959281358" expanded="true" signature="1965:2369" ph="..." />
-            <marker date="1510959281358" expanded="true" signature="2157:2369" ph="..." />
-            <marker date="1510959281358" expanded="true" signature="2402:2673" ph="..." />
-            <marker date="1510959281358" expanded="true" signature="2590:2673" ph="..." />
-            <marker date="1510959281358" expanded="true" signature="2714:2847" ph="..." />
-            <marker date="1510959281358" expanded="true" signature="2876:3010" ph="..." />
-            <marker date="1510959281358" expanded="true" signature="3048:3153" ph="..." />
-            <marker date="1510959281358" expanded="true" signature="3085:3153" ph="..." />
-            <marker date="1510959281358" expanded="true" signature="3187:3284" ph="..." />
-            <marker date="1510959281358" expanded="true" signature="3220:3284" ph="..." />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/vdPoint.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
+        <state relative-caret-position="221">
           <caret line="13" column="31" lean-forward="false" selection-start-line="13" selection-start-column="31" selection-end-line="13" selection-end-column="31" />
-          <folding>
-            <marker date="1510959283665" expanded="true" signature="274:461" ph="..." />
-            <marker date="1510959283665" expanded="true" signature="492:525" ph="..." />
-            <marker date="1510959283665" expanded="true" signature="550:621" ph="..." />
-            <marker date="1510959283665" expanded="true" signature="649:733" ph="..." />
-            <marker date="1510959283665" expanded="true" signature="769:876" ph="..." />
-            <marker date="1510959283665" expanded="true" signature="905:984" ph="..." />
-            <marker date="1510959283665" expanded="true" signature="1021:1125" ph="..." />
-            <marker date="1510959283665" expanded="true" signature="1156:1248" ph="..." />
-            <marker date="1510959283665" expanded="true" signature="1277:1353" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vdGNSStime.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1479">
-          <caret line="93" column="37" lean-forward="false" selection-start-line="93" selection-start-column="37" selection-end-line="93" selection-end-column="37" />
-          <folding>
-            <element signature="e#135#150#0" expanded="true" />
-            <marker date="1510959283935" expanded="true" signature="274:299" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1510959283935" expanded="true" signature="332:651" ph="..." />
-            <marker date="1510959283935" expanded="true" signature="341:376" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1510959283935" expanded="true" signature="671:909" ph="..." />
-            <marker date="1510959283935" expanded="true" signature="953:1649" ph="..." />
-            <marker date="1510959283935" expanded="true" signature="1131:1628" ph="..." />
-            <marker date="1510959283935" expanded="true" signature="1144:1212" ph="..." />
-            <marker date="1510959283935" expanded="true" signature="1229:1458" ph="..." />
-            <marker date="1510959283935" expanded="true" signature="1536:1575" ph="..." />
-            <marker date="1510959283935" expanded="true" signature="1692:2426" ph="..." />
-            <marker date="1510959283935" expanded="true" signature="1724:2283" ph="..." />
-            <marker date="1510959283935" expanded="true" signature="2032:2283" ph="..." />
-            <marker date="1510959283935" expanded="true" signature="2189:2283" ph="..." />
-            <marker date="1510959283935" expanded="true" signature="2236:2283" ph="..." />
-            <marker date="1510959283935" expanded="true" signature="2366:2426" ph="..." />
-            <marker date="1510959283935" expanded="true" signature="2478:2950" ph="..." />
-            <marker date="1510959283935" expanded="true" signature="2515:2929" ph="..." />
-            <marker date="1510959283935" expanded="true" signature="2578:2929" ph="..." />
-            <marker date="1510959283935" expanded="true" signature="2994:3308" ph="..." />
-            <marker date="1510959283935" expanded="true" signature="3003:3053" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/vdBuffer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1360">
+        <state relative-caret-position="334">
           <caret line="86" column="19" lean-forward="false" selection-start-line="86" selection-start-column="19" selection-end-line="86" selection-end-column="19" />
           <folding>
             <element signature="e#99#134#0" expanded="true" />
-            <marker date="1510959283252" expanded="true" signature="271:327" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1510959283252" expanded="true" signature="360:881" ph="..." />
-            <marker date="1510959283252" expanded="true" signature="369:404" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1510959283252" expanded="true" signature="484:531" ph="..." />
-            <marker date="1510959283252" expanded="true" signature="940:1002" ph="..." />
-            <marker date="1510959283252" expanded="true" signature="1030:1432" ph="..." />
-            <marker date="1510959283252" expanded="true" signature="2193:3380" ph="..." />
-            <marker date="1510959283252" expanded="true" signature="2210:3282" ph="..." />
-            <marker date="1510959283252" expanded="true" signature="2557:2648" ph="..." />
-            <marker date="1510959283252" expanded="true" signature="2717:3220" ph="..." />
-            <marker date="1510959283252" expanded="true" signature="3317:3380" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.local/lib/python3.6/site-packages/txtorcon/torcontrolprotocol.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="131">
+          <caret line="388" column="35" lean-forward="false" selection-start-line="388" selection-start-column="29" selection-end-line="388" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.local/lib/python3.6/site-packages/test/test_torconfig.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="98" column="35" lean-forward="false" selection-start-line="98" selection-start-column="29" selection-end-line="98" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.local/lib/python3.6/site-packages/txtorcon/interface.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="365" column="40" lean-forward="false" selection-start-line="365" selection-start-column="34" selection-end-line="365" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vdInterface.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="164">
+          <caret line="37" column="22" lean-forward="false" selection-start-line="37" selection-start-column="22" selection-end-line="37" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vdGNSSTime.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-419">
+          <caret line="60" column="33" lean-forward="false" selection-start-line="60" selection-start-column="33" selection-end-line="60" selection-end-column="33" />
+          <folding>
+            <element signature="e#135#150#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/vdTransformer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1173">
-          <caret line="75" column="39" lean-forward="false" selection-start-line="75" selection-start-column="39" selection-end-line="75" selection-end-column="39" />
+        <state relative-caret-position="11">
+          <caret line="43" column="38" lean-forward="false" selection-start-line="43" selection-start-column="38" selection-end-line="43" selection-end-column="38" />
           <folding>
             <element signature="e#98#107#0" expanded="true" />
-            <marker date="1510959280846" expanded="true" signature="280:389" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1510959280846" expanded="true" signature="430:1037" ph="..." />
-            <marker date="1510959280846" expanded="true" signature="439:701" ph="&quot;&quot;&quot;Konstruktor fuer Transformer-Prozess, erbt von multiprocessing.Process...&quot;&quot;&quot;" />
-            <marker date="1510959280846" expanded="true" signature="782:833" ph="..." />
-            <marker date="1510959280846" expanded="true" signature="1096:1204" ph="..." />
-            <marker date="1510959280846" expanded="true" signature="1233:1407" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1510959280846" expanded="true" signature="1625:3145" ph="..." />
-            <marker date="1510959280846" expanded="true" signature="1672:3145" ph="..." />
-            <marker date="1510959280846" expanded="true" signature="1693:3036" ph="..." />
-            <marker date="1510959280846" expanded="true" signature="1919:2117" ph="..." />
-            <marker date="1510959280846" expanded="true" signature="2388:2728" ph="..." />
-            <marker date="1510959280846" expanded="true" signature="3066:3145" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/vdAutoStart.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4131">
-          <caret line="258" column="58" lean-forward="false" selection-start-line="258" selection-start-column="58" selection-end-line="258" selection-end-column="58" />
+        <state relative-caret-position="3760">
+          <caret line="288" column="27" lean-forward="false" selection-start-line="288" selection-start-column="27" selection-end-line="288" selection-end-column="27" />
           <folding>
             <element signature="e#99#118#0" expanded="true" />
-            <marker date="1510959281919" expanded="true" signature="611:6835" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="617:644" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1510959281919" expanded="true" signature="705:1944" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="714:749" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1510959281919" expanded="true" signature="1811:1888" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="1964:2643" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="2115:2337" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="2351:2464" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="2566:2643" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="2677:3207" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="2834:3207" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="3040:3154" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="3239:3660" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="3311:3584" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="3691:4186" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="3871:4118" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="3947:4068" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="4219:4729" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="4371:4664" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="4413:4618" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="4475:4618" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="4778:4870" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="4787:4829" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="4908:5025" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="4950:5025" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="5053:5265" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="5285:5331" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="5378:5458" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="5483:5656" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="5684:5765" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="5797:5909" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="5941:6104" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="6151:6177" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="6209:6242" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="6275:6309" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="6345:6382" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="6417:6453" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="6482:6515" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="6540:6566" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="6591:6618" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="6644:6671" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="6724:6750" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="6795:6835" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="6909:8992" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="6998:7363" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="7456:7873" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1510959281919" expanded="true" signature="7905:7959" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1510959281919" expanded="true" signature="7994:8073" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1510959281919" expanded="true" signature="8107:8184" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1510959281919" expanded="true" signature="8217:8293" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1510959281919" expanded="true" signature="8307:8397" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1510959281919" expanded="true" signature="8406:8475" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1510959281919" expanded="true" signature="8504:8605" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="8524:8605" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1510959281919" expanded="true" signature="8615:8716" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="8635:8716" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1510959281919" expanded="true" signature="8732:8972" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1510959281919" expanded="true" signature="9036:9803" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="9048:9803" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1510959281919" expanded="true" signature="9849:9980" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="9879:9980" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1510959281919" expanded="true" signature="10021:10123" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="10046:10123" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1510959281919" expanded="true" signature="10164:10291" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="10200:10291" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1510959281919" expanded="true" signature="10333:10462" ph="..." />
-            <marker date="1510959281919" expanded="true" signature="10370:10462" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1510959281919" expanded="true" signature="10481:10544" ph="..." />
           </folding>
         </state>
       </provider>
@@ -845,27 +628,29 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/convTxt2Obj.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="122">
-          <caret line="27" column="20" lean-forward="false" selection-start-line="27" selection-start-column="20" selection-end-line="27" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vdDataset.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="20">
-          <caret line="173" column="25" lean-forward="false" selection-start-line="173" selection-start-column="25" selection-end-line="173" selection-end-column="25" />
+        <state relative-caret-position="34">
+          <caret line="195" column="35" lean-forward="true" selection-start-line="195" selection-start-column="35" selection-end-line="195" selection-end-column="35" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/vdFile.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="122">
+        <state relative-caret-position="589">
           <caret line="65" column="0" lean-forward="false" selection-start-line="65" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/convTxt2Obj.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="164">
+          <caret line="31" column="28" lean-forward="false" selection-start-line="31" selection-start-column="28" selection-end-line="31" selection-end-column="28" />
+          <folding>
+            <element signature="e#98#125#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

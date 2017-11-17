@@ -195,10 +195,10 @@ class VdDataset(object):
                         self._conf, round(zeit, 1), a, self._vertAngle[k],
                         dist, refl)
                     self._data.append(p)
-                    zeit += t_zwischen_strahl
+                    zeit += t_between_laser
 
                 if dual_return and j == 0:
-                    zeit -= t_zwischen_strahl * 16
+                    zeit -= t_between_laser * 16
                 else:
                     zeit += t_recharge
 

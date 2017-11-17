@@ -15,7 +15,7 @@ import os
 from vdInterface import VdInterface
 
 
-class VdGNSStime(Thread):
+class VdGNSSTime(Thread):
 
     """
     classdocs
@@ -26,18 +26,21 @@ class VdGNSStime(Thread):
         Constructor
         """
         Thread.__init__(self)
-        self.tScanner = Thread(target=self._get_gnss_time_from_scanner())
-        self.tSerial = Thread(target=self._get_gnss_time_from_serial())
+        self.tScanner = None
+        self.tSerial = None
         self._master = master
-        self._conf = master.conf
-        self._zeit_gefunden = False
+        self._conf = master.get_conf()
+        self._time_corrected = False
 
     def run(self):
         """ Start """
+
         # Thread zur Erkennung der seriellen Schnittstelle
+        self.tSerial = Thread(target=self._get_gnss_time_from_serial())
         self.tSerial.start()
 
         # Thread zur Erkennung des Scanners
+        self.tScanner = Thread(target=self._get_gnss_time_from_scanner())
         self.tScanner.start()
 
         self._master.set_gnss_status("Verbinde...")
@@ -46,7 +49,7 @@ class VdGNSStime(Thread):
         sock = VdInterface.get_gnss_stream(self._conf)
         sock.settimeout(1)
         self._master.set_gnss_status("Warte auf Fix...")
-        while not self._zeit_gefunden:
+        while not self._time_corrected:
             # Daten empfangen vom Scanner
             # print("Daten kommen...")
             try:
@@ -54,7 +57,7 @@ class VdGNSStime(Thread):
                 message = data[206:278].decode('utf-8', 'replace')
                 if self._get_gnss_time_from_string(message):
                     break
-            except socket.Timeouterror:
+            except socket.timeout:
                 continue
             # else:
             #    print(message)
@@ -73,7 +76,7 @@ class VdGNSStime(Thread):
                 9600,
                 timeout=1)
             self._master.set_gnss_status("Warte auf Fix...")
-            while not self._zeit_gefunden:
+            while not self._time_corrected:
                 line = ser.readline()
                 message = line.decode('utf-8', 'replace')
                 if self._get_gnss_time_from_string(message):
@@ -81,7 +84,9 @@ class VdGNSStime(Thread):
                     # else:
                     #    print(message)
         except serial.SerialTimeoutException:
-            print()
+            pass
+        except serial.serialutil.SerialException:
+            print("Port konnte nicht geöffnet werden! Falscher Port?")
         finally:
             if ser is not None:
                 ser.close()
@@ -94,7 +99,7 @@ class VdGNSStime(Thread):
                 timestamp = datetime.strptime(p[1] + "D" + p[9],
                                               '%H%M%S.00D%d%m%y')
                 self._set_system_time(timestamp)
-                self._zeit_gefunden = True
+                self._time_corrected = True
                 self._master.set_gnss_status("Uhrzeit abgerufen")
                 return True
         return False
@@ -111,4 +116,4 @@ class VdGNSStime(Thread):
 
     def stop(self):
         self._master.set_gnss_status("Gestoppt")
-        self._zeit_gefunden = True
+        self._time_corrected = True

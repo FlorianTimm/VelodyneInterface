@@ -15,12 +15,10 @@ import time
 from datetime import datetime
 from multiprocessing import Queue, Manager
 from threading import Thread
-
 from flask import Flask
-
 from vdBuffer import VdBuffer
-from vdGNSStime import VdGNSStime
 from vdTransformer import VdTransformer
+from vdGNSSTime import VdGNSSTime
 
 # Pruefen, ob es sich um einen Raspberry handelt
 try:
@@ -43,7 +41,6 @@ class VdAutoStart(object):
         """
         Constructor
         """
-        self._gnss = VdGNSStime(self)
         self._vd_hardware = None
         print("Datenschnittstelle fuer VLP-16\n")
 
@@ -62,7 +59,7 @@ class VdAutoStart(object):
         self._go_on_buffer = manager.Value('_go_on_buffer', False)
         self._go_on_transform = manager.Value('_go_on_transform', False)
         self._scanner_status = manager.Value('_scanner_status', "unbekannt")
-        self._datensaetze = manager.Value('_datasets', 0)
+        self._datasets = manager.Value('_datasets', 0)
         self._date = manager.Value('_date', None)
 
         # Warteschlange fuer Transformer
@@ -77,6 +74,8 @@ class VdAutoStart(object):
             self._admin = True
         except IOError:
             self._admin = False
+
+        self._gnss = None
 
     def run(self):
         """ Starte das Programm """
@@ -95,7 +94,7 @@ class VdAutoStart(object):
 
         # Zeit gemaess GNSS einstellen
         if self._conf.get("Funktionen", "GNSSZeitVerwenden"):
-            from vdGNSStime import VdGNSStime
+            self._gnss = VdGNSSTime(self)
             self._gnss.start()
 
     def start_transformer(self):
@@ -198,9 +197,9 @@ class VdAutoStart(object):
         return False
 
     def check_receiving(self):
-        x = self._datensaetze.value
+        x = self._datasets.value
         time.sleep(0.2)
-        y = self._datensaetze.value
+        y = self._datasets.value
         if x - y > 0:
             return True
         return False
@@ -222,7 +221,7 @@ class VdAutoStart(object):
         return self._scanner_status
 
     def get_datasets(self):
-        return self._datensaetze
+        return self._datasets
 
     def get_date(self):
         return self._date
@@ -260,7 +259,7 @@ def web_index():
 
         pps = '{:.0f}'.format(ms.get_datasets().value / td_sec)
 
-    elif ms.get_go_on_buffer.value:
+    elif ms.get_go_on_buffer().value:
         laufzeit = "(noch keine Daten)"
 
     ausgabe = """<html>
@@ -274,7 +273,7 @@ def web_index():
     <content>
         <h2>VLP16-Datenschnittstelle</h3>
         <table style="">
-            <tr><td id="spalte1">GNSS-Status:</td><td>""" + ms.get_gnss_status().value + """</td></tr>
+            <tr><td id="spalte1">GNSS-Status:</td><td>""" + ms.get_gnss_status() + """</td></tr>
             <tr><td>Scanner:</td><td>""" + ms.get_scanner_status().value + """</td></tr>
             <tr><td>Datens&auml;tze:</td>
                 <td>""" + str(ms.get_datasets().value) + """</td></tr>

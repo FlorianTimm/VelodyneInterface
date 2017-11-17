@@ -6,21 +6,21 @@
 @version: 2017.10.22
 """
 from vdPoint import VdPoint
-from vdFile import VdFile
+from vdFile import VdObjFile
 import configparser
 
 
 class ConvTxt2Obj:
 
     def __init__(self):
-        self.fileName = "test.txt"
+        self.fileName = "BeispielDateien/test.txt"
 
     def run(self):
         data = []
         conf = configparser.ConfigParser()
         conf.read("config.ini")
         txt = open(self.fileName, 'rb')
-        f = VdFile(conf, "obj", self.fileName)
+        f = VdObjFile(conf, self.fileName)
         for line in txt:
             daten = line.split()
             data.append(
@@ -29,9 +29,9 @@ class ConvTxt2Obj:
                     float(daten[3]), int(daten[4])))
             # print ("test")
             if len(data) > 50000:
-                f.writeDataset(data)
+                f.write_data(data)
                 data = []
-
+        f.write_data(data)
 
 if __name__ == '__main__':
     ConvTxt2Obj().run()
