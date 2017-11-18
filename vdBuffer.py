@@ -16,13 +16,13 @@ import signal
 
 class VdBuffer(Process):
 
-    """
-    Prozess zum Buffern von binaeren Dateien
-    """
+    """ process for buffering binary data """
 
     def __init__(self, master):
         """
         Constructor
+        :param master: instance of VdAutoStart
+        :type master: VdAutoStart
         """
         # Konstruktor der Elternklasse
         Process.__init__(self)
@@ -31,20 +31,29 @@ class VdBuffer(Process):
         # self._master = master
         self._go_on_buffering = master.get_go_on_buffer()
         self._scanner_status = master.get_scanner_status()
-        self._datasets = master.get_datasets()
+        self._datasets = master.get_dataset_cnt()
         self._queue = master.get_queue()
-        self._admin = master.get_root()
+        self._admin = master.is_root()
         self._date = master.get_date()
         self._conf = master.get_conf()
 
         self._file_no = 0
 
     @staticmethod
-    def _signal_handler(signal, frame):
-        # self.master.ende()
+    def _signal_handler(sig_no, frame):
+        """
+        handles SIGINT-signal
+        :param sig_no: signal number
+        :type sig_no: int
+        :param frame:execution frame
+        :type frame: frame
+        """
+        del sig_no, frame
+        # self.master.end()
         print("SIGINT vdBuffer")
 
     def _new_folder(self):
+        """ creates data folder """
         # Uhrzeit abfragen fuer Laufzeitlaenge und Dateinamen
         self._date.value = datetime.now()
         self._folder = self._conf.get("Datei", "fileNamePre")
@@ -52,10 +61,10 @@ class VdBuffer(Process):
             self._conf.get("Datei", "fileTimeFormat"))
         # Speicherordner anlegen und ausgeben
         os.makedirs(self._folder)
-        print ("Speicherordner: " + self._folder)
+        print("Data folder: " + self._folder)
 
     def run(self):
-
+        """ starts buffering process """
         signal.signal(signal.SIGINT, self._signal_handler)
 
         # Socket zum Scanner oeffnen
@@ -114,8 +123,8 @@ class VdBuffer(Process):
                 if data == 'QUIT':
                     break
             except socket.timeout:
-                print ("Keine Daten")
+                print("No data")
                 continue
         sock.close()
-        self._scanner_status.value = "Aufnahme gestoppt"
-        print ("Verbindung getrennt")
+        self._scanner_status.value = "recording stopped"
+        print("Disconnected!")

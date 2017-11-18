@@ -5,7 +5,6 @@ encoding/vdAutoStart.py=utf-8
 encoding/vdBuffer.py=utf-8
 encoding/vdDataset.py=utf-8
 encoding/vdFile.py=utf-8
-encoding/vdGNSStime.py=utf-8
 encoding/vdHardware.py=utf-8
 encoding/vdInterface.py=utf-8
 encoding/vdPoint.py=utf-8

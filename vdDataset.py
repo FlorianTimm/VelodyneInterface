@@ -12,21 +12,17 @@ import json
 
 class VdDataset(object):
 
-    """
-    Klasse zur Repraesentation eines Datensatzes des VLP-16
-    """
+    """ representation of one dataset of velodyne vlp-16 """
 
     def __init__(self, conf, dataset):
         """
-        Konstruktor
-
-        Parameters
-        ----------
-        conf : configparser.ConfigParser
-            Konfigurationsdatei
-        dataset : bin
-            Datensatz in binären Format
+        Constructor
+        :param conf: config-file
+        :type conf: configparser.ConfigParser
+        :param dataset: binary dataset
+        :type dataset: bytes
         """
+
         self._dataset = dataset
         self._conf = conf
 
@@ -36,18 +32,13 @@ class VdDataset(object):
 
     def get_azimuth(self, block):
         """
-        Gibt den Horizontalrichtung eines Datenblockes zurück
-
-        Parameters
-        ----------
-        block : int
-            Nummer des Datenblockes
-
-        Returns
-        -------
-        azi : float
-            Horizontalrichtung des Datenblockes
+        gets azimuth of a data block
+        :param block: number of data block
+        :type block: int
+        :return: azimuth
+        :rtype: float
         """
+
         offset = self._offset[block]
         # Horizontalrichtung zusammensetzen, Bytereihenfolge drehen
         azi = ord(self._dataset[offset + 2:offset + 3]) + \
@@ -58,13 +49,11 @@ class VdDataset(object):
 
     def get_time(self):
         """
-        Gibt den Timestamp des Datensatzes zurück
-
-        Returns
-        -------
-        time : int
-            Timestamp in Mikrosekunden
+        gets timestamp of dataset
+        :return: timestamp of dataset
+        :rtype: int
         """
+
         time = ord(self._dataset[1200:1201]) + \
             (ord(self._dataset[1201:1202]) << 8) + \
             (ord(self._dataset[1202:1203]) << 16) + \
@@ -74,14 +63,11 @@ class VdDataset(object):
 
     def is_dual_return(self):
         """
-        Prueft, ob es sich um einen Datensatz mit zwei Echos
-        pro Messung (DualReturn) handelt
-
-        Returns
-        -------
-        x : boolean
-            Datensatz mit zwei Echos pro Messung?
+        checks wheater dual return is activated
+        :return: dual return active?
+        :rtype: bool
         """
+
         mode = ord(self._dataset[1204:1205])
         if mode == 57:
             return True
@@ -90,18 +76,14 @@ class VdDataset(object):
 
     def get_azimuths(self):
         """
-        Ruft alle Horizontalrichtungen und Drehwinkel
-        pro Messung aus dem Datensatz ab
-
-        Returns
-        -------
-        [azimuths, rotation] : list
-            Mehrdimensionale Listen
+        get all azimuths and rotation angles from dataset
+        :return: azimuths and rotation angles
+        :rtype: list, list
         """
 
         # Leere Listen erzeugen
-        azimuths = [float] * 24
-        rotation = [float] * 12
+        azimuths = [0.] * 24
+        rotation = [0.] * 12
 
         # Explizit uebermittelte Azimut-Werte einlesen
         for j in range(0, 24, 2):
@@ -150,18 +132,16 @@ class VdDataset(object):
 
         # print (azimuths)
         # print (rotation)
-        return [azimuths, rotation]
+        return azimuths, rotation
 
     def convert_data(self):
-        """
-        Wandelt die Datensätze vom Scanner in Objekte um
-        """
+        """ converts binary data to objects """
 
         # Zeitstempel aus den Daten auslesen
         zeit = self.get_time()
 
         # Richtung und Drehwinkel auslesen
-        [azimut, drehung] = self.get_azimuths()
+        azimuth, rotation = self.get_azimuths()
 
         dual_return = self.is_dual_return()
         t_between_laser = float(self._conf.get("Geraet", "tZwischenStrahl"))
@@ -172,7 +152,7 @@ class VdDataset(object):
         for i in range(12):
             offset = self._offset[i]
             for j in range(2):
-                azi_block = azimut[i + j]
+                azi_block = azimuth[i + j]
                 for k in range(16):
                     # Entfernung zusammensetzen
                     dist = ord(self._dataset[4 + offset:5 + offset]) \
@@ -186,7 +166,7 @@ class VdDataset(object):
                     offset += 3
 
                     # Horizontalwinkel interpolieren
-                    a = azi_block + drehung[i] * k * part_rotation
+                    a = azi_block + rotation[i] * k * part_rotation
 
                     # a += zeit / 1000000 * 0.1
 
@@ -204,11 +184,8 @@ class VdDataset(object):
 
     def get_data(self):
         """
-        Gibt die Daten als Liste zurück
-
-        Returns
-        -------
-        self.data : list
-            Liste mit VdPoint-Objekten
+        get all point data
+        :return: list of VdPoints
+        :rtype: list
         """
         return self._data

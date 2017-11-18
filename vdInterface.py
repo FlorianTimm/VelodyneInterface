@@ -3,7 +3,7 @@
 
 """
 @author: Florian Timm
-@version: 2017.11.16
+@version: 2017.11.18
 """
 
 import socket
@@ -12,29 +12,51 @@ import sys
 
 class VdInterface(object):
 
-    """
-    classdocs
-    """
+    """ interface to velodyne scanner """
 
     @staticmethod
     def get_data_stream(conf):
+        """
+        Creates socket to scanner data stream
+        :param conf: configuration file
+        :type conf: configparser.ConfigParser
+        :return: socket to scanner
+        :rtype: socket.socket
+        """
         return VdInterface.get_stream(conf.get("Netzwerk", "UDP_IP"),
                                       int(conf.get("Netzwerk", "UDP_PORT_DATA")))
 
     @staticmethod
     def get_gnss_stream(conf):
+        """
+        Creates socket to scanner gnss stream
+        :param conf: configuration file
+        :type conf: configparser.ConfigParser
+        :return: socket to scanner
+        :rtype: socket.socket
+        """
         return VdInterface.get_stream(conf.get("Netzwerk", "UDP_IP"),
                                       int(conf.get("Netzwerk", "UDP_PORT_GNSS")))
 
     @staticmethod
     def get_stream(ip, port):
-                # Create Datagram Socket (UDP)
+        """
+        Creates socket to scanner stream
+        :param ip: ip adress of scanner
+        :type ip: str
+        :param port: port of scanner
+        :type port: int
+        :return: socket to scanner
+        :rtype: socket.socket
+        """
+
+        # Create Datagram Socket (UDP)
         try:
             sock = socket.socket(socket.AF_INET,    # Socket Family: IPv4
                                  socket.SOCK_DGRAM)  # Socket Type: UDP
-            print('Socket erstellt')
-        except socket.error as msg:
-            print('Socket konnte nicht erstellt werden!')
+            print('Socket created!')
+        except socket.error:
+            print('Could not create socket!')
             sys.exit()
 
         # Sockets Options
@@ -47,10 +69,10 @@ class VdInterface(object):
         # Bind socket to local host and port
         try:
             sock.bind((ip, port))
-        except socket.error as msg:
-            print('Bind failed. Fehler')
+        except socket.error:
+            print('Bind failed.')
 
-        print('Socket verbunden')
+        print('Socket connected!')
 
         # now keep talking with the client
         print('Listening on: ' + ip + ':' + str(port))

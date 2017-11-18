@@ -11,50 +11,97 @@ import math
 
 class VdPoint(object):
 
-    """ Stellt eine Messung da """
+    """ Represents a point """
     _dRho = math.pi / 180.0
 
-    def __init__(self, conf, zeit, azimut, vertikal, distanz, reflexion):
-        self._time = zeit
-        self._azimuth = azimut
-        self._vertical = vertikal
+    def __init__(self, conf, time, azimuth, vertical, distance, reflexion):
+        """
+        Constructor
+        :param conf: config file
+        :type conf: configparser.ConfigParser
+        :param time: recording time in microseconds
+        :type time: float
+        :param azimuth: Azimuth direction in degrees
+        :type azimuth: float
+        :param vertical: Vertical angle in degrees
+        :type vertical: float
+        :param distance: distance in metres
+        :type distance: float
+        :param reflexion: reflexion 0-255
+        :type reflexion: int
+        """
+        self._time = time
+        self._azimuth = azimuth
+        self._vertical = vertical
         self._reflection = reflexion
-        self._distance = distanz
+        self._distance = distance
         self._conf = conf
 
-    def _deg2rad(self, grad):
-        return grad * self._dRho
+    def _deg2rad(self, degree):
+        return degree * self._dRho
 
     def get_time(self):
-        """Uebergibt die Aufzeichnungzeit"""
+        """
+        Gets recording time
+        :return: recording time in microseconds
+        :rtype: float
+        """
         return self._time
 
     def get_azimuth(self):
-        """Uebergibt die Horizontalrichtung in Grad"""
+        """
+        Gets azimuth direction
+        :return: azimuth direction in degrees
+        :rtype: float
+        """
         return self._azimuth
 
     def get_azimuth_radians(self):
-        """Uebergibt die Horizonalrichung in Bogenmass"""
+        """
+        Gets azimuth in radians
+        :return: azimuth direction in radians
+        :rtype: float
+        """
         return self._deg2rad(self.get_azimuth())
 
     def get_vertical(self):
-        """Uebergibt den Hoehenwinkel in Grad"""
+        """
+        Gets vertical angle in degrees
+        :return: vertical angle in degrees
+        :rtype: float
+        """
         return self._vertical
 
     def get_vertical_radians(self):
-        """Uebergibt den Hoehenwinkel in Bogenmass"""
+        """
+        Gets vertical angle in radians
+        :return: vertical angle in radians
+        :rtype: float
+        """
         return self._deg2rad(self.get_vertical())
 
     def get_reflection(self):
-        """Uebergibt die Reflexionsstaerke von 0 bis 255"""
+        """
+        Gets reflexion
+        :return: reflexion between 0 and 255
+        :rtype: int
+        """
         return self._reflection
 
     def get_distance(self):
-        """Uebergibt die gemessene Strecke"""
+        """
+        Gets distance
+        :return: distance in metres
+        :rtype: float
+        """
         return self._distance
 
     def get_yxz(self):
-        """Uebergibt XYZ-Koordinaten"""
+        """
+        Gets local coordinates
+        :return: local coordinates x, y, z in metres
+        :rtype: float, float, float
+        """
         beam_center = float(self._conf.get("Geraet", "beamCenter"))
 
         # Schraegstrecke zum Strahlenzentrum

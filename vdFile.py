@@ -3,7 +3,7 @@
 
 """
 @author: Florian Timm
-@version: 2017.11.17
+@version: 2017.11.18
 """
 
 import datetime
@@ -11,7 +11,20 @@ import datetime
 
 class VdFile(object):
 
+    """
+    creates and fills an ascii-file with point data
+    """
+
     def __init__(self, conf, filename="", fileformat="txt"):
+        """
+        Creates a new ascii-file
+        :param conf: configuration file
+        :type conf: configparser.ConfigParser
+        :param filename: name and path to new file
+        :type filename: str
+        :param fileformat: file suffix, default="txt"
+        :type fileformat: str
+        """
         self._conf = conf
         # Dateiname erzeugen, sofern kein Dateiname mitgeliefert
         if filename == "":
@@ -23,6 +36,13 @@ class VdFile(object):
         self._data = []
 
     def _make_filename(self, fileformat):
+        """
+        generates a new filename from timestamp
+        :param fileformat: file suffix
+        :type fileformat: str
+        :return: string with date and suffix
+        :rtype: str
+        """
         # Jahr-Monat-TagTStunde:Minute:Sekunde an Dateinamen anhaengen
         filename = self._conf.get("Datei", "fileNamePre")
         filename += datetime.datetime.now().strftime(
@@ -31,33 +51,65 @@ class VdFile(object):
         return filename
 
     def _write2file(self, data):
-        """ Daten in Datei schreiben """
+        """
+        writes ascii data to file
+        :param data: data to write
+        :type data: str
+        """
         self._file.write(data)
 
     def write_data(self, data):
+        """
+        adds data and writes it to file
+        :param data: ascii data to write
+        :type data: VdPoint[]
+        """
         self.add_dataset(data)
         self.write()
 
     def write(self):
-        print("nicht implementiert")
+        """
+        writes data, will be implemented by child class
+        """
+        print("not implemented - use VdObjFile or VdTxtFile instead")
 
     def add_point(self, p):
+        """
+        Adds a point to write queue
+        :param p: point
+        :type p: VdPoint
+        """
         self._data.append(p)
 
     def add_dataset(self, dataset):
+        """
+        adds multiple points to write queue
+        :param dataset: multiple points
+        :type dataset: VdPoint[]
+        """
         self._data.extend(dataset)
 
     def close(self):
-        """ Datei schliessen """
+        """ close file """
         self._file.close()
 
 
 class VdObjFile(VdFile):
 
+    """ creates and fills an obj-file """
+
     def __init__(self, conf, filename=""):
+        """
+        Creates a new obj-file
+        :param conf: configuration file
+        :type conf: configparser.ConfigParser
+        :param filename: name and path to new file
+        :type filename: str
+        """
         VdFile.__init__(self, conf, filename, "obj")
 
     def write(self):
+        """writes data to file """
         obj = ""
 
         for p in self._data:
@@ -71,10 +123,20 @@ class VdObjFile(VdFile):
 
 class VdTxtFile(VdFile):
 
+    """ creates and fills an txt-file """
+
     def __init__(self, conf, filename=""):
+        """
+        Creates a new txt-file
+        :param conf: configuration file
+        :type conf: configparser.ConfigParser
+        :param filename: name and path to new file
+        :type filename: str
+        """
         VdFile.__init__(self, conf, filename, "txt")
 
     def write(self):
+        """writes data to file """
         txt = ""
         for d in self._data:
             if d.get_distance() > 0.0:
@@ -87,11 +149,23 @@ class VdTxtFile(VdFile):
         self._data = []
 
     @staticmethod
-    def _fileformat_txt(zeit, azimut, vertikal, distanz, reflexion):
-        """ Einstellung fuer das Erzeugen der TXT-Datei"""
+    def _fileformat_txt(time, azimuth, vertical, distance, reflexion):
+        """
+        Formats point data
+        :param time: recording time in microseconds
+        :type time: int
+        :param azimuth: Azimuth direction in degrees
+        :type azimuth: float
+        :param vertical: Vertical angle in degrees
+        :type vertical: float
+        :param distance: distance in metres
+        :type distance: float
+        :param reflexion: reflexion 0-255
+        :type reflexion: int
+        """
         format_string = '{:012.1f}\t{:07.3f}\t{: 03.0f}\t{:06.3f}\t{:03.0f}\n'
-        return format_string.format(zeit,
-                                    azimut,
-                                    vertikal,
-                                    distanz,
+        return format_string.format(time,
+                                    azimuth,
+                                    vertical,
+                                    distance,
                                     reflexion)

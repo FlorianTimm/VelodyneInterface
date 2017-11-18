@@ -39,22 +39,25 @@ class VdTransformer(Process):
         # self._master = master
         self._queue = master.get_queue()
         self._number = nummer
-        self._root = master.get_root()
+        self._root = master.is_root()
         self._go_on_transform = master.get_go_on_transform()
         self._conf = master.get_conf()
 
     @staticmethod
-    def _signal_handler(signal, frame):
-        """ Behandelt SIGINT-Signale """
-        # self.master.ende()
+    def _signal_handler(sig_no, frame):
+        """
+        handles SIGINT-signal
+        :param sig_no: signal number
+        :type sig_no: int
+        :param frame:execution frame
+        :type frame: frame
+        """
+        del sig_no, frame
+        # self.master.end()
         print("SIGINT vdTransformer")
 
     def run(self):
-        """
-        Ausfuehrung des Umform-Prozesses,
-        laedt Daten aus der Warteschlange von VdAutoStart,
-        formt die Daten in Objekte um und speichert diese
-        """
+        """ starts transforming process """
         signal.signal(signal.SIGINT, self._signal_handler)
 
         if self._root:
@@ -100,7 +103,7 @@ class VdTransformer(Process):
                     if self._conf.get("Datei", "binNachTransLoeschen"):
                         os.remove(f.name)
                 except Empty:
-                    print ("Warteschlange leer!")
+                    print("Warteschlange leer!")
                     continue
         except BrokenPipeError:
-            print ("vdTransformer-Pipe defekt")
+            print("vdTransformer-Pipe defekt")
