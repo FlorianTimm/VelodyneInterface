@@ -36,15 +36,15 @@ class VdTransformer(Process):
         Process.__init__(self)
 
         # Parameter sichern
-        # self._master = master
-        self._queue = master.get_queue()
-        self._number = nummer
-        self._root = master.is_root()
-        self._go_on_transform = master.get_go_on_transform()
-        self._conf = master.get_conf()
+        # self.__master = master
+        self.__queue = master.queue
+        self.__number = nummer
+        self.__root = master.root
+        self.__go_on_transform = master.go_on_transform
+        self.__conf = master.conf
 
     @staticmethod
-    def _signal_handler(sig_no, frame):
+    def __signal_handler(sig_no, frame):
         """
         handles SIGINT-signal
         :param sig_no: signal number
@@ -58,9 +58,9 @@ class VdTransformer(Process):
 
     def run(self):
         """ starts transforming process """
-        signal.signal(signal.SIGINT, self._signal_handler)
+        signal.signal(signal.SIGINT, self.__signal_handler)
 
-        if self._root:
+        if self.__root:
             os.nice(-15)
         # Erzeugen einer TXT-Datei pro Prozess
 
@@ -68,15 +68,15 @@ class VdTransformer(Process):
         # Dauerschleife
 
         try:
-            while self._go_on_transform.value:
+            while self.__go_on_transform.value:
                 try:
                     # Dateinummer aus Warteschleife abfragen und oeffnen
-                    filename = self._queue.get(True, 2)
+                    filename = self.__queue.get(True, 2)
                     folder = os.path.dirname(filename)
                     if dir != old_folder:
                         vd_file = VdTxtFile(
-                            self._conf,
-                            folder + "/vd_file" + str(self._number))
+                            self.__conf,
+                            folder + "/vd_file" + str(self.__number))
                         old_folder = folder
 
                     f = open(filename, "rb")
@@ -87,7 +87,7 @@ class VdTransformer(Process):
 
                     for i in range(dataset_cnt):
                         # naechsten Datensatz lesen
-                        vd_data = VdDataset(self._conf, f.read(1206))
+                        vd_data = VdDataset(self.__conf, f.read(1206))
 
                         # Daten konvertieren und speichern
                         vd_data.convert_data()
@@ -100,7 +100,7 @@ class VdTransformer(Process):
                     # Txt-Datei schliessen
                     f.close()
                     # Bin-Datei ggf. loeschen
-                    if self._conf.get("Datei", "binNachTransLoeschen"):
+                    if self.__conf.get("Datei", "binNachTransLoeschen"):
                         os.remove(f.name)
                 except Empty:
                     print("Warteschlange leer!")

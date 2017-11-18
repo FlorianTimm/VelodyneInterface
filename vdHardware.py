@@ -26,86 +26,86 @@ class VdHardware(Thread):
 
         GPIO.setmode(GPIO.BCM)
 
-        self._taster1 = 18  # start / stop
-        self._taster2 = 25  # shutdown
+        self.__taster1 = 18  # start / stop
+        self.__taster2 = 25  # shutdown
 
         # led-pins:
         # 0: receiving
         # 1: queue
         # 2: recording
-        self._led = [10, 9, 11]
-        self._receiving = False
-        self._queue = False
-        self._recording = False
+        self.__led = [10, 9, 11]
+        self.__receiving = False
+        self.__queue = False
+        self.__recording = False
 
         # Masterobjekt sichern
-        self._master = master
+        self.__master = master
 
         # Eingaenge aktivieren
         # Aufzeichnung starten/stoppen
-        GPIO.setup(self._taster1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        GPIO.setup(self.__taster1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         # Herunterfahren
-        GPIO.setup(self._taster2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        GPIO.setup(self.__taster2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
         # Ausgaenge aktivieren und auf Low schalten
-        for l in self._led:
+        for l in self.__led:
             GPIO.setup(l, GPIO.OUT)  # GPS-Fix
             GPIO.output(l, GPIO.LOW)
 
-        self._go_on = True
+        self.__go_on = True
 
     def run(self):
         """ run thread and start hardware control """
         GPIO.add_event_detect(
-            self._taster1,
+            self.__taster1,
             GPIO.FALLING,
-            self._button1_pressed)
+            self.__button1_pressed)
         GPIO.add_event_detect(
-            self._taster2,
+            self.__taster2,
             GPIO.FALLING,
-            self._button1_pressed)
+            self.__button1_pressed)
 
-        self._timer_check_leds()
+        self.__timer_check_leds()
 
-    def _timer_check_leds(self):
+    def __timer_check_leds(self):
         """ checks leds every second """
-        self._check_leds()
-        if self._go_on:
-            t = threading.Timer(1, self._timer_check_leds)
+        self.__check_leds()
+        if self.__go_on:
+            t = threading.Timer(1, self.__timer_check_leds)
             t.start()
 
-    def _check_leds(self):
+    def __check_leds(self):
         """ check leds """
-        self._set_recording(self._master.check_recording())
-        self._set_receiving(self._master.check_receiving())
-        self._set_queue(self._master.check_queue())
+        self.__set_recording(self.__master.check_recording())
+        self.__set_receiving(self.__master.check_receiving())
+        self.__set_queue(self.__master.check_queue())
 
-    def _button1_pressed(self):
+    def __button1_pressed(self):
         """ raised when button 1 is pressed """
         time.sleep(0.1)  # Prellen abwarten
 
         # mindestens 2 Sekunden druecken
-        wait = GPIO.wait_for_edge(self._taster1, GPIO.RISING, timeout=1900)
+        wait = GPIO.wait_for_edge(self.__taster1, GPIO.RISING, timeout=1900)
 
         if wait is None:
             # keine steigende Kante = gehalten
-            if self._master.get_go_on_buffer().value:
-                self._master.stop_recording()
+            if self.__master.go_on_buffer.value:
+                self.__master.stop_recording()
             else:
-                self._master.start_recording()
+                self.__master.start_recording()
 
-    def _button2_pressed(self):
+    def __button2_pressed(self):
         """ raised when button 1 is pressed """
         time.sleep(0.1)  # Prellen abwarten
 
         # mindestens 2 Sekunden druecken
-        wait = GPIO.wait_for_edge(self._taster2, GPIO.RISING, timeout=1900)
+        wait = GPIO.wait_for_edge(self.__taster2, GPIO.RISING, timeout=1900)
 
         if wait is None:
             # keine steigende Kante = gehalten
-            self._master.shutdown()
+            self.__master.shutdown()
 
-    def _switch_led(self, led, yesno):
+    def __switch_led(self, led, yesno):
         """
         switch led
         :param led: pin of led
@@ -114,47 +114,47 @@ class VdHardware(Thread):
         :type yesno: bool
         """
         if yesno:
-            GPIO.output(self._led[led], GPIO.HIGH)
+            GPIO.output(self.__led[led], GPIO.HIGH)
         else:
-            GPIO.output(self._led[led], GPIO.LOW)
+            GPIO.output(self.__led[led], GPIO.LOW)
 
-    def _update_leds(self):
+    def __update_leds(self):
         """ switch all leds to right status """
-        self._switch_led(0, self._receiving)
-        self._switch_led(1, self._queue)
-        self._switch_led(2, self._recording)
+        self.__switch_led(0, self.__receiving)
+        self.__switch_led(1, self.__queue)
+        self.__switch_led(2, self.__recording)
 
-    def _set_receiving(self, yesno):
+    def __set_receiving(self, yesno):
         """
         set receiving variable and led
         :param yesno: True = on
         :type yesno: bool
         """
-        if self._receiving != yesno:
-            self._receiving = yesno
-            self._update_leds()
+        if self.__receiving != yesno:
+            self.__receiving = yesno
+            self.__update_leds()
 
-    def _set_queue(self, yesno):
+    def __set_queue(self, yesno):
         """
         set queue variable and led
         :param yesno: True = on
         :type yesno: bool
         """
-        if self._queue != yesno:
-            self._queue = yesno
-            self._update_leds()
+        if self.__queue != yesno:
+            self.__queue = yesno
+            self.__update_leds()
 
-    def _set_recording(self, yesno):
+    def __set_recording(self, yesno):
         """
         set recording variable and led
         :param yesno: True = on
         :type yesno: bool
         """
-        if self._recording != yesno:
-            self._recording = yesno
-            self._update_leds()
+        if self.__recording != yesno:
+            self.__recording = yesno
+            self.__update_leds()
 
     def stop(self):
         """ stops thread """
-        self._go_on = False
+        self.__go_on = False
         GPIO.cleanup()

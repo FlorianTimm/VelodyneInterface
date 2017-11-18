@@ -25,17 +25,29 @@ class VdFile(object):
         :param fileformat: file suffix, default="txt"
         :type fileformat: str
         """
-        self._conf = conf
+        self.__conf = conf
         # Dateiname erzeugen, sofern kein Dateiname mitgeliefert
         if filename == "":
-            filename = self._make_filename(fileformat)
+            filename = self.__make_filename(fileformat)
         elif not filename.endswith("." + fileformat):
             filename += "." + fileformat
         # Datei erzeugen
-        self._file = open(filename, 'a')
-        self._data = []
+        self.__file = open(filename, 'a')
+        self.__write_queue = []
 
-    def _make_filename(self, fileformat):
+    def __get_write_queue(self):
+        """
+        Returns points in queue
+        :return: points in queue
+        :rtype: VdPoint[]
+        """
+        return self.__write_queue
+    write_queue = property(__get_write_queue)
+
+    def clear_write_queue(self):
+        self.__write_queue = []
+
+    def __make_filename(self, fileformat):
         """
         generates a new filename from timestamp
         :param fileformat: file suffix
@@ -44,9 +56,9 @@ class VdFile(object):
         :rtype: str
         """
         # Jahr-Monat-TagTStunde:Minute:Sekunde an Dateinamen anhaengen
-        filename = self._conf.get("Datei", "fileNamePre")
+        filename = self.__conf.get("Datei", "fileNamePre")
         filename += datetime.datetime.now().strftime(
-            self._conf.get("Datei", "fileTimeFormat"))
+            self.__conf.get("Datei", "fileTimeFormat"))
         filename = "." + fileformat
         return filename
 
@@ -56,7 +68,7 @@ class VdFile(object):
         :param data: data to write
         :type data: str
         """
-        self._file.write(data)
+        self.__file.write(data)
 
     def write_data(self, data):
         """
@@ -68,10 +80,16 @@ class VdFile(object):
         self.write()
 
     def write(self):
-        """
-        writes data, will be implemented by child class
-        """
-        print("not implemented - use VdObjFile or VdTxtFile instead")
+        """writes data to file """
+        txt = ""
+        for d in self.write_queue:
+            if d.distance > 0.0:
+                txt += self.format(d)
+        self._write2file(txt)
+        self.clear_write_queue()
+
+    def format(self, p):
+        print("not implemented")
 
     def add_point(self, p):
         """
@@ -79,7 +97,7 @@ class VdFile(object):
         :param p: point
         :type p: VdPoint
         """
-        self._data.append(p)
+        self.__write_queue.append(p)
 
     def add_dataset(self, dataset):
         """
@@ -87,11 +105,11 @@ class VdFile(object):
         :param dataset: multiple points
         :type dataset: VdPoint[]
         """
-        self._data.extend(dataset)
+        self.__write_queue.extend(dataset)
 
     def close(self):
         """ close file """
-        self._file.close()
+        self.__file.close()
 
 
 class VdObjFile(VdFile):
@@ -108,18 +126,17 @@ class VdObjFile(VdFile):
         """
         VdFile.__init__(self, conf, filename, "obj")
 
-    def write(self):
-        """writes data to file """
-        obj = ""
-
-        for p in self._data:
-            if p.get_distance() > 0.0:
-                x, y, z = p.get_yxz()
-                format_string = 'v {:.3f} {:.3f} {:.3f}\n'
-                obj += format_string.format(x, y, z)
-        self._write2file(obj)
-        self._data = []
-
+    def format(self, p):
+        """
+        Format point for OBJ
+        :param p: VdPoint
+        :type p: VdPoint
+        :return: obj point string
+        :rtype: str
+        """
+        x, y, z = p.get_yxz()
+        format_string = 'v {:.3f} {:.3f} {:.3f}\n'
+        return format_string.format(x, y, z)
 
 class VdTxtFile(VdFile):
 
@@ -135,37 +152,17 @@ class VdTxtFile(VdFile):
         """
         VdFile.__init__(self, conf, filename, "txt")
 
-    def write(self):
-        """writes data to file """
-        txt = ""
-        for d in self._data:
-            if d.get_distance() > 0.0:
-                txt += self._fileformat_txt(d.get_time(),
-                                            d.get_azimuth(),
-                                            d.get_vertical(),
-                                            d.get_distance(),
-                                            d.get_reflection())
-        self._write2file(txt)
-        self._data = []
-
-    @staticmethod
-    def _fileformat_txt(time, azimuth, vertical, distance, reflexion):
+    def format(self, p):
         """
-        Formats point data
-        :param time: recording time in microseconds
-        :type time: int
-        :param azimuth: Azimuth direction in degrees
-        :type azimuth: float
-        :param vertical: Vertical angle in degrees
-        :type vertical: float
-        :param distance: distance in metres
-        :type distance: float
-        :param reflexion: reflexion 0-255
-        :type reflexion: int
+        format point for TXT
+        :param p: VdPoint
+        :type p: VdPoint
+        :return: txt point string
+        :rtype: str
         """
         format_string = '{:012.1f}\t{:07.3f}\t{: 03.0f}\t{:06.3f}\t{:03.0f}\n'
-        return format_string.format(time,
-                                    azimuth,
-                                    vertical,
-                                    distance,
-                                    reflexion)
+        return format_string.format(p.time,
+                                    p.azimuth,
+                                    p.vertical,
+                                    p.distance,
+                                    p.reflection)

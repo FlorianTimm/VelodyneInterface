@@ -23,12 +23,12 @@ class VdDataset(object):
         :type dataset: bytes
         """
 
-        self._dataset = dataset
-        self._conf = conf
+        self.__dataset = dataset
+        self.__conf = conf
 
-        self._vertAngle = json.loads(self._conf.get("Geraet", "vertAngle"))
-        self._offset = json.loads(self._conf.get("Geraet", "offset"))
-        self._data = []
+        self.__vertAngle = json.loads(self.__conf.get("Geraet", "vertAngle"))
+        self.__offset = json.loads(self.__conf.get("Geraet", "offset"))
+        self.__data = []
 
     def get_azimuth(self, block):
         """
@@ -39,10 +39,10 @@ class VdDataset(object):
         :rtype: float
         """
 
-        offset = self._offset[block]
+        offset = self.__offset[block]
         # Horizontalrichtung zusammensetzen, Bytereihenfolge drehen
-        azi = ord(self._dataset[offset + 2:offset + 3]) + \
-            (ord(self._dataset[offset + 3:offset + 4]) << 8)
+        azi = ord(self.__dataset[offset + 2:offset + 3]) + \
+            (ord(self.__dataset[offset + 3:offset + 4]) << 8)
         azi /= 100.0
         # print(azi)
         return azi
@@ -54,10 +54,10 @@ class VdDataset(object):
         :rtype: int
         """
 
-        time = ord(self._dataset[1200:1201]) + \
-            (ord(self._dataset[1201:1202]) << 8) + \
-            (ord(self._dataset[1202:1203]) << 16) + \
-            (ord(self._dataset[1203:1204]) << 24)
+        time = ord(self.__dataset[1200:1201]) + \
+            (ord(self.__dataset[1201:1202]) << 8) + \
+            (ord(self.__dataset[1202:1203]) << 16) + \
+            (ord(self.__dataset[1203:1204]) << 24)
         # print(time)
         return time
 
@@ -68,7 +68,7 @@ class VdDataset(object):
         :rtype: bool
         """
 
-        mode = ord(self._dataset[1204:1205])
+        mode = ord(self.__dataset[1204:1205])
         if mode == 57:
             return True
         else:
@@ -144,23 +144,23 @@ class VdDataset(object):
         azimuth, rotation = self.get_azimuths()
 
         dual_return = self.is_dual_return()
-        t_between_laser = float(self._conf.get("Geraet", "tZwischenStrahl"))
-        t_recharge = float(self._conf.get("Geraet", "tNachlade"))
-        part_rotation = float(self._conf.get("Geraet", "antDrehung"))
+        t_between_laser = float(self.__conf.get("Geraet", "tZwischenStrahl"))
+        t_recharge = float(self.__conf.get("Geraet", "tNachlade"))
+        part_rotation = float(self.__conf.get("Geraet", "antDrehung"))
 
         # Datenpaket besteht aus 12 Bloecken aus jeweils 32 Messergebnissen
         for i in range(12):
-            offset = self._offset[i]
+            offset = self.__offset[i]
             for j in range(2):
                 azi_block = azimuth[i + j]
                 for k in range(16):
                     # Entfernung zusammensetzen
-                    dist = ord(self._dataset[4 + offset:5 + offset]) \
-                        + (ord(self._dataset[5 + offset:6 + offset]) << 8)
+                    dist = ord(self.__dataset[4 + offset:5 + offset]) \
+                        + (ord(self.__dataset[5 + offset:6 + offset]) << 8)
                     dist /= 500.0
 
                     # Reflektivitaet auslesen
-                    refl = ord(self._dataset[6 + offset:7 + offset])
+                    refl = ord(self.__dataset[6 + offset:7 + offset])
 
                     # Offset in Daten fuer den naechsten Durchlauf
                     offset += 3
@@ -172,9 +172,9 @@ class VdDataset(object):
 
                     # Punkt erzeugen und anhaengen
                     p = VdPoint(
-                        self._conf, round(zeit, 1), a, self._vertAngle[k],
+                        self.__conf, round(zeit, 1), a, self.__vertAngle[k],
                         dist, refl)
-                    self._data.append(p)
+                    self.__data.append(p)
                     zeit += t_between_laser
 
                 if dual_return and j == 0:
@@ -188,4 +188,4 @@ class VdDataset(object):
         :return: list of VdPoints
         :rtype: list
         """
-        return self._data
+        return self.__data
