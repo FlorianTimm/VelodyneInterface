@@ -23,7 +23,7 @@ from vdGNSSTime import VdGNSSTime
 
 class VdAutoStart(object):
 
-    """ main script for automated start """
+    """ main script for automatic start """
 
     def __init__(self, web_interface):
         """
@@ -88,7 +88,7 @@ class VdAutoStart(object):
             self._vd_hardware.start()
         else:
             print("Raspberry Pi could not be detected")
-            print("hardware control deactivated")
+            print("Hardware control deactivated")
 
         # set time by using gnss
         if self._conf.get("Funktionen", "GNSSZeitVerwenden"):
@@ -131,7 +131,7 @@ class VdAutoStart(object):
         if self._pBuffer is not None:
             self._pBuffer.join(10)
             if self._pBuffer.is_alive():
-                print("Could not stop process, will be killed!")
+                print("Could not stop process, it will be killed!")
                 self._pBuffer.terminate()
             print("Recording terminated!")
         else:
@@ -146,7 +146,7 @@ class VdAutoStart(object):
                 pT.join(15)
                 if pT.is_alive():
                     print(
-                        "Could not stop process, will be killed!")
+                        "Could not stop process, it will be killed!")
                     pT.terminate()
             print("Transformer terminated!")
         else:
@@ -239,7 +239,7 @@ class VdAutoStart(object):
 
     def get_go_on_buffer(self):
         """
-        Should Buffer should buffer data?
+        Should Buffer buffer data?
         :return: go on buffering
         :rtype: Manager
         """
@@ -247,7 +247,7 @@ class VdAutoStart(object):
 
     def get_go_on_transform(self):
         """
-        Should Transformer should transform data?
+        Should Transformer transform data?
         :return: go on transforming
         :rtype: Manager
         """
@@ -271,7 +271,7 @@ class VdAutoStart(object):
 
     def get_date(self):
         """
-        Gets timestamp starting recording
+        Gets recording start time
         :return: timestamp starting recording
         :rtype: Manager
         """
@@ -296,7 +296,7 @@ class VdAutoStart(object):
     # setter-methods
     def set_date(self, date):
         """
-        Sets timestamp starting recording
+        Sets recording start time
         :param date: timestamp starting recording
         :type date: datetime
         """
