@@ -3,10 +3,10 @@
 
 """
 @author: Florian Timm
-@version: 2017.11.18
+@version: 2017.11.19
 """
 
-import datetime
+from datetime import datetime
 from threading import Thread
 import socket
 import os
@@ -17,14 +17,12 @@ from vdInterface import VdInterface
 
 class VdGNSSTime(Thread):
 
-    """
-    system time by gnss data
-    """
+    """ system time by gnss data """
 
     def __init__(self, master):
         """
         Constructor
-        :param master: instance of VdAutostart
+        :param master: instance of VdAutoStart
         :type master: VdAutoStart
         """
         Thread.__init__(self)
@@ -38,11 +36,11 @@ class VdGNSSTime(Thread):
         """
         starts threads for time detection
         """
-        # Thread zur Erkennung der seriellen Schnittstelle
+        # get data from serial port
         self.tSerial = Thread(target=self.__get_gnss_time_from_serial())
         self.tSerial.start()
 
-        # Thread zur Erkennung des Scanners
+        # get data from scanner
         self.tScanner = Thread(target=self.__get_gnss_time_from_scanner())
         self.tScanner.start()
 
@@ -54,8 +52,6 @@ class VdGNSSTime(Thread):
         sock.settimeout(1)
         self.__master.gnss_status = "Wait for fix..."
         while not self.__time_corrected:
-            # Daten empfangen vom Scanner
-            # print("Daten kommen...")
             try:
                 data = sock.recvfrom(2048)[0]  # buffer size is 2048 bytes
                 message = data[206:278].decode('utf-8', 'replace')
@@ -69,12 +65,13 @@ class VdGNSSTime(Thread):
                 break
         sock.close()
 
+    # noinspection PyArgumentList
     def __get_gnss_time_from_serial(self):
         """ get data by serial port """
         ser = None
         try:
             port = self.__conf.get("serial", "GNSSport")
-            ser = serial.Serial(port, 9600, timeout=1)
+            ser = serial.Serial(port, timeout=1)
             self.__master.gnss_status = "Wait for fix..."
             while not self.__time_corrected:
                 line = ser.readline()

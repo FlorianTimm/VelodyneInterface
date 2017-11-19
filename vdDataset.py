@@ -3,7 +3,7 @@
 
 """
 @author: Florian Timm
-@version: 2017.11.17
+@version: 2017.11.19
 """
 
 from vdPoint import VdPoint
@@ -26,7 +26,8 @@ class VdDataset(object):
         self.__dataset = dataset
         self.__conf = conf
 
-        self.__vertAngle = json.loads(self.__conf.get("device", "vertAngle"))
+        self.__vertical_angle = json.loads(
+            self.__conf.get("device", "verticalAngle"))
         self.__offset = json.loads(self.__conf.get("device", "offset"))
         self.__data = []
 
@@ -40,7 +41,7 @@ class VdDataset(object):
         """
 
         offset = self.__offset[block]
-        # Horizontalrichtung zusammensetzen, Bytereihenfolge drehen
+        # change byte order
         azi = ord(self.__dataset[offset + 2:offset + 3]) + \
             (ord(self.__dataset[offset + 3:offset + 4]) << 8)
         azi /= 100.0
@@ -63,7 +64,7 @@ class VdDataset(object):
 
     def is_dual_return(self):
         """
-        checks wheater dual return is activated
+        checks whether dual return is activated
         :return: dual return active?
         :rtype: bool
         """
@@ -81,19 +82,19 @@ class VdDataset(object):
         :rtype: list, list
         """
 
-        # Leere Listen erzeugen
+        # create empty lists
         azimuths = [0.] * 24
         rotation = [0.] * 12
 
-        # Explizit uebermittelte Azimut-Werte einlesen
+        # read existing azimuth values
         for j in range(0, 24, 2):
             a = self.get_azimuth(j // 2)
             azimuths[j] = a
 
-        # Drehwinkelvariable initialisieren
+        #: rotation angle
         d = 0
 
-        # DualReturn aktiv?
+        # DualReturn active?
         if self.is_dual_return():
             for j in range(0, 19, 4):
                 d2 = azimuths[j + 4] - azimuths[j]
@@ -105,7 +106,7 @@ class VdDataset(object):
                 azimuths[j + 3] = a
                 rotation[j // 2] = d
                 rotation[j // 2 + 1] = d
-            # Zweiten
+
             rotation[10] = d
             azimuths[21] = azimuths[20] + d
 
@@ -120,12 +121,11 @@ class VdDataset(object):
                 azimuths[j + 1] = a
                 rotation[j // 2] = d
 
-        # letzter Drehwinkel wird immer vom vorherigen uebernommen,
-        # letzte Horizontalrichtung ergibt sich aus diesem
+        # last rotation angle from angle before
         rotation[11] = d
         azimuths[23] = azimuths[22] + d
 
-        # Auf Werte ueber 360 Grad pruefen
+        # >360 -> -360
         for j in range(24):
             if azimuths[j] > 360.0:
                 azimuths[j] -= 360.0
@@ -137,10 +137,9 @@ class VdDataset(object):
     def convert_data(self):
         """ converts binary data to objects """
 
-        # Zeitstempel aus den Daten auslesen
-        zeit = self.get_time()
+        # timestamp from dataset
+        time = self.get_time()
 
-        # Richtung und Drehwinkel auslesen
         azimuth, rotation = self.get_azimuths()
 
         dual_return = self.is_dual_return()
@@ -148,39 +147,39 @@ class VdDataset(object):
         t_recharge = float(self.__conf.get("device", "tRecharge"))
         part_rotation = float(self.__conf.get("device", "ratioRotation"))
 
-        # Datenpaket besteht aus 12 Bloecken aus jeweils 32 Messergebnissen
+        # data package has 12 blocks with 32 measurements
         for i in range(12):
             offset = self.__offset[i]
             for j in range(2):
                 azi_block = azimuth[i + j]
                 for k in range(16):
-                    # Entfernung zusammensetzen
+                    # get distance
                     dist = ord(self.__dataset[4 + offset:5 + offset]) \
                         + (ord(self.__dataset[5 + offset:6 + offset]) << 8)
                     dist /= 500.0
 
-                    # Reflektivitaet auslesen
-                    refl = ord(self.__dataset[6 + offset:7 + offset])
+                    reflection = ord(self.__dataset[6 + offset:7 + offset])
 
-                    # Offset in Daten fuer den naechsten Durchlauf
+                    # offset for next loop
                     offset += 3
 
-                    # Horizontalwinkel interpolieren
+                    # interpolate azimuth
                     a = azi_block + rotation[i] * k * part_rotation
 
-                    # a += zeit / 1000000 * 0.1
+                    # a += time / 1000000 * 0.1
 
-                    # Punkt erzeugen und anhaengen
+                    # create point
                     p = VdPoint(
-                        self.__conf, round(zeit, 1), a, self.__vertAngle[k],
-                        dist, refl)
+                        self.__conf, round(
+                            time, 1), a, self.__vertical_angle[k],
+                        dist, reflection)
                     self.__data.append(p)
-                    zeit += t_between_laser
+                    time += t_between_laser
 
                 if dual_return and j == 0:
-                    zeit -= t_between_laser * 16
+                    time -= t_between_laser * 16
                 else:
-                    zeit += t_recharge
+                    time += t_recharge
 
     def get_data(self):
         """

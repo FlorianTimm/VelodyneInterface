@@ -3,7 +3,7 @@
 
 """
 @author: Florian Timm
-@version: 2017.11.17
+@version: 2017.11.19
 """
 
 from vdInterface import VdInterface
@@ -24,10 +24,10 @@ class VdBuffer(Process):
         :param master: instance of VdAutoStart
         :type master: VdAutoStart
         """
-        # Konstruktor der Elternklasse
+        # constructor of super class
         Process.__init__(self)
 
-        # Pipes sichern
+        # safe pipes
         # self.__master = master
         self.__go_on_buffering = master.go_on_buffer
         self.__scanner_status = master.scanner_status
@@ -54,12 +54,12 @@ class VdBuffer(Process):
 
     def __new_folder(self):
         """ creates data folder """
-        # Uhrzeit abfragen fuer Laufzeitlaenge und Dateinamen
+        # checks time for file name and runtime
         self.__date.value = datetime.now()
         self.__folder = self.__conf.get("file", "namePre")
         self.__folder += self.__date.value.strftime(
             self.__conf.get("file", "timeFormat"))
-        # Speicherordner anlegen und ausgeben
+        # make folder
         os.makedirs(self.__folder)
         print("Data folder: " + self.__folder)
 
@@ -67,57 +67,57 @@ class VdBuffer(Process):
         """ starts buffering process """
         signal.signal(signal.SIGINT, self.__signal_handler)
 
-        # Socket zum Scanner oeffnen
+        # open socket to scanner
         sock = VdInterface.get_data_stream(self.__conf)
-        self.__scanner_status.value = "Socket verbunden"
+        self.__scanner_status.value = "Socket connected"
 
-        # Variablen initialisieren
-        minibuffer = b''
-        j = 0
+        buffer = b''
+        datasets_in_buffer = 0
 
         self.__datasets.value = 0
 
-        # Prozessprioritaet hochschalten, sofern Adminrechte
+        # process priority
         if self.__admin:
             os.nice(-18)
 
-        transformer = self.__conf.get("functions", "activateTransformer") == "True"
+        transformer = self.__conf.get(
+            "functions",
+            "activateTransformer") == "True"
         measurements_per_dataset = int(self.__conf.get(
             "device", "valuesPerDataset"))
-
-        # Dauerschleife, solange kein Unterbrechen-Befehl kommt
 
         sock.settimeout(1)
         while self.__go_on_buffering.value:
             try:
-                # Daten vom Scanner holen
+                # get data from scanner
                 data = sock.recvfrom(1248)[0]
 
-                if j == 0 and self.__file_no == 0:
+                if datasets_in_buffer == 0 and self.__file_no == 0:
                     self.__new_folder()
-                # RAM-Buffer
-                minibuffer += data
-                j += 1
+                # RAM-buffer
+                buffer += data
+                datasets_in_buffer += 1
                 self.__datasets.value += measurements_per_dataset
-                # Alle 5 bzw. 10 Sekunden Daten speichern
-                # oder wenn Abbrechenbefehl kommt
-                if (j >= 1500) or (not self.__go_on_buffering.value):
-                    # Datei schreiben
+                # safe data to file every 1500 datasets
+                # (about 5 or 10 seconds)
+                if (datasets_in_buffer >= 1500) or \
+                        (not self.__go_on_buffering.value):
+                    # write file
                     f = open(
                         self.__folder + "/" + str(self.__file_no) + ".bin",
                         "wb")
-                    f.write(minibuffer)
+                    f.write(buffer)
 
                     f.close()
 
                     if transformer:
                         self.__queue.put(f.name)
 
-                    # Buffer leeren
-                    minibuffer = b''
-                    j = 0
+                    # clear buffer
+                    buffer = b''
+                    datasets_in_buffer = 0
 
-                    # Dateizaehler
+                    # count files
                     self.__file_no += 1
 
                 if data == 'QUIT':

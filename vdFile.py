@@ -3,7 +3,7 @@
 
 """
 @author: Florian Timm
-@version: 2017.11.18
+@version: 2017.11.19
 """
 
 import datetime
@@ -13,55 +13,55 @@ from vdPoint import VdPoint
 
 class VdFile(object):
 
-    """
-    creates and fills an ascii-file with point data
-    """
+    """ creates and fills an ascii-file with point data """
 
-    def __init__(self, conf, filename="", fileformat="txt"):
+    def __init__(self, conf, filename="", file_format="txt"):
         """
         Creates a new ascii-file
         :param conf: configuration file
         :type conf: configparser.ConfigParser
         :param filename: name and path to new file
         :type filename: str
-        :param fileformat: file suffix, default="txt"
-        :type fileformat: str
+        :param file_format: file suffix, default="txt"
+        :type file_format: str
         """
         self.__conf = conf
-        # Dateiname erzeugen, sofern kein Dateiname mitgeliefert
+        # create filename, if not set
         if filename == "":
-            filename = self.__make_filename(fileformat)
-        elif not filename.endswith("." + fileformat):
-            filename += "." + fileformat
-        # Datei erzeugen
+            filename = self.__make_filename(file_format)
+        elif not filename.endswith("." + file_format):
+            filename += "." + file_format
+        # create file
         self.__file = open(filename, 'a')
-        self.__write_queue = []
+        self.__writing_queue = []
 
-    def __get_write_queue(self):
+    def __get_writing_queue(self):
         """
         Returns points in queue
         :return: points in queue
         :rtype: VdPoint[]
         """
-        return self.__write_queue
-    write_queue = property(__get_write_queue)
+        return self.__writing_queue
 
-    def clear_write_queue(self):
-        self.__write_queue = []
+    writing_queue = property(__get_writing_queue)
 
-    def __make_filename(self, fileformat):
+    def clear_writing_queue(self):
+        """ clears writing queue """
+        self.__writing_queue = []
+
+    def __make_filename(self, file_format):
         """
         generates a new filename from timestamp
-        :param fileformat: file suffix
-        :type fileformat: str
+        :param file_format: file suffix
+        :type file_format: str
         :return: string with date and suffix
         :rtype: str
         """
-        # Jahr-Monat-TagTStunde:Minute:Sekunde an Dateinamen anhaengen
-        filename = self.__conf.get("Datei", "fileNamePre")
+        #
+        filename = self.__conf.get("file", "namePre")
         filename += datetime.datetime.now().strftime(
-            self.__conf.get("Datei", "fileTimeFormat"))
-        filename = "." + fileformat
+            self.__conf.get("file", "timeFormat"))
+        filename = "." + file_format
         return filename
 
     def _write2file(self, data):
@@ -84,11 +84,11 @@ class VdFile(object):
     def write(self):
         """writes data to file """
         txt = ""
-        for d in self.write_queue:
+        for d in self.writing_queue:
             if d.distance > 0.0:
                 txt += self.__format(d)
         self._write2file(txt)
-        self.clear_write_queue()
+        self.clear_writing_queue()
 
     def __format(self, p):
         raise NotImplementedError("not implemented, use child classes")
@@ -99,7 +99,7 @@ class VdFile(object):
         :param p: point
         :type p: VdPoint
         """
-        self.__write_queue.append(p)
+        self.__writing_queue.append(p)
 
     def add_dataset(self, dataset):
         """
@@ -107,9 +107,9 @@ class VdFile(object):
         :param dataset: multiple points
         :type dataset: VdPoint[]
         """
-        self.__write_queue.extend(dataset)
+        self.__writing_queue.extend(dataset)
 
-    def read_from_txt_file(self, filename, write = False):
+    def read_from_txt_file(self, filename, write=False):
         """
         Parses data from txt file
         :param filename: path and filename of txt file
@@ -117,17 +117,17 @@ class VdFile(object):
         :param write: write data to new file while reading txt
         :type write: bool
         """
-        txt = open(filename, 'rb')
-        self.read_from_txt(txt)
-        for line, no in enumerate(txt):
+        txt = open(filename)
+
+        for no, line in enumerate(txt):
             try:
-                p = VdPoint.parse_string(line)
-                self.write_queue.append(p)
+                p = VdPoint.parse_string(self.__conf, line)
+                self.writing_queue.append(p)
                 print("Line {0} was parsed".format(no + 1))
             except ValueError as e:
                 print("Error in line {0}: {1}".format(no + 1, e))
 
-            if write and len(self.write_queue > 50000):
+            if write and len(self.writing_queue > 50000):
                 self.write()
         if write:
             self.write()
@@ -176,7 +176,7 @@ class VdTxtFile(VdFile):
         :param filename: name and path to new file
         :type filename: str
         """
-        VdFile.__init__(self, conf, filename, "txt")
+        VdFile.__init__(self, conf, filename)
 
     def __format(self, p):
         """

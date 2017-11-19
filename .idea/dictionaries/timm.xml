@@ -1,10 +1,18 @@
 <component name="ProjectDictionaryState">
   <dictionary name="timm">
     <words>
+      <w>configparser</w>
       <w>dataset</w>
       <w>datasets</w>
       <w>gnss</w>
       <w>gpio</w>
+      <w>gprmc</w>
+      <w>leds</w>
+      <w>noninfringement</w>
+      <w>sudo</w>
+      <w>timedatectl</w>
+      <w>timm</w>
+      <w>velodyne</w>
     </words>
   </dictionary>
 </component>

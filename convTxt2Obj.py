@@ -3,12 +3,10 @@
 
 """
 @author: Florian Timm
-@version: 2017.10.22
+@version: 2017.11.19
 """
-from vdPoint import VdPoint
 from vdFile import VdObjFile
 import configparser
-
 
 fileName = "BeispielDateien/test.txt"
 

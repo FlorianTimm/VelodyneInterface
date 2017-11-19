@@ -3,7 +3,7 @@
 
 """
 @author: Florian Timm
-@version: 2017.11.15
+@version: 2017.11.19
 """
 
 import os
@@ -12,7 +12,7 @@ from vdFile import VdObjFile
 from glob import glob
 import configparser
 
-# Konfigurationsdatei laden
+# load config file
 conf = configparser.ConfigParser()
 conf.read("config.ini")
 
@@ -22,8 +22,8 @@ fs = glob(
 if len(fs) > 0:
     folder = os.path.dirname(fs[0])
     vd_file = VdObjFile(
-            conf,
-            folder + "/file")
+        conf,
+        folder + "/file")
 
     for filename in fs:
         print(filename)

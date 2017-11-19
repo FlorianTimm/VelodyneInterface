@@ -3,7 +3,7 @@
 
 """
 @author: Florian Timm
-@version: 2017.11.17
+@version: 2017.11.19
 """
 
 import math
@@ -12,6 +12,7 @@ import math
 class VdPoint(object):
 
     """ Represents a point """
+
     __dRho = math.pi / 180.0
 
     def __init__(self, conf, time, azimuth, vertical, distance, reflection):
@@ -79,16 +80,16 @@ class VdPoint(object):
         """
         beam_center = float(self.__conf.get("device", "beamCenter"))
 
-        # Schraegstrecke zum Strahlenzentrum
+        # slope distance to beam center
         d = self.distance - beam_center
 
-        # Vertikalwinkel in Bogenmass
+        # vertical angle in radians
         v = self.vertical_radians
 
-        # Azimut in Bogenmass
+        # azimuth in radians
         a = self.azimuth_radians
 
-        # Horizontalstrecke bis Drehpunkt
+        # horizontal distance
         s = d * math.cos(v) + beam_center
 
         x = s * math.sin(a)

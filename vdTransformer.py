@@ -3,7 +3,7 @@
 
 """
 @author: Florian Timm
-@version: 2017.11.17
+@version: 2017.11.19
 """
 import os
 import signal
@@ -15,9 +15,7 @@ from vdDataset import VdDataset
 
 class VdTransformer(Process):
 
-    """
-    Process for transforming data from Velodyne VLP-16
-    """
+    """ Process for transforming data from Velodyne VLP-16 """
 
     def __init__(self, number, master):
         """
@@ -62,7 +60,7 @@ class VdTransformer(Process):
         try:
             while self.__go_on_transform.value:
                 try:
-                    # Dateinummer aus Warteschleife abfragen und oeffnen
+                    # get file name from queue
                     filename = self.__queue.get(True, 2)
                     folder = os.path.dirname(filename)
                     if dir != old_folder:
@@ -73,26 +71,26 @@ class VdTransformer(Process):
 
                     f = open(filename, "rb")
 
-                    # Anzahl an Datensaetzen in Datei pruefen
+                    # count number of datasets
                     file_size = os.path.getsize(f.name)
                     dataset_cnt = int(file_size / 1206)
 
                     for i in range(dataset_cnt):
-                        # naechsten Datensatz lesen
+                        # read next
                         vd_data = VdDataset(self.__conf, f.read(1206))
 
-                        # Daten konvertieren und speichern
+                        # convert data
                         vd_data.convert_data()
 
-                        # Datensatz zu Datei hinzufuegen
+                        # add them on writing queue
                         vd_file.add_dataset(vd_data)
 
-                    # Datei schreiben
+                    # write file
                     vd_file.write()
-                    # Txt-Datei schliessen
+                    # close file
                     f.close()
-                    # Bin-Datei ggf. loeschen
-                    if self.__conf.get("Datei", "binNachTransLoeschen") == "True":
+                    # delete binary file
+                    if self.__conf.get("file", "deleteBin") == "True":
                         os.remove(f.name)
                 except Empty:
                     print("Queue empty!")

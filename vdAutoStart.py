@@ -3,7 +3,7 @@
 
 """
 @author: Florian Timm
-@version: 2017.11.18
+@version: 2017.11.19
 """
 
 import configparser
@@ -91,7 +91,7 @@ class VdAutoStart(object):
             print("Hardware control deactivated")
 
         # set time by using gnss
-        if self.__conf.get("functions", "useGNSStime") == "True":
+        if self.__conf.get("functions", "use_gnss_time") == "True":
             self.__gnss = VdGNSSTime(self)
             self.__gnss.start()
 
@@ -125,6 +125,7 @@ class VdAutoStart(object):
             self.start_transformer()
 
     def stop_recording(self):
+        """ stops buffering data """
         print("Recording is stopping... (10 seconds timeout before kill)")
         self.__go_on_buffer.value = False
         self.__date.value = None
@@ -320,29 +321,31 @@ class VdAutoStart(object):
     queue = property(__get_queue)
 
 
-# Websteuerung
+# web control
 app = Flask(__name__)
 
 
 @app.route("/")
 def web_index():
+    """ index page of web control """
     runtime = "(inactive)"
     pps = "(inactive)"
     if ms.date.value is not None:
-        timediff = datetime.now() - ms.date.value
-        td_sec = timediff.seconds + (int(timediff.microseconds / 1000) / 1000.)
-        sec = td_sec % 60
-        minu = int((td_sec // 60) % 60)
-        h = int(td_sec // 3600)
+        time_diff = datetime.now() - ms.date.value
+        td_sec = time_diff.seconds + \
+            (int(time_diff.microseconds / 1000) / 1000.)
+        seconds = td_sec % 60
+        minutes = int((td_sec // 60) % 60)
+        hours = int(td_sec // 3600)
 
-        runtime = '{:02d}:{:02d}:{:06.3f}'.format(h, minu, sec)
+        runtime = '{:02d}:{:02d}:{:06.3f}'.format(hours, minutes, seconds)
 
         pps = '{:.0f}'.format(ms.dataset_cnt.value / td_sec)
 
     elif ms.go_on_buffer.value:
         runtime = "(no data)"
 
-    ausgabe = """<html>
+    output = """<html>
     <head>
         <title>VLP16-Data-Interface</title>
         <meta name="viewport" content="width=device-width; initial-scale=1.0;" />
@@ -353,7 +356,7 @@ def web_index():
     <content>
         <h2>VLP16-Data-Interface</h3>
         <table style="">
-            <tr><td id="spalte1">GNSS-status:</td><td>""" + ms.gnss_status + """</td></tr>
+            <tr><td id="column1">GNSS-status:</td><td>""" + ms.gnss_status + """</td></tr>
             <tr><td>Scanner:</td><td>""" + ms.scanner_status.value + """</td></tr>
             <tr><td>Datasets</td>
                 <td>""" + str(ms.dataset_cnt.value) + """</td></tr>
@@ -368,24 +371,25 @@ def web_index():
         </table><br />
                 """
     if ms.check_recording():
-        ausgabe += """<a href="/stoppen" id="stoppen">
+        output += """<a href="/stop" id="stop">
             Stop recording</a><br />"""
     else:
-        ausgabe += """<a href="/starten" id="starten">
+        output += """<a href="/start" id="start">
             Start recording</a><br />"""
-    ausgabe += """
-        <a href="/beenden" id="beenden">Terminate script<br />
+    output += """
+        <a href="/exit" id="exit">Terminate script<br />
         (control by SSH available only)</a></td></tr><br />
         <a href="/shutdown" id="shutdown">Shutdown Raspberry Pi</a>
     </content>
     </body>
     </html>"""
 
-    return ausgabe
+    return output
 
 
 @app.route("/style.css")
 def css_style():
+    """ css file of web control """
     return """
     body, html, content {
         text-align: center;
@@ -408,7 +412,7 @@ def css_style():
         padding: 1px 2px;
     }
 
-    td#spalte1 {
+    td#column1 {
         width: 30%;
     }
 
@@ -421,7 +425,7 @@ def css_style():
         color: #fff;
     }
 
-    a#stoppen {
+    a#stop {
         background-color: #e90;
     }
 
@@ -429,11 +433,11 @@ def css_style():
         background-color: #b00;
     }
 
-    a#starten {
+    a#start {
         background-color: #1a1;
     }
 
-    a#beenden {
+    a#exit {
         background-color: #f44;
     }
     """
@@ -441,30 +445,34 @@ def css_style():
 
 @app.route("/shutdown")
 def web_shutdown():
+    """ web control: shutdown """
     ms.shutdown()
     return """
     <meta http-equiv="refresh" content="3; URL=/">
-    Wird in 10 Sekunden heruntergefahren..."""
+    Shutdown..."""
 
 
-@app.route("/beenden")
+@app.route("/exit")
 def web_exit():
+    """ web control: exit """
     ms.end()
     return """
     <meta http-equiv="refresh" content="3; URL=/">
     Terminating..."""
 
 
-@app.route("/stoppen")
+@app.route("/stop")
 def web_stop():
+    """ web control: stop buffering """
     ms.stop_recording()
     return """
     <meta http-equiv="refresh" content="3; URL=/">
     Recording is stopping..."""
 
 
-@app.route("/starten")
+@app.route("/start")
 def web_start():
+    """ web control: start buffering """
     ms.start_recording()
     return """
     <meta http-equiv="refresh" content="3; URL=/">
@@ -472,7 +480,8 @@ def web_start():
 
 
 def start_web():
-    print("Webserver is starting...")
+    """ start web control """
+    print("Web server is starting...")
     app.run('0.0.0.0', 8080)
 
 

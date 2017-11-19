@@ -3,7 +3,7 @@
 
 """
 @author: Florian Timm
-@version: 2017.11.17
+@version: 2017.11.19
 """
 
 import RPi.GPIO as GPIO
@@ -38,16 +38,15 @@ class VdHardware(Thread):
         self.__queue = False
         self.__recording = False
 
-        # Masterobjekt sichern
         self.__master = master
 
-        # Eingaenge aktivieren
-        # Aufzeichnung starten/stoppen
+        # activate input pins
+        # recording start/stop
         GPIO.setup(self.__taster1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-        # Herunterfahren
+        # shutdown
         GPIO.setup(self.__taster2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
-        # Ausgaenge aktivieren und auf Low schalten
+        # activate outputs
         for l in self.__led:
             GPIO.setup(l, GPIO.OUT)  # GPS-Fix
             GPIO.output(l, GPIO.LOW)
@@ -68,27 +67,27 @@ class VdHardware(Thread):
         self.__timer_check_leds()
 
     def __timer_check_leds(self):
-        """ checks leds every second """
+        """ checks LEDs every second """
         self.__check_leds()
         if self.__go_on:
             t = threading.Timer(1, self.__timer_check_leds)
             t.start()
 
     def __check_leds(self):
-        """ check leds """
+        """ check LEDs """
         self.__set_recording(self.__master.check_recording())
         self.__set_receiving(self.__master.check_receiving())
         self.__set_queue(self.__master.check_queue())
 
     def __button1_pressed(self):
         """ raised when button 1 is pressed """
-        time.sleep(0.1)  # Prellen abwarten
+        time.sleep(0.1)  # contact bounce
 
-        # mindestens 2 Sekunden druecken
+        # > 2 seconds
         wait = GPIO.wait_for_edge(self.__taster1, GPIO.RISING, timeout=1900)
 
         if wait is None:
-            # keine steigende Kante = gehalten
+            # no rising edge = pressed
             if self.__master.go_on_buffer.value:
                 self.__master.stop_recording()
             else:
@@ -96,13 +95,13 @@ class VdHardware(Thread):
 
     def __button2_pressed(self):
         """ raised when button 1 is pressed """
-        time.sleep(0.1)  # Prellen abwarten
+        time.sleep(0.1)  # contact bounce
 
-        # mindestens 2 Sekunden druecken
+        # > 2 seconds
         wait = GPIO.wait_for_edge(self.__taster2, GPIO.RISING, timeout=1900)
 
         if wait is None:
-            # keine steigende Kante = gehalten
+            # no rising edge = pressed
             self.__master.shutdown()
 
     def __switch_led(self, led, yesno):
@@ -119,7 +118,7 @@ class VdHardware(Thread):
             GPIO.output(self.__led[led], GPIO.LOW)
 
     def __update_leds(self):
-        """ switch all leds to right status """
+        """ switch all LEDs to right status """
         self.__switch_led(0, self.__receiving)
         self.__switch_led(1, self.__queue)
         self.__switch_led(2, self.__recording)

@@ -3,7 +3,7 @@
 
 """
 @author: Florian Timm
-@version: 2017.11.18
+@version: 2017.11.19
 """
 
 import socket
@@ -42,7 +42,7 @@ class VdInterface(object):
     def get_stream(ip, port):
         """
         Creates socket to scanner stream
-        :param ip: ip adress of scanner
+        :param ip: ip address of scanner
         :type ip: str
         :param port: port of scanner
         :type port: int
@@ -52,8 +52,8 @@ class VdInterface(object):
 
         # Create Datagram Socket (UDP)
         try:
-            sock = socket.socket(socket.AF_INET,    # Socket Family: IPv4
-                                 socket.SOCK_DGRAM)  # Socket Type: UDP
+            # IPv4 UDP
+            sock = socket.socket(type=socket.SOCK_DGRAM)
             print('Socket created!')
         except socket.error:
             print('Could not create socket!')
@@ -61,8 +61,6 @@ class VdInterface(object):
 
         # Sockets Options
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        # Erlaubt, dass man sich auf einem Rechner mehrfach mit
-        # einem Port verbinden kann. (optional)
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
         # Allows broadcast UDP packets to be sent and received.
 
