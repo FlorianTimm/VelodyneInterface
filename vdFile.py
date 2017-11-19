@@ -7,11 +7,11 @@
 """
 
 import datetime
-
+from abc import abstractmethod, ABC
 from vdPoint import VdPoint
 
 
-class VdFile(object):
+class VdFile(ABC):
 
     """ creates and fills an ascii-file with point data """
 
@@ -86,11 +86,12 @@ class VdFile(object):
         txt = ""
         for d in self.writing_queue:
             if d.distance > 0.0:
-                txt += self.__format(d)
+                txt += self._format(d)
         self._write2file(txt)
         self.clear_writing_queue()
 
-    def __format(self, p):
+    @abstractmethod
+    def _format(self, p):
         raise NotImplementedError("not implemented, use child classes")
 
     def add_point(self, p):
@@ -151,9 +152,9 @@ class VdObjFile(VdFile):
         """
         VdFile.__init__(self, conf, filename, "obj")
 
-    def __format(self, p):
+    def _format(self, p):
         """
-        Format point for OBJ
+        Formats point for OBJ
         :param p: VdPoint
         :type p: VdPoint
         :return: obj point string
@@ -178,9 +179,9 @@ class VdTxtFile(VdFile):
         """
         VdFile.__init__(self, conf, filename)
 
-    def __format(self, p):
+    def _format(self, p):
         """
-        __format point for TXT
+        Formats point for TXT
         :param p: VdPoint
         :type p: VdPoint
         :return: txt point string

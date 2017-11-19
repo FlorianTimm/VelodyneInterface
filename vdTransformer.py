@@ -66,7 +66,7 @@ class VdTransformer(Process):
                     if dir != old_folder:
                         vd_file = VdTxtFile(
                             self.__conf,
-                            folder + "/vd_file" + str(self.__number))
+                            folder + "/obj_file" + str(self.__number))
                         old_folder = folder
 
                     f = open(filename, "rb")

@@ -21,22 +21,22 @@ fs = glob(
 
 if len(fs) > 0:
     folder = os.path.dirname(fs[0])
-    vd_file = VdObjFile(
+    obj_file = VdObjFile(
         conf,
         folder + "/file")
 
     for filename in fs:
         print(filename)
 
-        f = open(filename, "rb")
+        bin_file = open(filename, "rb")
 
         # Calculate number of datasets
-        fileSize = os.path.getsize(f.name)
+        fileSize = os.path.getsize(bin_file.name)
         cntDatasets = int(fileSize / 1206)
 
         for i in range(cntDatasets):
-            vdData = VdDataset(conf, f.read(1206))
+            vdData = VdDataset(conf, bin_file.read(1206))
             vdData.convert_data()
-            vd_file.write_data(vdData.get_data())
-        f.close()
-    vd_file.close()
+            obj_file.write_data(vdData.get_data())
+        bin_file.close()
+    obj_file.close()

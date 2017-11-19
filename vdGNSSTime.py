@@ -26,8 +26,8 @@ class VdGNSSTime(Thread):
         :type master: VdAutoStart
         """
         Thread.__init__(self)
-        self.tScanner = None
-        self.tSerial = None
+        self.__tScanner = None
+        self.__tSerial = None
         self.__master = master
         self.__conf = master.conf
         self.__time_corrected = False
@@ -37,12 +37,12 @@ class VdGNSSTime(Thread):
         starts threads for time detection
         """
         # get data from serial port
-        self.tSerial = Thread(target=self.__get_gnss_time_from_serial())
-        self.tSerial.start()
+        self.__tSerial = Thread(target=self.__get_gnss_time_from_serial())
+        self.__tSerial.start()
 
         # get data from scanner
-        self.tScanner = Thread(target=self.__get_gnss_time_from_scanner())
-        self.tScanner.start()
+        self.__tScanner = Thread(target=self.__get_gnss_time_from_scanner())
+        self.__tScanner.start()
 
         self.__master.gnss_status = "Connecting..."
 
