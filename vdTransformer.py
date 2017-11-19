@@ -16,30 +16,24 @@ from vdDataset import VdDataset
 class VdTransformer(Process):
 
     """
-    Erzeugt einen Prozess zum Umwandeln von binaeren Daten des
-    Velodyne VLP-16 zu TXT-Dateien
+    Process for transforming data from Velodyne VLP-16
     """
 
-    def __init__(self, nummer, master):
+    def __init__(self, number, master):
         """
-        Konstruktor fuer Transformer-Prozess, erbt von multiprocessing.Process
-
-        Parameters
-        ----------
-        nummer : int
-            Nummer des Transformerprozess
-        master : VdAutoStart
-            Objekt des Hauptskriptes
+        Constructor
+        :param number: number of process
+        :type number: int
+        :param master: instance of VdAutoStart
+        :type master: VdAutoStart
         """
 
-        # Konstruktor der Elternklasse
+        # constructor of super class
         Process.__init__(self)
 
-        # Parameter sichern
-        # self.__master = master
         self.__queue = master.queue
-        self.__number = nummer
-        self.__root = master.root
+        self.__number = number
+        self.__admin = master.admin
         self.__go_on_transform = master.go_on_transform
         self.__conf = master.conf
 
@@ -60,12 +54,10 @@ class VdTransformer(Process):
         """ starts transforming process """
         signal.signal(signal.SIGINT, self.__signal_handler)
 
-        if self.__root:
+        if self.__admin:
             os.nice(-15)
-        # Erzeugen einer TXT-Datei pro Prozess
 
         old_folder = ""
-        # Dauerschleife
 
         try:
             while self.__go_on_transform.value:
@@ -100,10 +92,10 @@ class VdTransformer(Process):
                     # Txt-Datei schliessen
                     f.close()
                     # Bin-Datei ggf. loeschen
-                    if self.__conf.get("Datei", "binNachTransLoeschen"):
+                    if self.__conf.get("Datei", "binNachTransLoeschen") == "True":
                         os.remove(f.name)
                 except Empty:
-                    print("Warteschlange leer!")
+                    print("Queue empty!")
                     continue
         except BrokenPipeError:
-            print("vdTransformer-Pipe defekt")
+            print("vdTransformer-Pipe broken")

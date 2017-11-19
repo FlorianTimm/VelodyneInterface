@@ -37,7 +37,38 @@ class VdPoint(object):
         self.__distance = distance
         self.__conf = conf
 
+    @staticmethod
+    def parse_string(conf, line):
+        """
+        Parses string to VdPoint
+        :param conf: config file
+        :type conf: configparser.ConfigParser
+        :param line: Point as TXT
+        :type line: str
+        :return: Point
+        :rtype: VdPoint
+        :raise ValueError: malformed string
+        """
+        d = line.split()
+        if len(d) > 4:
+            time = float(d[0])
+            azimuth = float(d[1])
+            vertical = float(d[2])
+            distance = float(d[3])
+            reflection = int(d[4])
+            return VdPoint(conf, time, azimuth,
+                           vertical, distance, reflection)
+        else:
+            raise ValueError('Malformed string')
+
     def __deg2rad(self, degree):
+        """
+        converts degree to radians
+        :param degree: degrees
+        :type degree: float
+        :return: radians
+        :rtype: float
+        """
         return degree * self.__dRho
 
     def get_yxz(self):
@@ -46,7 +77,7 @@ class VdPoint(object):
         :return: local coordinates x, y, z in metres
         :rtype: float, float, float
         """
-        beam_center = float(self.__conf.get("Geraet", "beamCenter"))
+        beam_center = float(self.__conf.get("device", "beamCenter"))
 
         # Schraegstrecke zum Strahlenzentrum
         d = self.distance - beam_center

@@ -23,8 +23,8 @@ class VdInterface(object):
         :return: socket to scanner
         :rtype: socket.socket
         """
-        return VdInterface.get_stream(conf.get("Netzwerk", "UDP_IP"),
-                                      int(conf.get("Netzwerk", "UDP_PORT_DATA")))
+        return VdInterface.get_stream(conf.get("network", "UDP_IP"),
+                                      int(conf.get("network", "UDP_PORT_DATA")))
 
     @staticmethod
     def get_gnss_stream(conf):
@@ -35,8 +35,8 @@ class VdInterface(object):
         :return: socket to scanner
         :rtype: socket.socket
         """
-        return VdInterface.get_stream(conf.get("Netzwerk", "UDP_IP"),
-                                      int(conf.get("Netzwerk", "UDP_PORT_GNSS")))
+        return VdInterface.get_stream(conf.get("network", "UDP_IP"),
+                                      int(conf.get("network", "UDP_PORT_GNSS")))
 
     @staticmethod
     def get_stream(ip, port):

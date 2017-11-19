@@ -33,7 +33,7 @@ class VdBuffer(Process):
         self.__scanner_status = master.scanner_status
         self.__datasets = master.dataset_cnt
         self.__queue = master.queue
-        self.__admin = master.root
+        self.__admin = master.admin
         self.__date = master.date
         self.__conf = master.conf
 
@@ -56,9 +56,9 @@ class VdBuffer(Process):
         """ creates data folder """
         # Uhrzeit abfragen fuer Laufzeitlaenge und Dateinamen
         self.__date.value = datetime.now()
-        self.__folder = self.__conf.get("Datei", "fileNamePre")
+        self.__folder = self.__conf.get("file", "namePre")
         self.__folder += self.__date.value.strftime(
-            self.__conf.get("Datei", "fileTimeFormat"))
+            self.__conf.get("file", "timeFormat"))
         # Speicherordner anlegen und ausgeben
         os.makedirs(self.__folder)
         print("Data folder: " + self.__folder)
@@ -81,9 +81,9 @@ class VdBuffer(Process):
         if self.__admin:
             os.nice(-18)
 
-        transformer = self.__conf.get("Funktionen", "activateTransformer")
+        transformer = self.__conf.get("functions", "activateTransformer") == "True"
         measurements_per_dataset = int(self.__conf.get(
-            "Geraet", "messungProDatensatz"))
+            "device", "valuesPerDataset"))
 
         # Dauerschleife, solange kein Unterbrechen-Befehl kommt
 

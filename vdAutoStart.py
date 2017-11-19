@@ -58,12 +58,12 @@ class VdAutoStart(object):
         # attribute for web interface
         self.__web_interface = web_interface
 
-        # check root
+        # check admin
         try:
             os.rename('/etc/foo', '/etc/bar')
-            self.__root = True
+            self.__admin = True
         except IOError:
-            self.__root = False
+            self.__admin = False
 
         # check raspberry pi
         try:
@@ -91,7 +91,7 @@ class VdAutoStart(object):
             print("Hardware control deactivated")
 
         # set time by using gnss
-        if self.__conf.get("Funktionen", "GNSSZeitVerwenden"):
+        if self.__conf.get("functions", "useGNSStime") == "True":
             self.__gnss = VdGNSSTime(self)
             self.__gnss.start()
 
@@ -99,7 +99,7 @@ class VdAutoStart(object):
         """ Starts transformer processes"""
         print("Start transformer...")
         # number of transformer according number of processor cores
-        if self.__conf.get("Funktionen", "activateTransformer"):
+        if self.__conf.get("functions", "activateTransformer") == "True":
             self.__go_on_transform.value = True
             n = multiprocessing.cpu_count() - 1
             if n < 2:
@@ -301,14 +301,14 @@ class VdAutoStart(object):
     #: recording start time
     date = property(__get_date, __set_date)
 
-    def __is_root(self):
+    def __is_admin(self):
         """
-        Root?
-        :return: root?
+        Admin?
+        :return: Admin?
         :rtype: bool
         """
-        return self.__root
-    root = property(__is_root)
+        return self.__admin
+    admin = property(__is_admin)
 
     def __get_queue(self):
         """

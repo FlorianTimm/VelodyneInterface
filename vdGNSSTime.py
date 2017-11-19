@@ -73,7 +73,7 @@ class VdGNSSTime(Thread):
         """ get data by serial port """
         ser = None
         try:
-            port = self.__conf.get("Seriell", "GNSSport")
+            port = self.__conf.get("serial", "GNSSport")
             ser = serial.Serial(port, 9600, timeout=1)
             self.__master.gnss_status = "Wait for fix..."
             while not self.__time_corrected:

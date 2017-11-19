@@ -18,33 +18,25 @@ conf.read("config.ini")
 
 fs = glob(
     "/ssd/daten/ThesisMessung/data2017-11-16T14:06:31_SicherungBin/*.bin")
-vd_file = None
 
-for filename in fs:
-    print(filename)
-    # Dateinummer aus Warteschleife abfragen und oeffnen
-    folder = os.path.dirname(filename)
-    if vd_file is None:
-        vd_file = VdObjFile(
+if len(fs) > 0:
+    folder = os.path.dirname(fs[0])
+    vd_file = VdObjFile(
             conf,
-            folder + "/vd_file")
+            folder + "/file")
 
-    f = open(filename, "rb")
+    for filename in fs:
+        print(filename)
 
-    # Anzahl an Datensaetzen in Datei pruefen
-    fileSize = os.path.getsize(f.name)
-    cntDatasets = int(fileSize / 1206)
+        f = open(filename, "rb")
 
-    for i in range(cntDatasets):
-        # naechsten Datensatz lesen
-        vdData = VdDataset(conf, f.read(1206))
+        # Calculate number of datasets
+        fileSize = os.path.getsize(f.name)
+        cntDatasets = int(fileSize / 1206)
 
-        # Daten konvertieren und speichern
-        vdData.convert_data()
-
-        # Datensatz zu Datei hinzufuegen
-        vd_file.write_data(vdData.get_data())
-
-    # Datei schreiben
-    # Txt-Datei schliessen
-    f.close()
+        for i in range(cntDatasets):
+            vdData = VdDataset(conf, f.read(1206))
+            vdData.convert_data()
+            vd_file.write_data(vdData.get_data())
+        f.close()
+    vd_file.close()

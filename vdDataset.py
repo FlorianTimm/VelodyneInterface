@@ -26,8 +26,8 @@ class VdDataset(object):
         self.__dataset = dataset
         self.__conf = conf
 
-        self.__vertAngle = json.loads(self.__conf.get("Geraet", "vertAngle"))
-        self.__offset = json.loads(self.__conf.get("Geraet", "offset"))
+        self.__vertAngle = json.loads(self.__conf.get("device", "vertAngle"))
+        self.__offset = json.loads(self.__conf.get("device", "offset"))
         self.__data = []
 
     def get_azimuth(self, block):
@@ -144,9 +144,9 @@ class VdDataset(object):
         azimuth, rotation = self.get_azimuths()
 
         dual_return = self.is_dual_return()
-        t_between_laser = float(self.__conf.get("Geraet", "tZwischenStrahl"))
-        t_recharge = float(self.__conf.get("Geraet", "tNachlade"))
-        part_rotation = float(self.__conf.get("Geraet", "antDrehung"))
+        t_between_laser = float(self.__conf.get("device", "tInterBeams"))
+        t_recharge = float(self.__conf.get("device", "tRecharge"))
+        part_rotation = float(self.__conf.get("device", "ratioRotation"))
 
         # Datenpaket besteht aus 12 Bloecken aus jeweils 32 Messergebnissen
         for i in range(12):

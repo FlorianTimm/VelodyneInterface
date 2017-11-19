@@ -8,6 +8,8 @@
 
 import datetime
 
+from vdPoint import VdPoint
+
 
 class VdFile(object):
 
@@ -84,12 +86,12 @@ class VdFile(object):
         txt = ""
         for d in self.write_queue:
             if d.distance > 0.0:
-                txt += self.format(d)
+                txt += self.__format(d)
         self._write2file(txt)
         self.clear_write_queue()
 
-    def format(self, p):
-        print("not implemented")
+    def __format(self, p):
+        raise NotImplementedError("not implemented, use child classes")
 
     def add_point(self, p):
         """
@@ -106,6 +108,29 @@ class VdFile(object):
         :type dataset: VdPoint[]
         """
         self.__write_queue.extend(dataset)
+
+    def read_from_txt_file(self, filename, write = False):
+        """
+        Parses data from txt file
+        :param filename: path and filename of txt file
+        :type filename: str
+        :param write: write data to new file while reading txt
+        :type write: bool
+        """
+        txt = open(filename, 'rb')
+        self.read_from_txt(txt)
+        for line, no in enumerate(txt):
+            try:
+                p = VdPoint.parse_string(line)
+                self.write_queue.append(p)
+                print("Line {0} was parsed".format(no + 1))
+            except ValueError as e:
+                print("Error in line {0}: {1}".format(no + 1, e))
+
+            if write and len(self.write_queue > 50000):
+                self.write()
+        if write:
+            self.write()
 
     def close(self):
         """ close file """
@@ -126,7 +151,7 @@ class VdObjFile(VdFile):
         """
         VdFile.__init__(self, conf, filename, "obj")
 
-    def format(self, p):
+    def __format(self, p):
         """
         Format point for OBJ
         :param p: VdPoint
@@ -137,6 +162,7 @@ class VdObjFile(VdFile):
         x, y, z = p.get_yxz()
         format_string = 'v {:.3f} {:.3f} {:.3f}\n'
         return format_string.format(x, y, z)
+
 
 class VdTxtFile(VdFile):
 
@@ -152,9 +178,9 @@ class VdTxtFile(VdFile):
         """
         VdFile.__init__(self, conf, filename, "txt")
 
-    def format(self, p):
+    def __format(self, p):
         """
-        format point for TXT
+        __format point for TXT
         :param p: VdPoint
         :type p: VdPoint
         :return: txt point string
