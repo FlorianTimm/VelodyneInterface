@@ -3,15 +3,16 @@
 
 """
 @author: Florian Timm
-@version: 2017.11.19
+@version: 2017.11.20
 """
-from vdFile import VdObjFile
 import configparser
+
+from velodyneInterface.vdFile import VdObjFile
 
 fileName = "BeispielDateien/test.txt"
 
 conf = configparser.ConfigParser()
-conf.read("config.ini")
+conf.read("velodyneInterface/config.ini")
 
 f = VdObjFile(conf, fileName)
 f.read_from_txt_file(fileName, True)

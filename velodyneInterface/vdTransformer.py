@@ -3,14 +3,16 @@
 
 """
 @author: Florian Timm
-@version: 2017.11.19
+@version: 2017.11.20
 """
 import os
 import signal
 from multiprocessing import Process
 from queue import Empty
-from vdFile import VdTxtFile
-from vdDataset import VdDataset
+
+from velodyneInterface.vdDataset import VdDataset
+
+from velodyneInterface.vdFile import VdTxtFile
 
 
 class VdTransformer(Process):

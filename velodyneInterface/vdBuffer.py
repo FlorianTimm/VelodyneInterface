@@ -6,12 +6,13 @@
 @version: 2017.11.19
 """
 
-from vdInterface import VdInterface
-import socket
-from multiprocessing import Process
 import os
-from datetime import datetime
 import signal
+import socket
+from datetime import datetime
+from multiprocessing import Process
+
+from velodyneInterface.vdInterface import VdInterface
 
 
 class VdBuffer(Process):

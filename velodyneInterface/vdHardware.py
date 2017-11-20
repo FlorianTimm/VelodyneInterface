@@ -3,7 +3,7 @@
 
 """
 @author: Florian Timm
-@version: 2017.11.19
+@version: 2017.11.20
 """
 
 import RPi.GPIO as GPIO

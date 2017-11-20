@@ -3,16 +3,17 @@
 
 """
 @author: Florian Timm
-@version: 2017.11.19
+@version: 2017.11.20
 """
 
+import os
+import socket
 from datetime import datetime
 from threading import Thread
-import socket
-import os
+
 import serial
 
-from vdInterface import VdInterface
+from velodyneInterface.vdInterface import VdInterface
 
 
 class VdGNSSTime(Thread):

@@ -3,7 +3,7 @@
 
 """
 @author: Florian Timm
-@version: 2017.11.19
+@version: 2017.11.20
 """
 
 import configparser
@@ -15,10 +15,11 @@ import time
 from datetime import datetime
 from multiprocessing import Queue, Manager
 from threading import Thread
+
 from flask import Flask
-from vdBuffer import VdBuffer
-from vdTransformer import VdTransformer
-from vdGNSSTime import VdGNSSTime
+from velodyneInterface.vdBuffer import VdBuffer
+from velodyneInterface.vdGNSSTime import VdGNSSTime
+from velodyneInterface.vdTransformer import VdTransformer
 
 
 class VdAutoStart(object):
@@ -36,7 +37,8 @@ class VdAutoStart(object):
 
         # load config file
         self.__conf = configparser.ConfigParser()
-        self.__conf.read("config.ini")
+        self.__conf.read("velodyneInterface/config.ini")
+        print(self.__conf.sections())
 
         # variables for child processes
         self.__pBuffer = None
@@ -83,7 +85,7 @@ class VdAutoStart(object):
         # use hardware control on raspberry pi
         if self.__raspberry:
             print("Raspberry Pi was detected")
-            from vdHardware import VdHardware
+            from velodyneInterface.vdHardware import VdHardware
             self.__vd_hardware = VdHardware(self)
             self.__vd_hardware.start()
         else:

@@ -3,11 +3,12 @@
 
 """
 @author: Florian Timm
-@version: 2017.11.19
+@version: 2017.11.20
 """
 
-from vdPoint import VdPoint
 import json
+
+from velodyneInterface.vdPoint import VdPoint
 
 
 class VdDataset(object):
