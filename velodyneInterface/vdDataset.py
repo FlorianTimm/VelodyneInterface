@@ -157,26 +157,26 @@ class VdDataset(object):
                     # get distance
                     dist = ord(self.__dataset[4 + offset:5 + offset]) \
                         + (ord(self.__dataset[5 + offset:6 + offset]) << 8)
-                    if dist == 0:
-                        continue
-                    dist /= 500.0
+                    if dist > 0:
+                        dist /= 500.0
 
-                    reflection = ord(self.__dataset[6 + offset:7 + offset])
+                        reflection = ord(self.__dataset[6 + offset:7 + offset])
+
+                        # interpolate azimuth
+                        a = azi_block + rotation[i] * k * part_rotation
+                        # print(a)
+
+                        # create point
+                        p = VdPoint(
+                            self.__conf, round(
+                                time, 1), a, self.__vertical_angle[k],
+                            dist, reflection)
+                        self.__data.append(p)
+
+                    time += t_between_laser
 
                     # offset for next loop
                     offset += 3
-
-                    # interpolate azimuth
-                    a = azi_block + rotation[i] * k * part_rotation
-                    # print(a)
-
-                    # create point
-                    p = VdPoint(
-                        self.__conf, round(
-                            time, 1), a, self.__vertical_angle[k],
-                        dist, reflection)
-                    self.__data.append(p)
-                    time += t_between_laser
 
                 if dual_return and j == 0:
                     time -= t_between_laser * 16

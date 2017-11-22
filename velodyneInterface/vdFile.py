@@ -154,8 +154,7 @@ class VdASCIIFile(VdFile):
         """ writes data to file """
         txt = ""
         for d in self.writing_queue:
-            if d.distance > 0.0:
-                txt += self._format(d)
+            txt += self._format(d)
         self._write2file(txt)
         self.clear_writing_queue()
 

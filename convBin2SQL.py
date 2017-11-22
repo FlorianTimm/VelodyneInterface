@@ -19,7 +19,7 @@ conf = configparser.ConfigParser()
 conf.read("velodyneInterface/config.ini")
 
 fs = glob(
-    "/ssd/daten/ThesisMessung/data2017-11-16T14:06:31_SicherungBin/*.bin")
+    "/ssd/daten/ThesisMessung/tief1_bin/*.bin")
 
 if len(fs) > 0:
     folder = os.path.dirname(fs[0])

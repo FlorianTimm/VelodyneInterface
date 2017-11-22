@@ -12,7 +12,7 @@ from glob import glob
 
 from velodyneInterface.vdDataset import VdDataset
 
-from velodyneInterface.vdFile import VdObjFile
+from velodyneInterface.vdFile import VdTxtFile
 
 # load config file
 conf = configparser.ConfigParser()
@@ -23,7 +23,7 @@ fs = glob(
 
 if len(fs) > 0:
     folder = os.path.dirname(fs[0])
-    obj = VdObjFile(
+    txt = VdTxtFile(
         conf,
         folder + "/file")
 
@@ -39,6 +39,6 @@ if len(fs) > 0:
         for i in range(cntDatasets):
             vdData = VdDataset(conf, bin_file.read(1206))
             vdData.convert_data()
-            obj.write_data(vdData.get_data())
+            txt.write_data(vdData.get_data())
         bin_file.close()
-    obj.close()
+    txt.close()
