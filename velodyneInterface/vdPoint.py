@@ -72,7 +72,7 @@ class VdPoint(object):
         """
         return degree * self.__dRho
 
-    def get_yxz(self):
+    def get_xyz(self):
         """
         Gets local coordinates
         :return: local coordinates x, y, z in metres

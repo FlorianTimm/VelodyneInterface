@@ -152,11 +152,13 @@ class VdDataset(object):
         for i in range(12):
             offset = self.__offset[i]
             for j in range(2):
-                azi_block = azimuth[i + j]
+                azi_block = azimuth[i*2 + j]
                 for k in range(16):
                     # get distance
                     dist = ord(self.__dataset[4 + offset:5 + offset]) \
                         + (ord(self.__dataset[5 + offset:6 + offset]) << 8)
+                    if dist == 0:
+                        continue
                     dist /= 500.0
 
                     reflection = ord(self.__dataset[6 + offset:7 + offset])
@@ -166,8 +168,7 @@ class VdDataset(object):
 
                     # interpolate azimuth
                     a = azi_block + rotation[i] * k * part_rotation
-
-                    # a += time / 1000000 * 0.1
+                    # print(a)
 
                     # create point
                     p = VdPoint(

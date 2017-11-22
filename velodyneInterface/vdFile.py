@@ -3,7 +3,7 @@
 
 """
 @author: Florian Timm
-@version: 2017.11.20
+@version: 2017.11.22
 """
 
 import datetime
@@ -101,11 +101,11 @@ class VdFile(ABC):
             try:
                 p = VdPoint.parse_string(self.__conf, line)
                 self.writing_queue.append(p)
-                print("Line {0} was parsed".format(no + 1))
+                # print("Line {0} was parsed".format(no + 1))
             except ValueError as e:
                 print("Error in line {0}: {1}".format(no + 1, e))
 
-            if write and len(self.writing_queue > 50000):
+            if write and len(self.writing_queue) > 50000:
                 self.write()
         if write:
             self.write()
@@ -195,8 +195,33 @@ class VdObjFile(VdASCIIFile):
         :return: obj point string
         :rtype: str
         """
-        x, y, z = p.get_yxz()
+        x, y, z = p.get_xyz()
         format_string = 'v {:.3f} {:.3f} {:.3f}\n'
+        return format_string.format(x, y, z)
+
+
+class VdXYZFile(VdASCIIFile):
+
+    """ creates and fills an xyz-file """
+
+    def _open(self, filename=""):
+        """
+        opens a txt file for writing
+        :param filename: name and path to new file
+        :type filename: str
+        """
+        VdASCIIFile._open_ascii(self, filename, "xyz")
+
+    def _format(self, p):
+        """
+        Formats point for OBJ
+        :param p: VdPoint
+        :type p: VdPoint
+        :return: obj point string
+        :rtype: str
+        """
+        x, y, z = p.get_xyz()
+        format_string = '{:.3f} {:.3f} {:.3f}\n'
         return format_string.format(x, y, z)
 
 
@@ -254,9 +279,8 @@ class VdSQLite(VdFile):
         """ writes data to database """
         insert = []
         for p in self.writing_queue:
-            if p.distance > 0.0:
-                insert.append((p.time, p.azimuth, p.vertical,
-                               p.distance, p.reflection))
+            insert.append((p.time, p.azimuth, p.vertical,
+                           p.distance, p.reflection))
 
         self.__cursor.executemany("INSERT INTO raw_data ("
                                   "time, azimuth, vertical, "
