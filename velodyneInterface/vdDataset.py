@@ -138,12 +138,23 @@ class VdDataset(object):
     def convert_data(self):
         """ converts binary data to objects """
 
+        azimuth, rotation = self.get_azimuths()
+        dual_return = self.is_dual_return()
+
         # timestamp from dataset
         time = self.get_time()
+        times = [0.] * 12
+        t_2repeat = 2 * float(self.__conf.get("device", "tRepeat"))
+        if dual_return:
+            for i in range(0,12,2):
+                times[i] = time
+                times[i+1] = time
+                time += t_2repeat
+        else:
+            for i in range(12):
+                time[i] = time
+                time += t_2repeat
 
-        azimuth, rotation = self.get_azimuths()
-
-        dual_return = self.is_dual_return()
         t_between_laser = float(self.__conf.get("device", "tInterBeams"))
         t_recharge = float(self.__conf.get("device", "tRecharge"))
         part_rotation = float(self.__conf.get("device", "ratioRotation"))
@@ -151,6 +162,7 @@ class VdDataset(object):
         # data package has 12 blocks with 32 measurements
         for i in range(12):
             offset = self.__offset[i]
+            time = times[i]
             for j in range(2):
                 azi_block = azimuth[i*2 + j]
                 for k in range(16):
@@ -177,11 +189,7 @@ class VdDataset(object):
 
                     # offset for next loop
                     offset += 3
-
-                if dual_return and j == 0:
-                    time -= t_between_laser * 16
-                else:
-                    time += t_recharge
+                time += t_recharge - t_between_laser
 
     def get_data(self):
         """

@@ -18,8 +18,7 @@ from velodyneInterface.vdFile import VdTxtFile
 conf = configparser.ConfigParser()
 conf.read("velodyneInterface/config.ini")
 
-fs = glob(
-    "/ssd/daten/ThesisMessung/tief1_bin/*.bin")
+fs = glob("/ssd/daten/ThesisMessung/tief4_bin/*.bin")
 
 if len(fs) > 0:
     folder = os.path.dirname(fs[0])
