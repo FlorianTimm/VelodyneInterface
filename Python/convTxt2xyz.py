@@ -7,12 +7,12 @@
 """
 import configparser
 
-from velodyneInterface.vdFile import VdObjFile
+from vdFile import VdXYZFile
 
-fileName = "BeispielDateien/test.txt"
+fileName = "/ssd/daten/ThesisMessung/tief1/file0.txt"
 
 conf = configparser.ConfigParser()
-conf.read("velodyneInterface/config.ini")
+conf.read("config.ini")
 
-f = VdObjFile(conf, fileName)
+f = VdXYZFile(conf, "tief")
 f.read_from_txt_file(fileName, True)

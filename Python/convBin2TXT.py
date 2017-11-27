@@ -12,13 +12,15 @@ from glob import glob
 
 from velodyneInterface.vdDataset import VdDataset
 
-from velodyneInterface.vdFile import VdTxtFile
+from vdFile import VdTxtFile
 
 # load config file
 conf = configparser.ConfigParser()
-conf.read("velodyneInterface/config.ini")
+conf.read("config.ini")
 
 fs = glob("/ssd/daten/ThesisMessung/tief4_bin/*.bin")
+
+fs = ["/ssd/daten/ThesisMessung/tief5_bin/0.bin"]
 
 if len(fs) > 0:
     folder = os.path.dirname(fs[0])

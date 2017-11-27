@@ -9,18 +9,22 @@
 import configparser
 import os
 from glob import glob
+from time import *
 
 from velodyneInterface.vdDataset import VdDataset
 
-from velodyneInterface.vdFile import VdObjFile
+from vdFile import VdObjFile
 
 # load config file
 conf = configparser.ConfigParser()
-conf.read("velodyneInterface/config.ini")
+conf.read("config.ini")
 
 fs = glob(
-    "/ssd/daten/ThesisMessung/tief1_bin/*.bin")
+    "/ssd/daten/ThesisMessung/tief1_bin/0.bin")
 
+fs = ["/ssd/daten/ThesisMessung/tief5_bin/0.bin"]
+
+t1 = clock()
 if len(fs) > 0:
     folder = os.path.dirname(fs[0])
     obj = VdObjFile(
@@ -42,3 +46,8 @@ if len(fs) > 0:
             obj.write_data(vdData.get_data())
         bin_file.close()
     obj.close()
+    
+t2 = clock()
+
+t = t2 - t1
+print ("Laufzeit: " + str(t))

@@ -8,7 +8,7 @@
 
 import json
 
-from velodyneInterface.vdPoint import VdPoint
+from vdPoint import VdPoint
 
 
 class VdDataset(object):
@@ -152,7 +152,7 @@ class VdDataset(object):
                 time += t_2repeat
         else:
             for i in range(12):
-                time[i] = time
+                times[i] = time
                 time += t_2repeat
 
         t_between_laser = float(self.__conf.get("device", "tInterBeams"))

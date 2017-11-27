@@ -17,9 +17,10 @@ from multiprocessing import Queue, Manager
 from threading import Thread
 
 from flask import Flask
-from velodyneInterface.vdBuffer import VdBuffer
-from velodyneInterface.vdGNSSTime import VdGNSSTime
-from velodyneInterface.vdTransformer import VdTransformer
+from vdBuffer import VdBuffer
+from vdTransformer import VdTransformer
+
+from vdGNSSTime import VdGNSSTime
 
 
 class VdAutoStart(object):
@@ -37,7 +38,7 @@ class VdAutoStart(object):
 
         # load config file
         self.__conf = configparser.ConfigParser()
-        self.__conf.read("velodyneInterface/config.ini")
+        self.__conf.read("config.ini")
         print(self.__conf.sections())
 
         # variables for child processes

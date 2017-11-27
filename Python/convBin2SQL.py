@@ -12,11 +12,11 @@ from glob import glob
 
 from velodyneInterface.vdDataset import VdDataset
 
-from velodyneInterface.vdFile import VdSQLite
+from vdFile import VdSQLite
 
 # load config file
 conf = configparser.ConfigParser()
-conf.read("velodyneInterface/config.ini")
+conf.read("config.ini")
 
 fs = glob(
     "/ssd/daten/ThesisMessung/tief1_bin/*.bin")

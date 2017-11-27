@@ -10,7 +10,7 @@ import datetime
 import sqlite3
 from abc import abstractmethod, ABC
 
-from velodyneInterface.vdPoint import VdPoint
+from vdPoint import VdPoint
 
 
 class VdFile(ABC):

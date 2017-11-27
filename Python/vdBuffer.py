@@ -12,7 +12,7 @@ import socket
 from datetime import datetime
 from multiprocessing import Process
 
-from velodyneInterface.vdInterface import VdInterface
+from vdInterface import VdInterface
 
 
 class VdBuffer(Process):

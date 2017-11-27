@@ -10,9 +10,9 @@ import signal
 from multiprocessing import Process
 from queue import Empty
 
-from velodyneInterface.vdDataset import VdDataset
+from vdDataset import VdDataset
 
-from velodyneInterface.vdFile import VdTxtFile
+from vdFile import VdTxtFile
 
 
 class VdTransformer(Process):
@@ -59,6 +59,7 @@ class VdTransformer(Process):
 
         old_folder = ""
 
+        print ("Transformer started!")
         try:
             while self.__go_on_transform.value:
                 try:
@@ -85,7 +86,7 @@ class VdTransformer(Process):
                         vd_data.convert_data()
 
                         # add them on writing queue
-                        vd_file.add_dataset(vd_data)
+                        vd_file.add_dataset(vd_data.get_data())
 
                     # write file
                     vd_file.write()

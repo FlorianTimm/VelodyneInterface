@@ -12,8 +12,7 @@ from datetime import datetime
 from threading import Thread
 
 import serial
-
-from velodyneInterface.vdInterface import VdInterface
+from vdInterface import VdInterface
 
 
 class VdGNSSTime(Thread):
