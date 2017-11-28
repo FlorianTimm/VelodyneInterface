@@ -11,7 +11,7 @@ import os
 from glob import glob
 from time import *
 
-from velodyneInterface.vdDataset import VdDataset
+from vdDataset import VdDataset
 
 from vdFile import VdObjFile
 
@@ -19,10 +19,10 @@ from vdFile import VdObjFile
 conf = configparser.ConfigParser()
 conf.read("config.ini")
 
-fs = glob(
-    "/ssd/daten/ThesisMessung/tief1_bin/0.bin")
+#fs = glob(
+#    "../BeispielDateien/*.bin")
 
-fs = ["/ssd/daten/ThesisMessung/tief5_bin/0.bin"]
+fs = ["/ssd/daten/ThesisMessung2/data2017-11-27T13:51:16/4.bin"]
 
 t1 = clock()
 if len(fs) > 0:
@@ -38,7 +38,9 @@ if len(fs) > 0:
 
         # Calculate number of datasets
         fileSize = os.path.getsize(bin_file.name)
-        cntDatasets = int(fileSize / 1206)
+        print ("FileSize: "+str(fileSize))
+        cntDatasets = fileSize // 1206
+        print ("Datasets: "+str(cntDatasets))
 
         for i in range(cntDatasets):
             vdData = VdDataset(conf, bin_file.read(1206))

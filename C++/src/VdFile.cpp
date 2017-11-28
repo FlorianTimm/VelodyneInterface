@@ -40,9 +40,9 @@ string VdFile::makeFilename(string file_format, string file_name) {
 	if (file_name.empty()) {
 		return (string("noname") + file_ending);
 	} else if (ends_with(file_name, file_ending)) {
-		return file_name + file_ending;
+		return file_name;
 	}
-	return file_name;
+	return file_name + file_ending;
 }
 
 void VdFile::writeData(vector<VdPoint>* data) {

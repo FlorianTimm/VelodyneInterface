@@ -46,7 +46,6 @@ class VdDataset(object):
         azi = ord(self.__dataset[offset + 2:offset + 3]) + \
             (ord(self.__dataset[offset + 3:offset + 4]) << 8)
         azi /= 100.0
-        # print(azi)
         return azi
 
     def get_time(self):
@@ -73,8 +72,7 @@ class VdDataset(object):
         mode = ord(self.__dataset[1204:1205])
         if mode == 57:
             return True
-        else:
-            return False
+        return False
 
     def get_azimuths(self):
         """

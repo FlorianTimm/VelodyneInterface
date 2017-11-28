@@ -42,10 +42,12 @@ string VdObjFile::format(VdPoint point) {
 	 */
 	VdXYZ xyz = point.getXYZ();
 	// 'v {:.3f} {:.3f} {:.3f}\n'
-	string result = string("v ");
-	result += to_string(xyz.getX()) + " ";
-	result += to_string(xyz.getY()) + " ";
-	result += to_string(xyz.getZ()) + "\n";
-	return result;
+	char result[50];
+	sprintf (result, "v %.3f %.3f %.3f\n", xyz.getX(), xyz.getY(), xyz.getZ());
+	//string result = string("v ");
+	//result += to_string(xyz.getX()) + " ";
+	//result += to_string(xyz.getY()) + " ";
+	//result += to_string(xyz.getZ()) + "\n";
+	return string(result);
 }
 

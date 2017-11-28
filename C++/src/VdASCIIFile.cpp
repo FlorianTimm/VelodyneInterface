@@ -20,7 +20,7 @@ void VdASCIIFile::openASCII(string filename, string file_format) {
 	 :type filename: str
 	 */
 	filename = this->makeFilename(file_format, filename);
-	this->file_.open(filename);
+	this->file_.open(filename, std::fstream::out | std::fstream::app);
 }
 
 void VdASCIIFile::write2file(string data) {

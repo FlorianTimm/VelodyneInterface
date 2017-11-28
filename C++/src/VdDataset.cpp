@@ -39,13 +39,9 @@ double VdDataset::getAzimuth(int block) {
 	int offset = this->offsets[block];
 	// change byte order
 	double azi = 0;
-	azi = (int) dataset[offset + 2];
-	cout << "Wert1 " << azi << endl;
-	azi += ((int) dataset[offset + 3]) << 8;
-	cout << "Wert2 " << azi << endl;
+	azi = (unsigned char) dataset[offset + 2];
+	azi += ((unsigned char) dataset[offset + 3]) << 8;
 	azi /= 100.0;
-
-	cout << "Endew " << azi << endl;
 	return azi;
 }
 
@@ -56,8 +52,10 @@ double VdDataset::getTime() {
 	 :rtype: int
 	 */
 
-	double time = ((int) dataset[1200]) + (((int) dataset[1201]) << 8)
-			+ (((int) dataset[1202]) << 16) + (((int) dataset[1203]) << 24);
+	double time = ((unsigned char) dataset[1200])
+			+ (((unsigned char) dataset[1201]) << 8)
+			+ (((unsigned char) dataset[1202]) << 16)
+			+ (((unsigned char) dataset[1203]) << 24);
 	return time;
 }
 
@@ -68,8 +66,10 @@ bool VdDataset::isDualReturn() {
 	 :rtype: bool
 	 */
 
-	int mode = (int) dataset[1204];
+	int mode = (unsigned char) dataset[1204];
+	//cout << mode << endl;
 	if (mode == 57) {
+		//cout << "dr" << endl;
 		return true;
 	}
 	return false;
@@ -89,7 +89,7 @@ void VdDataset::getAzimuths(double azimuths[], double rotation[]) {
 	}
 
 	// rotation angle
-	double d;
+	double d = 0;
 	// DualReturn active?
 	if (this->isDualReturn()) {
 		for (int j = 0; j < 19; j += 4) {
@@ -162,23 +162,22 @@ void VdDataset::convertData() {
 			time += t_2repeat;
 		}
 	}
-	int offset, reflection;
 	double azi_block, a;
 
 	// data package has 12 blocks with 32 measurements
 	for (int i = 0; i < 12; i++) {
-		offset = this->offsets[i];
+		int offset = this->offsets[i];
 		time = times[i];
 		for (int j = 0; j < 2; j++) {
 			azi_block = azimuth[(int) i * 2 + j];
 			for (int k = 0; k < 16; k++) {
 				// get distance
-				double dist = ((int) this->dataset[4 + offset])
-						+ (((int) this->dataset[5 + offset]) << 8);
+				double dist = ((unsigned char) this->dataset[4 + offset])
+						+ (((unsigned char) this->dataset[5 + offset]) << 8);
 				if (dist > 0.0) {
 					dist /= 500.0;
 
-					reflection = this->dataset[offset + 6];
+					int reflection = (unsigned char) this->dataset[offset + 6];
 
 					// interpolate azimuth
 					a = azi_block + rotation[i] * k * part_rotation;
@@ -192,8 +191,8 @@ void VdDataset::convertData() {
 
 				// offset for next loop
 				offset += 3;
-				time += t_recharge - t_between_laser;
 			}
+			time += t_recharge - t_between_laser;
 		}
 	}
 }

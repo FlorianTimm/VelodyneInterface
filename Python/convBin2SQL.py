@@ -10,7 +10,7 @@ import configparser
 import os
 from glob import glob
 
-from velodyneInterface.vdDataset import VdDataset
+from vdDataset import VdDataset
 
 from vdFile import VdSQLite
 
