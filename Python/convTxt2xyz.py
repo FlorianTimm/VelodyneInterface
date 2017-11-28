@@ -7,7 +7,7 @@
 """
 import configparser
 
-from vdFile import VdXYZFile
+from vdXYZFile import VdXYZFile
 
 fileName = "/ssd/daten/ThesisMessung/tief1/file0.txt"
 

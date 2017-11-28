@@ -8,6 +8,7 @@
 
 from vdFile import VdFile
 from vdPoint import VdPoint
+from abc import abstractmethod, ABC
 
 class VdASCIIFile(VdFile):
     """ abstract class for writing ascii files """

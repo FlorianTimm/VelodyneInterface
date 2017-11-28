@@ -11,6 +11,7 @@ CPP_SRCS += \
 ../src/VdPoint.cpp \
 ../src/VdTxtFile.cpp \
 ../src/VdXYZ.cpp \
+../src/VdXYZFile.cpp \
 ../src/main.cpp 
 
 OBJS += \
@@ -21,6 +22,7 @@ OBJS += \
 ./src/VdPoint.o \
 ./src/VdTxtFile.o \
 ./src/VdXYZ.o \
+./src/VdXYZFile.o \
 ./src/main.o 
 
 CPP_DEPS += \
@@ -31,6 +33,7 @@ CPP_DEPS += \
 ./src/VdPoint.d \
 ./src/VdTxtFile.d \
 ./src/VdXYZ.d \
+./src/VdXYZFile.d \
 ./src/main.d 
 
 

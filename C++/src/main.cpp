@@ -14,6 +14,7 @@ using namespace std;
 #include "VdXYZ.h"
 #include "VdPoint.h"
 #include "VdDataset.h"
+#include "VdFile.h"
 #include "VdObjFile.h"
 
 void transformBin2Obj(std::string binFile, std::string objFile) {
@@ -56,11 +57,39 @@ void transformBin2Obj(std::string binFile, std::string objFile) {
 	cout << "Zeitbedarf: " << elapsed << endl;
 }
 
+void start (string old_end, string filename_old, string new_end, string filename_new) {
+	if (old_end == "bin")
+	{
+		if (new_end == "txt") {}
+		else if (new_end == "xyz") {}
+		else if (new_end == "obj") {
+			transformBin2Obj(filename_old, filename_new);
+		}
+		else if (new_end == "sql") {}
+	}
+	else if (old_end == "txt")
+	{
+		if (new_end == "xyz") {}
+		else if (new_end == "obj") {}
+		else if (new_end == "sql") {}
+	}
+}
+
 int main(int argc, char* argv[]) {
-	if (argc >= 3) {
-		transformBin2Obj(argv[1], argv[2]);
+	if (argc == 3) {
+		string filename_old = argv[1];
+		string filename_new = argv[2];
+		string old_end = filename_old.substr( filename_old.length() - 3 );
+		string new_end = filename_new.substr( filename_new.length() - 3 );
+		//transformBin2Obj(argv[1], argv[2]);
+		start(old_end, filename_old, new_end, filename_new);
+
+	} else if (argc == 5) {
+		start(argv[1], argv[2], argv[3], argv[4]);
 	} else {
-		cout << "Keine Dateien übergeben" << endl;
+		cout << "No parameters!" << endl;
+		cout << "usage: veloTrans bin|txt old_file txt|xyz|obj|sql new_file" << endl;
+		cout << "usage: veloTrans old_file new_file" << endl;
 	}
 	return 0;
 }

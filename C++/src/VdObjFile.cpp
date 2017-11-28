@@ -10,7 +10,6 @@
 #include <fstream>
 using namespace std;
 #include "VdXYZ.h"
-#include "VdPoint.h"
 #include "VdObjFile.h"
 
 VdObjFile::VdObjFile() {
@@ -23,7 +22,7 @@ VdObjFile::VdObjFile(string filename) {
 	this->open(filename);
 }
 
-void VdObjFile::open(string filename) {
+void VdObjFile::open(string filename = "") {
 	/*
 	 opens a txt file for writing
 	 :param filename: name and path to new file

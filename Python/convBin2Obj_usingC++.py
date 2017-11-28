@@ -13,7 +13,7 @@ from time import *
 
 from vdDataset import VdDataset
 
-from vdFile import VdObjFile
+from vdObjFile import VdObjFile
 
 # load config file
 conf = configparser.ConfigParser()

@@ -12,7 +12,7 @@ from glob import glob
 
 from vdDataset import VdDataset
 
-from vdFile import VdTxtFile
+from vdTxtFile import VdTxtFile
 
 # load config file
 conf = configparser.ConfigParser()

@@ -7,7 +7,7 @@
 """
 import configparser
 
-from vdFile import VdObjFile
+from vdObjFile import VdObjFile
 
 fileName = "BeispielDateien/test.txt"
 

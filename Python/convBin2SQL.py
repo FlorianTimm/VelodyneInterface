@@ -12,7 +12,7 @@ from glob import glob
 
 from vdDataset import VdDataset
 
-from vdFile import VdSQLite
+from vdSQLite import VdSQLite
 
 # load config file
 conf = configparser.ConfigParser()
