@@ -1,8 +1,9 @@
-/*
- * VdTxtFile.h
+/*!
+ *  \brief		class for writing raw data to txt file
  *
- *  Created on: 27.11.2017
- *      Author: timm
+ *  \author		Florian Timm
+ *  \version	2017.11.29
+ *  \copyright	MIT License
  */
 
 #ifndef VDTXTFILE_H_

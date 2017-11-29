@@ -1,8 +1,9 @@
-/*
- * VdSQLite.h
+/*!
+ *  \brief		class for writing data to sqlite database
  *
- *  Created on: 29.11.2017
- *      Author: timm
+ *  \author		Florian Timm
+ *  \version	2017.11.29
+ *  \copyright	MIT License
  */
 
 #ifndef VDSQLITE_H_

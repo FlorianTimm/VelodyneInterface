@@ -1,8 +1,9 @@
-/*
- * VdASCIIFile.cpp
+/*!
+ *  \brief		class for writing data to ascii file
  *
- *  Created on: 26.11.2017
- *      Author: timm
+ *  \author		Florian Timm
+ *  \version	2017.11.29
+ *  \copyright	MIT License
  */
 
 #include <string>
@@ -14,27 +15,25 @@ using namespace std;
 #include "VdASCIIFile.h"
 
 void VdASCIIFile::openASCII(string filename, string file_format) {
-	/*
-	 opens ascii file for writing
-	 :param filename: file name
-	 :type filename: str
+	/**
+	 * opens ascii file for writing
+	 * @param filename file name
 	 */
 	filename = this->makeFilename(file_format, filename);
 	this->file_.open(filename, std::fstream::out | std::fstream::app);
 }
 
 void VdASCIIFile::write2file(string data) {
-	/*
-	 writes ascii data to file
-	 :param data: data to write
-	 :type data: str
+	/**
+	 * writes ascii data to file
+	 * @param data: data to write
 	 */
 	//std::cout << data.c_str() << std::endl;
 	this->file_ << data.c_str();
 }
 
 void VdASCIIFile::write() {
-	// writes data to file
+	/** writes data to file */
 	string txt;
 	for (VdPoint p : this->writingQueue)
 		txt += this->format(p);
@@ -43,7 +42,7 @@ void VdASCIIFile::write() {
 }
 
 void VdASCIIFile::close() {
-	// close file
+	/** close file */
 	this->file_.close();
 }
 

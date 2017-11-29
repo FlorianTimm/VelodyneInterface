@@ -1,8 +1,9 @@
-/*
- * VdASCIIFile.h
+/*!
+ *  \brief		class for writing data to ascii file
  *
- *  Created on: 26.11.2017
- *      Author: timm
+ *  \author		Florian Timm
+ *  \version	2017.11.29
+ *  \copyright	MIT License
  */
 
 #ifndef VDASCIIFILE_H_

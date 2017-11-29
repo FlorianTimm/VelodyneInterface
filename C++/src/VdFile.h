@@ -1,8 +1,9 @@
-/*
- * VdFile.h
+/*!
+ *  \brief		class for writing data
  *
- *  Created on: 26.11.2017
- *      Author: timm
+ *  \author		Florian Timm
+ *  \version	2017.11.29
+ *  \copyright	MIT License
  */
 
 #ifndef VDFILE_H_

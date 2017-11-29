@@ -1,8 +1,9 @@
-/*
- * VdSQLite.cpp
+/*!
+ *  \brief		class for writing data to sqlite database
  *
- *  Created on: 29.11.2017
- *      Author: timm
+ *  \author		Florian Timm
+ *  \version	2017.11.29
+ *  \copyright	MIT License
  */
 
 #include "VdSQLite.h"
@@ -12,16 +13,18 @@
 using namespace std;
 
 VdSQLite::VdSQLite(string filename) {
-	// class for writing data to sqlite database
+	/**
+	 * constructor
+	 * @param filename name of db file
+	 */
 	this->open(filename);
 	sqlite3 *db;
 }
 
 void VdSQLite::open(string filename) {
-	/*
-	 opens a new db file
-	 :param filename: name of db file
-	 :type filename: str
+	/**
+	 * opens a new db file
+	 * @param filename name of db file
 	 */
 	char *zErrMsg = 0;
 	filename = this->makeFilename(string("db"), filename);
@@ -36,7 +39,7 @@ void VdSQLite::open(string filename) {
 }
 
 void VdSQLite::write() {
-	// writes data to database
+	/** writes data to database */
 	char *zErrMsg = 0;
 	sqlite3_exec(this->db, "BEGIN TRANSACTION;", 0, 0, &zErrMsg);
 	for (VdPoint p : this->writingQueue) {
@@ -52,7 +55,7 @@ void VdSQLite::write() {
 	this->clearWritingQueue();
 }
 void VdSQLite::close() {
-	// close database
+	/** close database */
 	sqlite3_close(db);
 }
 

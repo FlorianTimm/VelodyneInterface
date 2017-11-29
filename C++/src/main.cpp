@@ -1,8 +1,9 @@
-/*
- * main.cpp
+/*!
+ *  \brief		main method
  *
- *  Created on: 27.11.2017
- *      Author: timm
+ *  \author		Florian Timm
+ *  \version	2017.11.29
+ *  \copyright	MIT License
  */
 
 #include <iostream>
@@ -21,10 +22,11 @@ using namespace std;
 #include "VdSQLite.h"
 
 void transformBin2x(std::string binFile, VdFile* newFile) {
-	clock_t start_t;
-	float elapsed;
-
-	start_t = clock();
+	/**
+	 * transforms bin files to several file formats
+	 * @param binFile bin file
+	 * @param newFile file object to write
+	 */
 
 	fstream file(binFile, std::fstream::binary | std::fstream::in);
 
@@ -51,30 +53,33 @@ void transformBin2x(std::string binFile, VdFile* newFile) {
 		newFile->write();
 	}
 	file.close();
-
-	elapsed = (float) (clock() - start_t) / CLOCKS_PER_SEC;
-
-	cout << "Zeitbedarf: " << elapsed << endl;
 }
 
-void start(string old_end, string filename_old, string new_end,
+void start(string old_format, string filename_old, string new_format,
 		string filename_new) {
-	if (old_end == "bin") {
+	/**
+	 * transforms files
+	 * @param old_format format of input file (bin, txt)
+	 * @param filename_old name of input file
+	 * @param new_format format of output file (txt, xyz, obj, sql)
+	 * @param filename_new name of output file
+	 */
+	if (old_format == "bin") {
 		cout << "Input: bin" << endl;
 		cout << "Output: ";
-		if (new_end == "txt") {
+		if (new_format == "txt") {
 			cout << "txt" << endl;
 			VdTxtFile txt(filename_new);
 			transformBin2x(filename_old, &txt);
-		} else if (new_end == "xyz") {
+		} else if (new_format == "xyz") {
 			cout << "xyz" << endl;
 			VdXYZFile xyz = VdXYZFile(filename_new);
 			transformBin2x(filename_old, &xyz);
-		} else if (new_end == "obj") {
+		} else if (new_format == "obj") {
 			cout << "obj" << endl;
 			VdObjFile obj = VdObjFile(filename_new);
 			transformBin2x(filename_old, &obj);
-		} else if (new_end == "sql") {
+		} else if (new_format == "sql") {
 			cout << "sql" << endl;
 			VdSQLite sql = VdSQLite(filename_new);
 			transformBin2x(filename_old, &sql);
@@ -82,7 +87,7 @@ void start(string old_end, string filename_old, string new_end,
 			cout << "unknown file format" << endl;
 		}
 
-	} else if (old_end == "txt") {
+	} else if (old_format == "txt") {
 		cout << "not implemented!" << endl;
 	} else {
 		cout << "unknown file format" << endl;
@@ -90,6 +95,12 @@ void start(string old_end, string filename_old, string new_end,
 }
 
 int main(int argc, char* argv[]) {
+	/**
+	 * main method, starts program
+	 * @param argc number of arguments
+	 * @param argv arguments
+	 * @return 0
+	 */
 	if (argc == 3) {
 		string filename_old = argv[1];
 		string filename_new = argv[2];
@@ -105,5 +116,5 @@ int main(int argc, char* argv[]) {
 		cout << "usage: veloTrans [bin|txt] old_file [txt|xyz|obj|sql] new_file"
 				<< endl;
 	}
-	return 0;
+	return (0);
 }
