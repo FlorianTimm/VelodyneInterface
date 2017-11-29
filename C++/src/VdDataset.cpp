@@ -8,7 +8,7 @@
 //#include </usr/include/python3.6m/Python.h>
 #include <iostream>
 #include <fstream>
-#include <vector>
+#include <list>
 #include <iterator>
 using namespace std;
 #include "VdXYZ.h"
@@ -17,8 +17,7 @@ using namespace std;
 
 VdDataset::VdDataset(char dataset[]) {
 	this->dataset = dataset;
-	vector<VdPoint> data;
-	data.reserve(384);
+	list<VdPoint> data;
 }
 
 const int VdDataset::verticalAngle[16] = { -15, 1, -13, -3, -11, 5, -9, 7, -7,
@@ -73,6 +72,10 @@ bool VdDataset::isDualReturn() {
 		return true;
 	}
 	return false;
+}
+
+const std::list<VdPoint>& VdDataset::getData() const {
+	return data;
 }
 
 void VdDataset::getAzimuths(double azimuths[], double rotation[]) {
@@ -181,10 +184,10 @@ void VdDataset::convertData() {
 
 					// interpolate azimuth
 					a = azi_block + rotation[i] * k * part_rotation;
-					// print(a)
 
 					// create point
 					VdPoint p(time, a, verticalAngle[k], dist, reflection);
+
 					data.push_back(p);
 				}
 				time += t_between_laser;

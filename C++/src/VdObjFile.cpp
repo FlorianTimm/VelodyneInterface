@@ -12,17 +12,12 @@ using namespace std;
 #include "VdXYZ.h"
 #include "VdObjFile.h"
 
-VdObjFile::VdObjFile() {
-	// TODO Auto-generated constructor stub
-}
-
 VdObjFile::VdObjFile(string filename) {
 	// TODO Auto-generated constructor stub
-	vector<VdPoint> writingQueue_;
 	this->open(filename);
 }
 
-void VdObjFile::open(string filename = "") {
+void VdObjFile::open(std::string filename) {
 	/*
 	 opens a txt file for writing
 	 :param filename: name and path to new file
@@ -43,10 +38,6 @@ string VdObjFile::format(VdPoint point) {
 	// 'v {:.3f} {:.3f} {:.3f}\n'
 	char result[50];
 	sprintf (result, "v %.3f %.3f %.3f\n", xyz.getX(), xyz.getY(), xyz.getZ());
-	//string result = string("v ");
-	//result += to_string(xyz.getX()) + " ";
-	//result += to_string(xyz.getY()) + " ";
-	//result += to_string(xyz.getZ()) + "\n";
 	return string(result);
 }
 

@@ -36,7 +36,7 @@ void VdASCIIFile::write2file(string data) {
 void VdASCIIFile::write() {
 	// writes data to file
 	string txt;
-	for (VdPoint p : this->writingQueue_)
+	for (VdPoint p : this->writingQueue)
 		txt += this->format(p);
 	this->write2file(txt);
 	this->clearWritingQueue();

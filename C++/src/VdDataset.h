@@ -9,19 +9,16 @@
 #define VDDATASET_H_
 
 #include "VdPoint.h"
-#include <vector>
+#include <list>
 
 class VdDataset {
 public:
 	VdDataset(char dataset[]);
 	void convertData();
-
-	const std::vector<VdPoint>& getData() const {
-		return data;
-	}
+	const std::list<VdPoint>& getData() const;
 
 private:
-	std::vector<VdPoint> data;
+	std::list<VdPoint> data;
 	double getAzimuth(int);
 	double getTime();
 	bool isDualReturn();

@@ -26,14 +26,19 @@ fs = glob(
 
 t1 = clock()
 if len(fs) > 0:
-    #folder = os.path.dirname(fs[0])
-    #new_file = folder + "/file"
-    new_file = "/media/timm/TIMM_32GB/2017-11-27.obj"
 
     for filename in fs:
+        folder = os.path.dirname(filename)
+        folder_split = folder.split("/")
+        new_file = folder_split[-1].replace(":","")
+        
+        new_file = "/media/timm/TIMM_32GB/2017-11-27/" + new_file + ""
+        
+        print(new_file)
+        
         print(filename)
         import subprocess
-        result = subprocess.run(['./vdLinux_x64', filename, new_file], stdout=subprocess.PIPE)
+        result = subprocess.run(['./vdLinux_x64', "bin", filename, "xyz", new_file], stdout=subprocess.PIPE)
         print(result.stdout.decode('utf-8'))
     
 t2 = clock()

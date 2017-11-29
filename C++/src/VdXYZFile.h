@@ -14,8 +14,7 @@ using namespace std;
 
 class VdXYZFile: public VdASCIIFile {
 public:
-	VdXYZFile();
-	VdXYZFile(string filename);
+	VdXYZFile(string filename = "");
 
 protected:
 	void open(string filename);

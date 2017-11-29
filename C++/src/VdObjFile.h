@@ -10,13 +10,12 @@
 
 #include "VdASCIIFile.h"
 
-class VdObjFile : public VdASCIIFile {
+class VdObjFile: public VdASCIIFile {
 public:
-	VdObjFile();
-	VdObjFile(string filename);
-	//virtual ~VdObjFile();
+	VdObjFile(std::string filename = "");
+
 protected:
-	void open(string filename);
+	void open(std::string filename = "");
 	string format(VdPoint point);
 };
 

@@ -24,7 +24,7 @@ class VdSQLite(VdFile):
         print(filename)
         self.__db = sqlite3.connect(filename)
         self.__cursor = self.__db.cursor()
-        self.__cursor.execute("CREATE TABLE raw_data ("
+        self.__cursor.execute("CREATE TABLE IF NOT EXISTS raw_data ("
                               "id INTEGER PRIMARY KEY AUTOINCREMENT,"
                               "time FLOAT,"
                               "azimuth FLOAT,"

@@ -8,17 +8,13 @@
 
 #include "VdXYZFile.h"
 #include <string>
+#include <iostream>
 using namespace std;
-
-VdXYZFile::VdXYZFile() {
-	// TODO Auto-generated constructor stub
-
-}
 
 VdXYZFile::VdXYZFile(string filename) {
 	// TODO Auto-generated constructor stub
-	vector<VdPoint> writingQueue_;
 	this->open(filename);
+	this->writingQueue = list<VdPoint>();
 }
 
 void VdXYZFile::open(string filename = "") {
@@ -42,5 +38,6 @@ string VdXYZFile::format(VdPoint point) {
 	// '{:.3f} {:.3f} {:.3f}\n'
 	char result[50];
 	sprintf(result, "%.3f %.3f %.3f\n", xyz.getX(), xyz.getY(), xyz.getZ());
+	//cout << result;
 	return string(result);
 }

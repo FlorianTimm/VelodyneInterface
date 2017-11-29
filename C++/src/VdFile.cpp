@@ -5,21 +5,23 @@
  *      Author: timm
  */
 #include <string>
+#include <iostream>
+#include <list>
 using namespace std;
 #include "VdFile.h"
 
-vector<VdPoint>& VdFile::getWritingQueue() {
+list<VdPoint>& VdFile::getWritingQueue() {
 	/*
 	 Returns points in queue
 	 :return: points in queue
 	 :rtype: VdPoint[]
 	 */
-	return this->writingQueue_;
+	return this->writingQueue;
 }
 
 void VdFile::clearWritingQueue() {
 	// clears writing queue
-	this->writingQueue_.clear();
+	this->writingQueue.clear();
 }
 
 inline bool ends_with(string const & value, string const & ending) {
@@ -45,13 +47,13 @@ string VdFile::makeFilename(string file_format, string file_name) {
 	return file_name + file_ending;
 }
 
-void VdFile::writeData(vector<VdPoint>* data) {
+void VdFile::writeData(list<VdPoint>* dataset) {
 	/*
 	 adds data and writes it to file
 	 :param data: ascii data to write
 	 :type data: VdPoint[]
 	 */
-	this->addDataset(data);
+	this->addDataset(dataset);
 	this->write();
 }
 
@@ -61,20 +63,24 @@ void VdFile::addPoint(VdPoint point) {
 	 :param p: point
 	 :type p: VdPoint
 	 */
-	this->writingQueue_.push_back(point);
+	this->writingQueue.push_back(point);
 }
 
-void VdFile::addDataset(vector<VdPoint>* dataset) {
+void VdFile::addDataset(list<VdPoint>* dataset) {
 	/*
 	 adds multiple points to write queue
 	 :param dataset: multiple points
 	 :type dataset: VdPoint[]
 	 */
-	this->writingQueue_.insert(this->writingQueue_.end(), dataset->begin(),
-			dataset->end());
-}
+	cout << dataset->size() << " datasets added" << endl;
 
-VdFile::~VdFile() {
-	// TODO Auto-generated destructor stub
+	VdPoint p (1,2,3,4,5);
+
+	//this->writingQueue.push_back(p);
+
+	this->writingQueue.insert(this->writingQueue.begin(), dataset->begin(), dataset->end());
+
+	cout << this->writingQueue.size();
+	cout << " datasets" << endl;
 }
 
