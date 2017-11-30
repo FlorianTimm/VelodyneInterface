@@ -1,8 +1,9 @@
-/*
- * VdXYZFile.h
+/*!
+ *  \brief		class for writing data to xyz file
  *
- *  Created on: 28.11.2017
- *      Author: timm
+ *  \author		Florian Timm
+ *  \version	2017.11.30
+ *  \copyright	MIT License
  */
 
 #ifndef VDXYZFILE_H_

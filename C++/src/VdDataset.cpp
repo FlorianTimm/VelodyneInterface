@@ -1,11 +1,11 @@
-/*
- * VdDataset.cpp
+/*!
+ *  \brief		represents a dataset
  *
- *  Created on: 26.11.2017
- *      Author: Florian Timm
+ *  \author		Florian Timm
+ *  \version	2017.11.30
+ *  \copyright	MIT License
  */
 
-//#include </usr/include/python3.6m/Python.h>
 #include <iostream>
 #include <fstream>
 #include <list>
@@ -15,24 +15,22 @@ using namespace std;
 #include "VdPoint.h"
 #include "VdDataset.h"
 
-VdDataset::VdDataset(char dataset[]) {
-	this->dataset = dataset;
-	list<VdPoint> data;
-}
-
 const int VdDataset::verticalAngle[16] = { -15, 1, -13, -3, -11, 5, -9, 7, -7,
 		9, -5, 11, -3, 13, -1, 15 };
 const double VdDataset::tRepeat = 55.296;
 const int VdDataset::offsets[12] = { 0, 100, 200, 300, 400, 500, 600, 700, 800,
 		900, 1000, 1100 };
 
+VdDataset::VdDataset(char dataset[]) {
+	this->dataset = dataset;
+	list<VdPoint> data;
+}
+
 double VdDataset::getAzimuth(int block) {
-	/*
-	 gets azimuth of a data block
-	 :param block: number of data block
-	 :type block: int
-	 :return: azimuth
-	 :rtype: double
+	/**
+	 * gets azimuth of a data block
+	 * @param block number of data block
+	 * @return azimuth
 	 */
 
 	int offset = this->offsets[block];
@@ -45,10 +43,9 @@ double VdDataset::getAzimuth(int block) {
 }
 
 double VdDataset::getTime() {
-	/*
-	 gets timestamp of dataset
-	 :return: timestamp of dataset
-	 :rtype: int
+	/**
+	 * gets timestamp of dataset
+	 * @return timestamp of dataset
 	 */
 
 	double time = ((unsigned char) dataset[1200])
@@ -59,10 +56,9 @@ double VdDataset::getTime() {
 }
 
 bool VdDataset::isDualReturn() {
-	/*
-	 checks whether dual return is activated
-	 :return: dual return active?
-	 :rtype: bool
+	/**
+	 * checks whether dual return is activated
+	 * @return dual return active?
 	 */
 
 	int mode = (unsigned char) dataset[1204];
@@ -75,14 +71,17 @@ bool VdDataset::isDualReturn() {
 }
 
 const std::list<VdPoint>& VdDataset::getData() const {
+	/**
+	 * returns all point data
+	 * @return point data
+	 */
 	return data;
 }
 
 void VdDataset::getAzimuths(double azimuths[], double rotation[]) {
-	/*
-	 get all azimuths and rotation angles from dataset
-	 :return: azimuths and rotation angles
-	 :rtype: list, list
+	/**
+	 * get all azimuths and rotation angles from dataset
+	 * @return azimuths and rotation angles
 	 */
 
 	// read existing azimuth values
@@ -137,7 +136,7 @@ void VdDataset::getAzimuths(double azimuths[], double rotation[]) {
 }
 
 void VdDataset::convertData() {
-	/* converts binary data to objects */
+	/** converts binary data to objects */
 	double t_between_laser = 2.304;
 	double t_recharge = 20.736;
 	double part_rotation = 0.041666666666666664;

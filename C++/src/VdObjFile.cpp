@@ -1,8 +1,9 @@
-/*
- * VdObjFile.cpp
+/*!
+ *  \brief		represents a file for writing data
  *
- *  Created on: 26.11.2017
- *      Author: timm
+ *  \author		Florian Timm
+ *  \version	2017.11.30
+ *  \copyright	MIT License
  */
 
 #include <string>
@@ -18,26 +19,22 @@ VdObjFile::VdObjFile(string filename) {
 }
 
 void VdObjFile::open(std::string filename) {
-	/*
-	 opens a txt file for writing
-	 :param filename: name and path to new file
-	 :type filename: str
+	/**
+	 * opens a txt file for writing
+	 * @param filename name and path to new file
 	 */
 	this->openASCII(filename, string("obj"));
 }
 
 string VdObjFile::format(VdPoint point) {
-	/*
-	 Formats point for OBJ
-	 :param p: VdPoint
-	 :type p: VdPoint
-	 :return: obj point string
-	 :rtype: str
+	/**
+	 * Formats point for OBJ
+	 * @param point VdPoint
+	 * @return obj point string
 	 */
 	VdXYZ xyz = point.getXYZ();
-	// 'v {:.3f} {:.3f} {:.3f}\n'
 	char result[50];
 	sprintf (result, "v %.3f %.3f %.3f\n", xyz.getX(), xyz.getY(), xyz.getZ());
-	return string(result);
+	return (string(result));
 }
 

@@ -1,8 +1,9 @@
-/*
- * VdPoint.cpp
+/*!
+ *  \brief		represents a point
  *
- *  Created on: 26.11.2017
- *      Author: timm
+ *  \author		Florian Timm
+ *  \version	2017.11.30
+ *  \copyright	MIT License
  */
 
 #include <math.h>
@@ -20,9 +21,16 @@ VdPoint::VdPoint() {
 	reflection_ = 0;
 }
 
-VdPoint::VdPoint(double time, double azimuth, int verticalAngle, double distance,
-		int reflection) {
-	// TODO Auto-generated constructor stub
+VdPoint::VdPoint(double time, double azimuth, int verticalAngle,
+		double distance, int reflection) {
+	/**
+	 * Constructor
+	 * @param time recording time in microseconds
+	 * @param azimuth Azimuth direction in degrees
+	 * @param vertical Vertical angle in degrees
+	 * @param distance distance in metres
+	 * @param reflection reflection 0-255
+	 */
 	time_ = time;
 	azimuth_ = azimuth;
 	vertical_ = verticalAngle;
@@ -33,25 +41,22 @@ VdPoint::VdPoint(double time, double azimuth, int verticalAngle, double distance
 double VdPoint::dRho = PI / 180.0;
 
 VdPoint::~VdPoint() {
-	// TODO Auto-generated destructor stub
+	/** destructor stub */
 }
 
 double VdPoint::deg2rad(double degree) {
-	/*
-	 converts degree to radians
-	 :param degree: degrees
-	 :type degree: double
-	 :return: radians
-	 :rtype: double
+	/**
+	 * converts degree to radians
+	 * @param degree degrees
+	 * @return radians
 	 */
 	return degree * dRho;
 }
 
 VdXYZ VdPoint::getXYZ() {
-	/*
-	 Gets local coordinates
-	 :return: local coordinates x, y, z in metres
-	 :rtype: double, double, double
+	/**
+	 * Gets local coordinates
+	 * @return local coordinates x, y, z in metres
 	 */
 	double beam_center = 0.04191;
 
@@ -71,45 +76,45 @@ VdXYZ VdPoint::getXYZ() {
 	double y = s * cos(a);
 	double z = d * sin(v);
 
-	return VdXYZ(x,y,z);
+	return VdXYZ(x, y, z);
 }
 
 double VdPoint::getAzimuth() {
-	return azimuth_;
-}
-
-void VdPoint::setAzimuth(double azimuth) {
-	this->azimuth_ = azimuth;
+	/**
+	 * returns azimuth
+	 * @return azimuth in degrees
+	 */
+	return (azimuth_);
 }
 
 double VdPoint::getDistance() {
-	return distance_;
-}
-
-void VdPoint::setDistance(double distance) {
-	this->distance_ = distance;
+	/**
+	 * returns the distance
+	 * @return distance
+	 */
+	return (distance_);
 }
 
 int VdPoint::getReflection() {
-	return reflection_;
-}
-
-void VdPoint::setReflection(int reflection) {
-	this->reflection_ = reflection;
+	/**
+	 * returns the reflection
+	 * @return reflection between 0 - 255
+	 */
+	return (reflection_);
 }
 
 double VdPoint::getTime() {
-	return time_;
-}
-
-void VdPoint::setTime(double time) {
-	this->time_ = time;
+	/**
+	 * returns time
+	 * @return time in microseconds
+	 */
+	return (time_);
 }
 
 int VdPoint::getVertical() {
-	return vertical_;
-}
-
-void VdPoint::setVertical(int vertical) {
-	this->vertical_ = vertical;
+	/**
+	 * returns the vertical angle
+	 * @return vertical angle in degrees
+	 */
+	return (vertical_);
 }

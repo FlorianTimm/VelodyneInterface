@@ -1,8 +1,9 @@
-/*
- * VdDataset.h
+/*!
+ *  \brief		represents a dataset
  *
- *  Created on: 26.11.2017
- *      Author: Florian Timm
+ *  \author		Florian Timm
+ *  \version	2017.11.30
+ *  \copyright	MIT License
  */
 
 #ifndef VDDATASET_H_

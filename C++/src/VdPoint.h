@@ -1,8 +1,9 @@
-/*
- * VdPoint.h
+/*!
+ *  \brief		represents a point
  *
- *  Created on: 26.11.2017
- *      Author: timm
+ *  \author		Florian Timm
+ *  \version	2017.11.30
+ *  \copyright	MIT License
  */
 
 #ifndef VDPOINT_H_

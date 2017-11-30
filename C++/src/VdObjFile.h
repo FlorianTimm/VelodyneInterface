@@ -1,8 +1,9 @@
-/*
- * VdObjFile.h
+/*!
+ *  \brief		represents a file for writing data
  *
- *  Created on: 26.11.2017
- *      Author: timm
+ *  \author		Florian Timm
+ *  \version	2017.11.30
+ *  \copyright	MIT License
  */
 
 #ifndef VDOBJFILE_H_
