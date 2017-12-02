@@ -7,12 +7,14 @@
  */
 
 #include <string>
+#include <stdio.h>
 #include <vector>
 #include <fstream>
 #include <iostream>
 using namespace std;
 #include "VdPoint.h"
 #include "VdASCIIFile.h"
+#include "iniparser/iniparser.h"
 
 void VdASCIIFile::openASCII(string filename, string file_format) {
 	/**
@@ -20,16 +22,17 @@ void VdASCIIFile::openASCII(string filename, string file_format) {
 	 * @param filename file name
 	 */
 	filename = this->makeFilename(file_format, filename);
-	this->file_.open(filename, std::fstream::out | std::fstream::app);
+	this->file = fopen(filename.c_str(), "at");
 }
 
 void VdASCIIFile::write2file(string data) {
 	/**
 	 * writes ascii data to file
-	 * @param data: data to write
+	 * @param data data to write
 	 */
-	//std::cout << data.c_str() << std::endl;
-	this->file_ << data.c_str();
+	if (this->file!=NULL) {
+		fputs (data.c_str(),this->file);
+	}
 }
 
 void VdASCIIFile::write() {
@@ -43,6 +46,5 @@ void VdASCIIFile::write() {
 
 void VdASCIIFile::close() {
 	/** close file */
-	this->file_.close();
+	fclose(this->file);
 }
-

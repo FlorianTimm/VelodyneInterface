@@ -11,10 +11,11 @@
 
 #include "VdPoint.h"
 #include <list>
+#include "iniparser/iniparser.h"
 
 class VdDataset {
 public:
-	VdDataset(char dataset[]);
+	VdDataset(dictionary * conf, char * dataset);
 	void convertData();
 	const std::list<VdPoint>& getData() const;
 
@@ -26,9 +27,12 @@ private:
 	void getAzimuths(double[], double[]);
 
 	char * dataset;
-	static const int verticalAngle[16];
-	static const double tRepeat;
-	static const int offsets[12];
+	dictionary * conf;
+	int verticalAngle[16] = { -15, 1, -13, -3, -11, 5, -9, 7, -7,
+			9, -5, 11, -3, 13, -1, 15 };
+	double tRepeat;
+	int offsets[12] = { 0, 100, 200, 300, 400, 500, 600, 700, 800,
+			900, 1000, 1100 };
 
 };
 #endif /* VDDATASET_H_ */

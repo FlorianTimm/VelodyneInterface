@@ -36,7 +36,7 @@ double VdXYZ::getX() {
 	 * returns x coordinate
 	 * @return x coordinate
 	 */
-	return x_;
+	return (x_);
 }
 
 void VdXYZ::setX(double x) {
@@ -52,7 +52,7 @@ double VdXYZ::getY() {
 	 * returns y coordinate
 	 * @return y coordinate
 	 */
-	return y_;
+	return (y_);
 }
 
 void VdXYZ::setY(double y) {
@@ -68,7 +68,7 @@ double VdXYZ::getZ() {
 	 * returns z coordinate
 	 * @return z coordinate
 	 */
-	return z_;
+	return (z_);
 }
 
 void VdXYZ::setZ(double z) {

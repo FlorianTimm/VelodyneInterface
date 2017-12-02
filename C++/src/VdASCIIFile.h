@@ -15,15 +15,13 @@
 class VdASCIIFile : public VdFile {
 public:
 	void write();
-
 protected:
 	void openASCII(std::string filename, std::string file_format);
 	void write2file(std::string data);
 	void close();
 	virtual std::string format(VdPoint point) = 0;
 
-private:
-	std::ofstream file_;
+	FILE* file;
 };
 
 #endif /* VDASCIIFILE_H_ */

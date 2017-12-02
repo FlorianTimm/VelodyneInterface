@@ -58,4 +58,3 @@ void VdSQLite::close() {
 	/** close database */
 	sqlite3_close(db);
 }
-

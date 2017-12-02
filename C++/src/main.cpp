@@ -7,7 +7,7 @@
  */
 
 #include <iostream>
-#include <fstream>
+#include <stdio.h>
 #include <list>
 #include <iterator>
 #include <string>
@@ -20,15 +20,25 @@ using namespace std;
 #include "VdTxtFile.h"
 #include "VdObjFile.h"
 #include "VdSQLite.h"
+extern "C" {
+#include "iniparser/iniparser.h"
+}
+
+dictionary * ini = NULL;
+
+void loadini() {
+	ini = iniparser_load("config.ini");
+}
 
 void transformBin2x(std::string binFile, VdFile* newFile) {
 	/**
-	 * transforms bin files to several file formats
+	 * transforms bin files to several
+	 file formats
 	 * @param binFile bin file
 	 * @param newFile file object to write
 	 */
 
-	fstream file(binFile, std::fstream::binary | std::fstream::in);
+	ifstream file(binFile.c_str(), ios::binary | ios::in);
 
 	if (file.is_open()) {
 		file.seekg(0, ios::end);
@@ -42,9 +52,9 @@ void transformBin2x(std::string binFile, VdFile* newFile) {
 		for (int i = 0; i < cntDatasets; i++) {
 
 			//while (!file.eof()) {
-			char * dataset = new char[1206];
+			char dataset[1206];
 			file.read(dataset, 1206);
-			VdDataset vd = VdDataset(dataset);
+			VdDataset vd = VdDataset(ini, dataset);
 			vd.convertData();
 
 			std::list<VdPoint> p = vd.getData();
@@ -101,6 +111,9 @@ int main(int argc, char* argv[]) {
 	 * @param argv arguments
 	 * @return 0
 	 */
+
+	loadini();
+
 	if (argc == 3) {
 		string filename_old = argv[1];
 		string filename_new = argv[2];

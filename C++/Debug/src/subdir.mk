@@ -15,9 +15,6 @@ CPP_SRCS += \
 ../src/VdXYZFile.cpp \
 ../src/main.cpp 
 
-O_SRCS += \
-../src/velo.o 
-
 OBJS += \
 ./src/VdASCIIFile.o \
 ./src/VdDataset.o \

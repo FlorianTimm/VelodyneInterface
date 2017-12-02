@@ -14,16 +14,14 @@ using namespace std;
 #include "VdXYZ.h"
 #include "VdPoint.h"
 #include "VdDataset.h"
+#include "iniparser/iniparser.h"
 
-const int VdDataset::verticalAngle[16] = { -15, 1, -13, -3, -11, 5, -9, 7, -7,
-		9, -5, 11, -3, 13, -1, 15 };
-const double VdDataset::tRepeat = 55.296;
-const int VdDataset::offsets[12] = { 0, 100, 200, 300, 400, 500, 600, 700, 800,
-		900, 1000, 1100 };
 
-VdDataset::VdDataset(char dataset[]) {
+VdDataset::VdDataset(dictionary * conf, char * dataset) {
 	this->dataset = dataset;
+	this->conf = conf;
 	list<VdPoint> data;
+	tRepeat = iniparser_getdouble(conf, "device:trepeat", 55.296);
 }
 
 double VdDataset::getAzimuth(int block) {
@@ -137,9 +135,9 @@ void VdDataset::getAzimuths(double azimuths[], double rotation[]) {
 
 void VdDataset::convertData() {
 	/** converts binary data to objects */
-	double t_between_laser = 2.304;
-	double t_recharge = 20.736;
-	double part_rotation = 0.041666666666666664;
+	double t_between_laser = iniparser_getdouble(conf, "device:tinterbeams", 2.304);
+	double t_recharge = iniparser_getdouble(conf, "device:trecharge", 20.736);
+	double part_rotation = iniparser_getdouble(conf, "device:ratiorotation", 0.041666666666666664);
 
 	// create empty lists
 	double azimuth[24];
