@@ -13,7 +13,7 @@ from queue import Empty
 
 from vdDataset import VdDataset
 
-from vdFile import VdTxtFile
+from vdTxtFile import VdTxtFile
 
 
 class VdTransformer(Process):
@@ -96,7 +96,7 @@ class VdTransformer(Process):
                     f.close()
                     break
                 elif trans == "linux64":
-                    result = subprocess.run(['./vdTrans_Linux_64', "bin", filename, "txt", new_file], stdout=subprocess.PIPE)
+                    result = subprocess.run(['./vdTrans_linux64', "bin", filename, "txt", new_file], stdout=subprocess.PIPE)
                     print(result.stdout.decode('utf-8'))
                 elif trans == "arm320":
                     result = subprocess.run(['./vdTrans_arm32', "bin", filename, "txt", new_file], stdout=subprocess.PIPE)
