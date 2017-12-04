@@ -50,7 +50,7 @@ void loop() {
     lcd.print(diff);
     laststate = LOW;
     state = LOW;
-    delay(50000);
+    delay(500);
     lcd.clear();
     lcd.setCursor(0, 0);
     // Schreibt Text

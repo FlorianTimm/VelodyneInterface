@@ -86,7 +86,7 @@ class VdAutoStart(object):
         # use hardware control on raspberry pi
         if self.__raspberry:
             print("Raspberry Pi was detected")
-            from velodyneInterface.vdHardware import VdHardware
+            from vdHardware import VdHardware
             self.__vd_hardware = VdHardware(self)
             self.__vd_hardware.start()
         else:

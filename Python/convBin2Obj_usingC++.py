@@ -20,7 +20,7 @@ conf = configparser.ConfigParser()
 conf.read("config.ini")
 
 fs = glob(
-    "/ssd/daten/ThesisMessung2/data2017-11-27T*/*.bin")
+    "/ssd/daten/ThesisMessung/tief*/*.bin")
 
 # fs = ["/ssd/daten/ThesisMessung2/data2017-11-27T13:51:16/4.bin"]
 
@@ -32,13 +32,15 @@ if len(fs) > 0:
         folder_split = folder.split("/")
         new_file = folder_split[-1].replace(":","")
         
-        new_file = "/media/timm/TIMM_32GB/2017-11-27/" + new_file + ""
+        new_file = "/media/timm/TIMM_32GB/tief/" + new_file + ""
+
+        new_file = "/media/timm/TIMM_32GB/tief/tief_gesamt"
         
         print(new_file)
         
         print(filename)
         import subprocess
-        result = subprocess.run(['./vdLinux_x64', "bin", filename, "xyz", new_file], stdout=subprocess.PIPE)
+        result = subprocess.run(['./vdTrans_linux64', "bin", filename, "sql", new_file], stdout=subprocess.PIPE)
         print(result.stdout.decode('utf-8'))
     
 t2 = clock()
