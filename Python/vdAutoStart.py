@@ -39,7 +39,6 @@ class VdAutoStart(object):
         # load config file
         self.__conf = configparser.ConfigParser()
         self.__conf.read("config.ini")
-        print(self.__conf.sections())
 
         # variables for child processes
         self.__pBuffer = None
