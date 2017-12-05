@@ -34,13 +34,13 @@ if len(fs) > 0:
         
         new_file = "/media/timm/TIMM_32GB/tief/" + new_file + ""
 
-        new_file = "/media/timm/TIMM_32GB/tief/tief_gesamt"
+        new_file = "ssd/daten/ThesisMessung/tief_gesamt"
         
         print(new_file)
         
         print(filename)
         import subprocess
-        result = subprocess.run(['./vdTrans_linux64', "bin", filename, "sql", new_file], stdout=subprocess.PIPE)
+        result = subprocess.run(['./vdTrans_linux64', "bin", filename, "xyz", new_file], stdout=subprocess.PIPE)
         print(result.stdout.decode('utf-8'))
     
 t2 = clock()

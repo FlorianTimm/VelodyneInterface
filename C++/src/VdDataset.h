@@ -28,7 +28,7 @@ private:
 
 	char * dataset;
 	dictionary * conf;
-	int verticalAngle[16] = { -15, 1, -13, -3, -11, 5, -9, 7, -7,
+	int verticalAngle[16] = { -15, 1, -13, 3, -11, 5, -9, 7, -7,
 			9, -5, 11, -3, 13, -1, 15 };
 	double tRepeat;
 	int offsets[12] = { 0, 100, 200, 300, 400, 500, 600, 700, 800,
