@@ -20,9 +20,8 @@ conf = configparser.ConfigParser()
 conf.read("config.ini")
 
 fs = glob(
-    "/ssd/daten/ThesisMessung/tief*/*.bin")
+    "/mnt/ssd_daten/ThesisMessung2/data*/*.bin")
 
-# fs = ["/ssd/daten/ThesisMessung2/data2017-11-27T13:51:16/4.bin"]
 
 t1 = clock()
 if len(fs) > 0:
@@ -34,7 +33,7 @@ if len(fs) > 0:
         
         new_file = "/media/timm/TIMM_32GB/tief/" + new_file + ""
 
-        new_file = "ssd/daten/ThesisMessung/tief_gesamt"
+        new_file = "/mnt/ssd_daten/ThesisMessung2/labor_gesamt"
         
         print(new_file)
         
