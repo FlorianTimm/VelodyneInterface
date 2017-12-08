@@ -26,14 +26,15 @@ class VdHardware(Thread):
 
         GPIO.setmode(GPIO.BCM)
 
-        self.__taster1 = 18  # start / stop
-        self.__taster2 = 25  # shutdown
+        self.__taster_start = 5  # start
+        self.__taster_stop = 13 # stop
+        self.__taster_shutdown = 26  # shutdown
 
         # led-pins:
         # 0: receiving
         # 1: queue
         # 2: recording
-        self.__led = [10, 9, 11]
+        self.__led = [2,4,17]
         self.__receiving = False
         self.__queue = False
         self.__recording = False
@@ -41,10 +42,12 @@ class VdHardware(Thread):
         self.__master = master
 
         # activate input pins
-        # recording start/stop
-        GPIO.setup(self.__taster1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        # recording start
+        GPIO.setup(self.__taster_start, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        # recording stop
+        GPIO.setup(self.__taster_stop, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         # shutdown
-        GPIO.setup(self.__taster2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        GPIO.setup(self.__taster_shutdown, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
         # activate outputs
         for l in self.__led:
@@ -56,13 +59,17 @@ class VdHardware(Thread):
     def run(self):
         """ run thread and start hardware control """
         GPIO.add_event_detect(
-            self.__taster1,
+            self.__taster_start,
             GPIO.FALLING,
-            self.__button1_pressed)
+            self.__start_pressed)
         GPIO.add_event_detect(
-            self.__taster2,
+            self.__taster_stop,
             GPIO.FALLING,
-            self.__button1_pressed)
+            self.__stop_pressed)
+        GPIO.add_event_detect(
+            self.__taster_shutdown,
+            GPIO.FALLING,
+            self.__shutdown_pressed)
 
         self.__timer_check_leds()
 
@@ -79,26 +86,34 @@ class VdHardware(Thread):
         self.__set_receiving(self.__master.check_receiving())
         self.__set_queue(self.__master.check_queue())
 
-    def __button1_pressed(self):
+    def __start_pressed(self):
         """ raised when button 1 is pressed """
         time.sleep(0.1)  # contact bounce
 
         # > 2 seconds
-        wait = GPIO.wait_for_edge(self.__taster1, GPIO.RISING, timeout=1900)
+        wait = GPIO.wait_for_edge(self.__taster_start, GPIO.RISING, timeout=1900)
 
         if wait is None:
             # no rising edge = pressed
-            if self.__master.go_on_buffer.value:
-                self.__master.stop_recording()
-            else:
-                self.__master.start_recording()
+            self.__master.start_recording()
 
-    def __button2_pressed(self):
+    def __stop_pressed(self):
         """ raised when button 1 is pressed """
         time.sleep(0.1)  # contact bounce
 
         # > 2 seconds
-        wait = GPIO.wait_for_edge(self.__taster2, GPIO.RISING, timeout=1900)
+        wait = GPIO.wait_for_edge(self.__taster_start, GPIO.RISING, timeout=1900)
+
+        if wait is None:
+            # no rising edge = pressed
+            self.__master.stop_recording()
+
+    def __shutdown_pressed(self):
+        """ raised when button 1 is pressed """
+        time.sleep(0.1)  # contact bounce
+
+        # > 2 seconds
+        wait = GPIO.wait_for_edge(self.__taster_shutdown, GPIO.RISING, timeout=1900)
 
         if wait is None:
             # no rising edge = pressed
