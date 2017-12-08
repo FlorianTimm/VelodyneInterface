@@ -86,7 +86,7 @@ class VdHardware(Thread):
         self.__set_receiving(self.__master.check_receiving())
         self.__set_queue(self.__master.check_queue())
 
-    def __start_pressed(self):
+    def __start_pressed(self, channel):
         """ raised when button 1 is pressed """
         time.sleep(0.1)  # contact bounce
 
@@ -97,7 +97,7 @@ class VdHardware(Thread):
             # no rising edge = pressed
             self.__master.start_recording()
 
-    def __stop_pressed(self):
+    def __stop_pressed(self, channel):
         """ raised when button 1 is pressed """
         time.sleep(0.1)  # contact bounce
 
@@ -108,7 +108,7 @@ class VdHardware(Thread):
             # no rising edge = pressed
             self.__master.stop_recording()
 
-    def __shutdown_pressed(self):
+    def __shutdown_pressed(self, channel):
         """ raised when button 1 is pressed """
         time.sleep(0.1)  # contact bounce
 
