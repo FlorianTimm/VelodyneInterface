@@ -68,10 +68,10 @@ class VdTransformer(Process):
                 folder = os.path.dirname(filename)
                 trans = self.__conf.get("file", "transformer")
                 if trans == "python":
-                    if dir != old_folder:
+                    if folder != old_folder:
                         vd_file = VdTxtFile(
                             self.__conf,
-                            folder + "/obj_file" + str(self.__number))
+                            folder + "/file" + str(self.__number))
                         old_folder = folder
     
                     f = open(filename, "rb")
@@ -95,11 +95,9 @@ class VdTransformer(Process):
                         # close file
                     f.close()
                     break
-                elif trans == "linux64":
-                    result = subprocess.run(['./vdTrans_linux64', "bin", filename, "txt", new_file], stdout=subprocess.PIPE)
-                    print(result.stdout.decode('utf-8'))
-                elif trans == "arm320":
-                    result = subprocess.run(['./vdTrans_arm32', "bin", filename, "txt", new_file], stdout=subprocess.PIPE)
+                else:
+                    new_file = folder + "/obj_file" + str(self.__number)
+                    result = subprocess.run(['./'+trans, "bin", filename, "txt", new_file], stdout=subprocess.PIPE)
                     print(result.stdout.decode('utf-8'))
                     pass
                 
