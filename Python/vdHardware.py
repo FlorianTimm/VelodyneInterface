@@ -88,34 +88,15 @@ class VdHardware(Thread):
 
     def __start_pressed(self, channel):
         """ raised when button 1 is pressed """
-        time.sleep(0.1)  # contact bounce
-
-        pressed = True
-        # > 2 seconds
-        for i in range (4):
-            if GPIO.input(self.__taster_start) == 0:
-                pressed = False
-            time.sleep(0.5)
-
-        if pressed:
-            # no rising edge = pressed
-            self.__master.start_recording()
+        self.__master.start_recording()
 
     def __stop_pressed(self, channel):
         """ raised when button 1 is pressed """
-        time.sleep(0.1)  # contact bounce
-
-        if GPIO.input(self.__taster_stop) == 1:
-            # no rising edge = pressed
-            self.__master.stop_recording()
+        self.__master.stop_recording()
 
     def __shutdown_pressed(self, channel):
         """ raised when button 1 is pressed """
-        time.sleep(2)  # contact bounce
-
-        if GPIO.input(self.__taster_shutdown) == 1:
-            # no rising edge = pressed
-            self.__master.shutdown()
+        self.__master.shutdown()
 
     def __switch_led(self, led, yesno):
         """
