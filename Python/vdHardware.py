@@ -90,10 +90,14 @@ class VdHardware(Thread):
         """ raised when button 1 is pressed """
         time.sleep(0.1)  # contact bounce
 
+        pressed = True
         # > 2 seconds
-        wait = GPIO.wait_for_edge(self.__taster_start, GPIO.RISING, timeout=1900)
+        for i in range (4):
+            if GPIO.input(self.__taster_stop) == 0:
+                pressed = False
+            time.sleep(0.5)
 
-        if wait is None:
+        if pressed:
             # no rising edge = pressed
             self.__master.start_recording()
 
@@ -101,10 +105,14 @@ class VdHardware(Thread):
         """ raised when button 1 is pressed """
         time.sleep(0.1)  # contact bounce
 
+        pressed = True
         # > 2 seconds
-        wait = GPIO.wait_for_edge(self.__taster_start, GPIO.RISING, timeout=1900)
+        for i in range (4):
+            if GPIO.input(self.__taster_stop) == 0:
+                pressed = False
+            time.sleep(0.5)
 
-        if wait is None:
+        if pressed:
             # no rising edge = pressed
             self.__master.stop_recording()
 
@@ -112,10 +120,14 @@ class VdHardware(Thread):
         """ raised when button 1 is pressed """
         time.sleep(0.1)  # contact bounce
 
+        pressed = True
         # > 2 seconds
-        wait = GPIO.wait_for_edge(self.__taster_shutdown, GPIO.RISING, timeout=1900)
+        for i in range (4):
+            if GPIO.input(self.__taster_shutdown) == 0:
+                pressed = False
+            time.sleep(0.5)
 
-        if wait is None:
+        if pressed:
             # no rising edge = pressed
             self.__master.shutdown()
 
