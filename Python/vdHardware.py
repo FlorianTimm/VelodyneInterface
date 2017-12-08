@@ -93,7 +93,7 @@ class VdHardware(Thread):
         pressed = True
         # > 2 seconds
         for i in range (4):
-            if GPIO.input(self.__taster_stop) == 0:
+            if GPIO.input(self.__taster_start) == 0:
                 pressed = False
             time.sleep(0.5)
 
