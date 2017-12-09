@@ -106,6 +106,9 @@ class VdAutoStart(object):
             n = multiprocessing.cpu_count() - 1
             if n < 2:
                 n = 1
+            max = int(self.__conf.get("functions", "maxTransformer"))
+            if  max < n:
+                n = max
             self.__pTransformer = []
             for i in range(n):
                 t = VdTransformer(i, self)
@@ -219,7 +222,7 @@ class VdAutoStart(object):
         x = self.__dataset_cnt.value
         time.sleep(0.2)
         y = self.__dataset_cnt.value
-        if x - y > 0:
+        if y - x > 0:
             return True
         return False
 

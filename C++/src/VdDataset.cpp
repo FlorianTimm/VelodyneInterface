@@ -46,10 +46,10 @@ double VdDataset::getTime() {
 	 * @return timestamp of dataset
 	 */
 
-	double time = ((unsigned char) dataset[1200])
-			+ (((unsigned char) dataset[1201]) << 8)
-			+ (((unsigned char) dataset[1202]) << 16)
-			+ (((unsigned char) dataset[1203]) << 24);
+	double time = ((double)(unsigned char) dataset[1200])
+			+ (((unsigned int)(unsigned char) dataset[1201]) << 8)
+			+ (((unsigned int)(unsigned char) dataset[1202]) << 16)
+			+ (((unsigned int)(unsigned char) dataset[1203]) << 24);
 	return time;
 }
 

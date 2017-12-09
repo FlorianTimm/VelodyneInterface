@@ -20,7 +20,7 @@ conf = configparser.ConfigParser()
 conf.read("config.ini")
 
 fs = glob(
-    "/mnt/ssd_daten/ThesisMessung2/data*/*.bin")
+    "/mnt/ssd_daten/MessungDach/*.bin")
 
 
 t1 = clock()
@@ -33,13 +33,13 @@ if len(fs) > 0:
         
         new_file = "/media/timm/TIMM_32GB/tief/" + new_file + ""
 
-        new_file = "/mnt/ssd_daten/ThesisMessung2/labor_gesamt"
+        new_file = "/mnt/ssd_daten/MessungDach/dach_gesamt.txt"
         
         print(new_file)
         
         print(filename)
         import subprocess
-        result = subprocess.run(['./vdTrans_linux64', "bin", filename, "xyz", new_file], stdout=subprocess.PIPE)
+        result = subprocess.run(['./vdTrans_linux64', "bin", filename, "txt", new_file], stdout=subprocess.PIPE)
         print(result.stdout.decode('utf-8'))
     
 t2 = clock()
