@@ -3,7 +3,7 @@
 
 """
 @author: Florian Timm
-@version: 2017.11.27
+@version: 2017.12.11
 """
 
 from vdFile import VdFile
@@ -12,7 +12,6 @@ from abc import abstractmethod, ABC
 
 
 class VdASCIIFile(VdFile):
-
     """ abstract class for writing ascii files """
 
     def _open_ascii(self, filename, file_format):

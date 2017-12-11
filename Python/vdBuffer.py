@@ -16,7 +16,6 @@ from vdInterface import VdInterface
 
 
 class VdBuffer(Process):
-
     """ process for buffering binary data """
 
     def __init__(self, master):

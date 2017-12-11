@@ -26,7 +26,6 @@ from vdGNSSTime import VdGNSSTime
 
 
 class VdAutoStart(object):
-
     """ main script for automatic start """
 
     def __init__(self, web_interface):
@@ -236,6 +235,7 @@ class VdAutoStart(object):
         :rtype: configparser.ConfigParser
         """
         return self.__conf
+
     conf = property(__get_conf)
 
     def __get_gnss_status(self):
@@ -253,6 +253,7 @@ class VdAutoStart(object):
         :type gnss_status: str
         """
         self.__gnss_status = gnss_status
+
     gnss_status = property(__get_gnss_status, __set_gnss_status)
 
     def __get_go_on_buffer(self):
@@ -262,6 +263,7 @@ class VdAutoStart(object):
         :rtype: Manager
         """
         return self.__go_on_buffer
+
     go_on_buffer = property(__get_go_on_buffer)
 
     def __get_go_on_transform(self):
@@ -271,6 +273,7 @@ class VdAutoStart(object):
         :rtype: Manager
         """
         return self.__go_on_transform
+
     go_on_transform = property(__get_go_on_transform)
 
     def __get_scanner_status(self):
@@ -280,6 +283,7 @@ class VdAutoStart(object):
         :rtype: Manager
         """
         return self.__scanner_status
+
     scanner_status = property(__get_scanner_status)
 
     def __get_dataset_cnt(self):
@@ -289,6 +293,7 @@ class VdAutoStart(object):
         :rtype: Manager
         """
         return self.__dataset_cnt
+
     dataset_cnt = property(__get_dataset_cnt)
 
     def __get_date(self):
@@ -306,6 +311,7 @@ class VdAutoStart(object):
         :type date: datetime
         """
         self.__date = date
+
     #: recording start time
     date = property(__get_date, __set_date)
 
@@ -316,6 +322,7 @@ class VdAutoStart(object):
         :rtype: bool
         """
         return self.__admin
+
     admin = property(__is_admin)
 
     def __get_queue(self):
@@ -325,6 +332,7 @@ class VdAutoStart(object):
         :rtype: Queue
         """
         return self.__queue
+
     queue = property(__get_queue)
 
 
@@ -340,7 +348,7 @@ def web_index():
     if ms.date.value is not None:
         time_diff = datetime.now() - ms.date.value
         td_sec = time_diff.seconds + \
-            (int(time_diff.microseconds / 1000) / 1000.)
+                 (int(time_diff.microseconds / 1000) / 1000.)
         seconds = td_sec % 60
         minutes = int((td_sec // 60) % 60)
         hours = int(td_sec // 3600)
@@ -383,7 +391,7 @@ def web_index():
     else:
         output += """<a href="/start" id="start">
             Start recording</a><br />"""
-    #<a href="/exit" id="exit">Terminate script<br />
+    # <a href="/exit" id="exit">Terminate script<br />
     #   (control by SSH available only)</a><br />
     output += """
         <a target="vlp" href="http://""" + ms.conf.get("network", "Config_IP") + """" id="vlp">Open Velodyne Config</a><br />

@@ -17,7 +17,6 @@ from vdInterface import VdInterface
 
 
 class VdGNSSTime(Thread):
-
     """ system time by gnss data """
 
     def __init__(self, master):

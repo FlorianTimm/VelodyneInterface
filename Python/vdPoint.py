@@ -10,7 +10,6 @@ import math
 
 
 class VdPoint(object):
-
     """ Represents a point """
 
     __dRho = math.pi / 180.0

@@ -13,7 +13,6 @@ import threading
 
 
 class VdHardware(Thread):
-
     """ controls hardware control, extends Thread """
 
     def __init__(self, master):
