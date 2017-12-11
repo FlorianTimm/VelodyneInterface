@@ -19,8 +19,7 @@ from vdObjFile import VdObjFile
 conf = configparser.ConfigParser()
 conf.read("config.ini")
 
-fs = glob(
-    "/mnt/ssd_daten/MessungDach/*.bin")
+fs = glob("/mnt/ssd_daten/MessungDach/*.bin")
 
 
 t1 = clock()

@@ -12,11 +12,13 @@ import os
 import signal
 import sys
 import time
+import glob
+import urllib
 from datetime import datetime
 from multiprocessing import Queue, Manager
 from threading import Thread
 
-from flask import Flask
+from flask import Flask, request, send_file
 from vdBuffer import VdBuffer
 from vdTransformer import VdTransformer
 
@@ -359,8 +361,8 @@ def web_index():
     </head>
     <body>
     <content>
-        <h2>VLP16-Data-Interface</h3>
-        <table style="">
+        <h2>VLP16-Data-Interface</h2>
+        <table>
             <tr><td id="column1">GNSS-status:</td><td>""" + ms.gnss_status + """</td></tr>
             <tr><td>Scanner:</td><td>""" + ms.scanner_status.value + """</td></tr>
             <tr><td>Datasets</td>
@@ -381,9 +383,11 @@ def web_index():
     else:
         output += """<a href="/start" id="start">
             Start recording</a><br />"""
+    #<a href="/exit" id="exit">Terminate script<br />
+    #   (control by SSH available only)</a><br />
     output += """
-        <a href="/exit" id="exit">Terminate script<br />
-        (control by SSH available only)</a></td></tr><br />
+        <a target="vlp" href="http://""" + ms.conf.get("network", "Config_IP") + """" id="vlp">Open Velodyne Config</a><br />
+        <a href="/files" id="files">Show files</a><br />
         <a href="/shutdown" id="shutdown">Shutdown Raspberry Pi</a>
     </content>
     </body>
@@ -429,6 +433,10 @@ def css_style():
         margin: auto;
         color: #fff;
     }
+    
+    table a {
+        color: #000;
+    }
 
     a#stop {
         background-color: #e90;
@@ -441,9 +449,17 @@ def css_style():
     a#start {
         background-color: #1a1;
     }
+    
+    a#vlp {
+        background-color: #070;
+    }
 
     a#exit {
         background-color: #f44;
+    }
+    
+    a#files {
+        background-color: #444;
     }
     """
 
@@ -455,7 +471,36 @@ def web_shutdown():
     return """
     <meta http-equiv="refresh" content="3; URL=/">
     Shutdown..."""
+    
+@app.route("/files")
+def web_files():
+    """ web control: get files """
+    ausgabe = """<html>
+    <head>
+        <title>VLP16-Data-Interface</title>
+        <meta name="viewport" content="width=device-width; initial-scale=1.0;" />
+        <link href="/style.css" rel="stylesheet">
+    </head>
+    <body>
+    <content>
+        <h2>VLP16-Data-Interface</h2>
+        <h3>File Downloader</h3>
+        <table>""";
+    files = glob.glob(ms.conf.get("file", "namePre")+"*/*")
+    filesS = sorted(files, reverse=True)
+    for f in filesS:
+        ausgabe += "<tr><td>" + f + "</td><td>"+'{:.1f}'.format(os.path.getsize(f)/1024/1024) +" MB</td><td><a href=\"/file?file=" + urllib.parse.quote_plus(f) + "\">Download</a></td></tr>"
+        
+    ausgabe += "</table></body></html>"
+    return ausgabe
 
+@app.route("/file", methods=['GET'])
+def web_file():
+    if request.method == 'GET':
+        datei = request.args.get('file')
+        if datei.startswith(ms.conf.get("file", "namePre")):
+            return send_file(datei, as_attachment=True)
+    return ""
 
 @app.route("/exit")
 def web_exit():

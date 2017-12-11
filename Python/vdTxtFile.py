@@ -29,7 +29,7 @@ class VdTxtFile(VdASCIIFile):
         :return: txt point string
         :rtype: str
         """
-        format_string = '{:012.1f}\t{:07.3f}\t{: 03.0f}\t{:06.3f}\t{:03.0f}\n'
+        format_string = '{:012.1f}\t{:07.3f}\t{:03.0f}\t{:06.3f}\t{:03.0f}\n'
         return format_string.format(p.time,
                                     p.azimuth,
                                     p.vertical,

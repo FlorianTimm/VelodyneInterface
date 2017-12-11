@@ -59,7 +59,7 @@ class VdBuffer(Process):
         self.__date.value = datetime.now()
         self.__folder = self.__conf.get("file", "namePre")
         self.__folder += self.__date.value.strftime(
-            self.__conf.get("file", "timeFormat"))
+            self.__conf.get("file", "timeFormat")) + "/buffer"
         # make folder
         os.makedirs(self.__folder)
         print("Data folder: " + self.__folder)
@@ -86,6 +86,8 @@ class VdBuffer(Process):
             "activateTransformer") == "True"
         measurements_per_dataset = int(self.__conf.get(
             "device", "valuesPerDataset"))
+        bufferTakt = int(self.__conf.get(
+            "file", "takt"))
 
         sock.settimeout(1)
         while self.__go_on_buffering.value:
@@ -101,7 +103,7 @@ class VdBuffer(Process):
                 self.__datasets.value += measurements_per_dataset
                 # safe data to file every 1500 datasets
                 # (about 5 or 10 seconds)
-                if (datasets_in_buffer >= 1500) or \
+                if (datasets_in_buffer >= bufferTakt) or \
                         (not self.__go_on_buffering.value):
                     # write file
                     f = open(

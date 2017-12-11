@@ -10,6 +10,7 @@ import os
 import socket
 from datetime import datetime
 from threading import Thread
+import time
 
 import serial
 from vdInterface import VdInterface
@@ -36,21 +37,27 @@ class VdGNSSTime(Thread):
         """
         starts threads for time detection
         """
+
+        self.__master.gnss_status = "Connecting..."
+
+        #print("Serial")
         # get data from serial port
         self.__tSerial = Thread(target=self.__get_gnss_time_from_serial())
         self.__tSerial.start()
 
+        #print("Scanner")
         # get data from scanner
         self.__tScanner = Thread(target=self.__get_gnss_time_from_scanner())
         self.__tScanner.start()
 
-        self.__master.gnss_status = "Connecting..."
+   
 
     def __get_gnss_time_from_scanner(self):
         """ gets data by scanner network stream """
+        time.sleep(1)
         sock = VdInterface.get_gnss_stream(self.__conf)
         sock.settimeout(1)
-        self.__master.gnss_status = "Wait for fix..."
+        #self.__master.gnss_status = "Wait for fix..."
         while not self.__time_corrected:
             try:
                 data = sock.recvfrom(2048)[0]  # buffer size is 2048 bytes
@@ -68,14 +75,16 @@ class VdGNSSTime(Thread):
     # noinspection PyArgumentList
     def __get_gnss_time_from_serial(self):
         """ get data by serial port """
+        time.sleep(1)
         ser = None
         try:
             port = self.__conf.get("serial", "GNSSport")
             ser = serial.Serial(port, timeout=1)
-            self.__master.gnss_status = "Wait for fix..."
+            #self.__master.gnss_status = "Wait for fix..."
             while not self.__time_corrected:
                 line = ser.readline()
                 message = line.decode('utf-8', 'replace')
+                #print (message)
                 if self.__get_gnss_time_from_string(message):
                     break
                     # else:
@@ -90,6 +99,7 @@ class VdGNSSTime(Thread):
 
     def __get_gnss_time_from_string(self, message):
         if message[0:6] == "$GPRMC":
+            #print(message)
             p = message.split(",")
             if p[2] == "A":
                 print("GNSS-Fix")
@@ -109,11 +119,13 @@ class VdGNSSTime(Thread):
         :return:
         :rtype:
         """
-        os.system("timedatectl set-ntp 0")
-        os.system("timedatectl set-time \"" +
+        #os.system("timedatectl set-ntp 0")
+        #os.system("timedatectl set-time \"" +
+        #          timestamp.strftime("%Y-%m-%d %H:%M:%S") + "\"")
+        #os.system(" timedatectl set-ntp 1")
+        os.system("sudo date -s \"" +
                   timestamp.strftime("%Y-%m-%d %H:%M:%S") + "\"")
-        os.system(" timedatectl set-ntp 1")
-        self.__master.set_gnss_status("System time set")
+        self.__master.gnss_status = "System time set"
 
     def stop(self):
         """ stops all threads """
