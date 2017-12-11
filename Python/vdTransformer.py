@@ -20,6 +20,7 @@ from vdObjFile import VdObjFile
 
 
 class VdTransformer(Process):
+
     """ Process for transforming data from Velodyne VLP-16 """
 
     def __init__(self, number, master):
@@ -118,7 +119,8 @@ class VdTransformer(Process):
                     f.close()
                     break
                 else:
-                    result = subprocess.run(['./' + trans, "bin", filename, fileformat, new_file],
+                    result = subprocess.run(
+                        ['./' + trans, "bin", filename, fileformat, new_file],
                                             stdout=subprocess.PIPE)
                     print(result.stdout.decode('utf-8'))
 

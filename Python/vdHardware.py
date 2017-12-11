@@ -27,14 +27,14 @@ class VdHardware(Thread):
         GPIO.setmode(GPIO.BCM)
 
         self.__taster_start = 5  # start
-        self.__taster_stop = 13 # stop
+        self.__taster_stop = 13  # stop
         self.__taster_shutdown = 26  # shutdown
 
         # led-pins:
         # 0: receiving
         # 1: queue
         # 2: recording
-        self.__led = [2,4,17]
+        self.__led = [2, 4, 17]
         self.__receiving = False
         self.__queue = False
         self.__recording = False

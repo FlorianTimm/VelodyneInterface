@@ -109,7 +109,7 @@ class VdAutoStart(object):
             if n < 2:
                 n = 1
             max = int(self.__conf.get("functions", "maxTransformer"))
-            if  max < n:
+            if max < n:
                 n = max
             self.__pTransformer = []
             for i in range(n):
@@ -433,7 +433,7 @@ def css_style():
         margin: auto;
         color: #fff;
     }
-    
+
     table a {
         color: #000;
     }
@@ -449,7 +449,7 @@ def css_style():
     a#start {
         background-color: #1a1;
     }
-    
+
     a#vlp {
         background-color: #070;
     }
@@ -457,7 +457,7 @@ def css_style():
     a#exit {
         background-color: #f44;
     }
-    
+
     a#files {
         background-color: #444;
     }
@@ -471,7 +471,8 @@ def web_shutdown():
     return """
     <meta http-equiv="refresh" content="3; URL=/">
     Shutdown..."""
-    
+
+
 @app.route("/files")
 def web_files():
     """ web control: get files """
@@ -485,14 +486,18 @@ def web_files():
     <content>
         <h2>VLP16-Data-Interface</h2>
         <h3>File Downloader</h3>
-        <table>""";
-    files = glob.glob(ms.conf.get("file", "namePre")+"*/*")
+        <table>"""
+    files = glob.glob(ms.conf.get("file", "namePre") + "*/*")
     filesS = sorted(files, reverse=True)
     for f in filesS:
-        ausgabe += "<tr><td>" + f + "</td><td>"+'{:.1f}'.format(os.path.getsize(f)/1024/1024) +" MB</td><td><a href=\"/file?file=" + urllib.parse.quote_plus(f) + "\">Download</a></td></tr>"
-        
+        ausgabe += "<tr><td>" + f + "</td><td>" + '{:.1f}'.format(
+            os.path.getsize(
+                f) / 1024 / 1024) + " MB</td><td><a href=\"/file?file=" + urllib.parse.quote_plus(
+            f) + "\">Download</a></td></tr>"
+
     ausgabe += "</table></body></html>"
     return ausgabe
+
 
 @app.route("/file", methods=['GET'])
 def web_file():
@@ -501,6 +506,7 @@ def web_file():
         if datei.startswith(ms.conf.get("file", "namePre")):
             return send_file(datei, as_attachment=True)
     return ""
+
 
 @app.route("/exit")
 def web_exit():

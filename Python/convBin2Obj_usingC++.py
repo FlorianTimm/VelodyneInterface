@@ -28,19 +28,25 @@ if len(fs) > 0:
     for filename in fs:
         folder = os.path.dirname(filename)
         folder_split = folder.split("/")
-        new_file = folder_split[-1].replace(":","")
-        
+        new_file = folder_split[-1].replace(":", "")
+
         new_file = "/media/timm/TIMM_32GB/tief/" + new_file + ""
 
         new_file = "/mnt/ssd_daten/MessungDach/dach_gesamt.txt"
-        
+
         print(new_file)
-        
+
         print(filename)
         import subprocess
-        result = subprocess.run(['./vdTrans_linux64', "bin", filename, "txt", new_file], stdout=subprocess.PIPE)
+        result = subprocess.run(
+            ['./vdTrans_linux64',
+             "bin",
+             filename,
+             "txt",
+             new_file],
+            stdout=subprocess.PIPE)
         print(result.stdout.decode('utf-8'))
-    
+
 t2 = clock()
 
 t = t2 - t1

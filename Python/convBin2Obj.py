@@ -19,7 +19,7 @@ from vdObjFile import VdObjFile
 conf = configparser.ConfigParser()
 conf.read("config.ini")
 
-#fs = glob(
+# fs = glob(
 #    "../BeispielDateien/*.bin")
 
 fs = ["/ssd/daten/ThesisMessung2/data2017-11-27T13:51:16/4.bin"]
@@ -38,9 +38,9 @@ if len(fs) > 0:
 
         # Calculate number of datasets
         fileSize = os.path.getsize(bin_file.name)
-        print ("FileSize: "+str(fileSize))
+        print ("FileSize: " + str(fileSize))
         cntDatasets = fileSize // 1206
-        print ("Datasets: "+str(cntDatasets))
+        print ("Datasets: " + str(cntDatasets))
 
         for i in range(cntDatasets):
             vdData = VdDataset(conf, bin_file.read(1206))
@@ -48,7 +48,7 @@ if len(fs) > 0:
             obj.write_data(vdData.get_data())
         bin_file.close()
     obj.close()
-    
+
 t2 = clock()
 
 t = t2 - t1

@@ -144,9 +144,9 @@ class VdDataset(object):
         times = [0.] * 12
         t_2repeat = 2 * float(self.__conf.get("device", "tRepeat"))
         if dual_return:
-            for i in range(0,12,2):
+            for i in range(0, 12, 2):
                 times[i] = time
-                times[i+1] = time
+                times[i + 1] = time
                 time += t_2repeat
         else:
             for i in range(12):
@@ -162,7 +162,7 @@ class VdDataset(object):
             offset = self.__offset[i]
             time = times[i]
             for j in range(2):
-                azi_block = azimuth[i*2 + j]
+                azi_block = azimuth[i * 2 + j]
                 for k in range(16):
                     # get distance
                     dist = ord(self.__dataset[4 + offset:5 + offset]) \

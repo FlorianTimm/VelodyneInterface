@@ -9,6 +9,7 @@
 from vdASCIIFile import VdASCIIFile
 from vdPoint import VdPoint
 
+
 class VdObjFile(VdASCIIFile):
 
     """ creates and fills an obj-file """

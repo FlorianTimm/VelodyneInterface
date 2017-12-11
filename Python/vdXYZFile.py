@@ -9,6 +9,7 @@
 from vdASCIIFile import VdASCIIFile
 from vdPoint import VdPoint
 
+
 class VdXYZFile(VdASCIIFile):
 
     """ creates and fills an xyz-file """
@@ -32,4 +33,3 @@ class VdXYZFile(VdASCIIFile):
         x, y, z = p.get_xyz()
         format_string = '{:.3f} {:.3f} {:.3f}\n'
         return format_string.format(x, y, z)
-
