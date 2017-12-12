@@ -56,11 +56,12 @@ class VdBuffer(Process):
         """ creates data folder """
         # checks time for file name and runtime
         self.__date.value = datetime.now()
-        self.__folder = self.__conf.get("file", "namePre")
-        self.__folder += self.__date.value.strftime(
-            self.__conf.get("file", "timeFormat")) + "/buffer"
+        dir = self.__conf.get("file", "namePre")
+        dir += self.__date.value.strftime(self.__conf.get("file", "timeFormat"))
+        self.__folder = dir + "/_buffer"
         # make folder
         os.makedirs(self.__folder)
+        os.makedirs(dir + "/_transformed")
         print("Data folder: " + self.__folder)
 
     def run(self):

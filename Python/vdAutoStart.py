@@ -495,7 +495,7 @@ def web_files():
         <h2>VLP16-Data-Interface</h2>
         <h3>File Downloader</h3>
         <table>"""
-    files = glob.glob(ms.conf.get("file", "namePre") + "*/*")
+    files = glob.glob(ms.conf.get("file", "namePre") + "*/*.*")
     filesS = sorted(files, reverse=True)
     for f in filesS:
         ausgabe += "<tr><td>" + f + "</td><td>" + '{:.1f}'.format(

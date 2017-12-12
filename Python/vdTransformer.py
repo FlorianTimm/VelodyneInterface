@@ -69,17 +69,18 @@ class VdTransformer(Process):
                 # get file name from queue
                 filename = self.__queue.get(True, 2)
                 folder = os.path.dirname(filename)
+                dir = os.path.dirname(folder)
                 trans = self.__conf.get("file", "transformer")
                 fileformat = self.__conf.get("file", "format")
                 new_file = ""
                 if fileformat == "txt":
-                    new_file = folder + "/txt_file" + str(self.__number)
+                    new_file = dir + "/txt_file" + str(self.__number)
                 elif fileformat == "obj":
-                    new_file = folder + "/obj_file" + str(self.__number)
+                    new_file = dir + "/obj_file" + str(self.__number)
                 elif fileformat == "xyz":
-                    new_file = folder + "/xyz_file" + str(self.__number)
+                    new_file = dir + "/xyz_file" + str(self.__number)
                 elif fileformat == "sql":
-                    new_file = folder + "/sqlite"
+                    new_file = dir + "/sqlite"
 
                 if trans == "python":
                     if folder != old_folder:
@@ -119,6 +120,9 @@ class VdTransformer(Process):
                     f.close()
                     break
                 else:
+                    #print(filename)
+                    #print(fileformat)
+                    #print(new_file)
                     result = subprocess.run(
                         ['./' + trans, "bin", filename, fileformat, new_file],
                                             stdout=subprocess.PIPE)
@@ -128,9 +132,8 @@ class VdTransformer(Process):
                 if self.__conf.get("file", "deleteBin") == "True":
                     os.remove(f.name)
                 else:
-                    dir = os.path.dirname(folder)
                     fname = os.path.basename(filename)
-                    os.rename(filename, dir + "/transformed/" + fname)
+                    os.rename(filename, dir + "/_transformed/" + fname)
             except Empty:
                 print("Queue empty!")
                 continue
