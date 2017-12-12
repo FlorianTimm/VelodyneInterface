@@ -68,6 +68,7 @@ void VdFile::addDataset(list<VdPoint>* dataset) {
 	 * adds multiple points to write queue
 	 * @param dataset multiple points
 	 */
-	this->writingQueue.insert(this->writingQueue.begin(), dataset->begin(), dataset->end());
+	this->writingQueue.insert(this->writingQueue.begin(), dataset->begin(),
+			dataset->end());
 }
 

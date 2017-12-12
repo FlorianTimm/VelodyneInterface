@@ -3,7 +3,7 @@
 
 """
 @author: Florian Timm
-@version: 2017.11.20
+@version: 2017.12.10
 """
 
 import os
@@ -17,6 +17,7 @@ from vdInterface import VdInterface
 
 
 class VdGNSSTime(Thread):
+
     """ system time by gnss data """
 
     def __init__(self, master):

@@ -14,7 +14,7 @@
 #include <string>
 using namespace std;
 
-class VdSQLite : public VdFile{
+class VdSQLite: public VdFile {
 public:
 	VdSQLite(string filename = "");
 	void write();

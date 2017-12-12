@@ -12,6 +12,7 @@ from vdPoint import VdPoint
 
 
 class VdDataset(object):
+
     """ representation of one dataset of velodyne vlp-16 """
 
     def __init__(self, conf, dataset):
@@ -43,7 +44,7 @@ class VdDataset(object):
         offset = self.__offset[block]
         # change byte order
         azi = ord(self.__dataset[offset + 2:offset + 3]) + \
-              (ord(self.__dataset[offset + 3:offset + 4]) << 8)
+            (ord(self.__dataset[offset + 3:offset + 4]) << 8)
         azi /= 100.0
         return azi
 
@@ -55,9 +56,9 @@ class VdDataset(object):
         """
 
         time = ord(self.__dataset[1200:1201]) + \
-               (ord(self.__dataset[1201:1202]) << 8) + \
-               (ord(self.__dataset[1202:1203]) << 16) + \
-               (ord(self.__dataset[1203:1204]) << 24)
+            (ord(self.__dataset[1201:1202]) << 8) + \
+            (ord(self.__dataset[1202:1203]) << 16) + \
+            (ord(self.__dataset[1203:1204]) << 24)
         # print(time)
         return time
 
@@ -165,7 +166,7 @@ class VdDataset(object):
                 for k in range(16):
                     # get distance
                     dist = ord(self.__dataset[4 + offset:5 + offset]) \
-                           + (ord(self.__dataset[5 + offset:6 + offset]) << 8)
+                        + (ord(self.__dataset[5 + offset:6 + offset]) << 8)
                     if dist > 0:
                         dist /= 500.0
 

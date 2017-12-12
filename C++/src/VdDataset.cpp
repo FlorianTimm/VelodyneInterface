@@ -16,7 +16,6 @@ using namespace std;
 #include "VdDataset.h"
 #include "iniparser/iniparser.h"
 
-
 VdDataset::VdDataset(dictionary * conf, char * dataset) {
 	this->dataset = dataset;
 	this->conf = conf;
@@ -46,10 +45,10 @@ double VdDataset::getTime() {
 	 * @return timestamp of dataset
 	 */
 
-	double time = ((double)(unsigned char) dataset[1200])
-			+ (((unsigned int)(unsigned char) dataset[1201]) << 8)
-			+ (((unsigned int)(unsigned char) dataset[1202]) << 16)
-			+ (((unsigned int)(unsigned char) dataset[1203]) << 24);
+	double time = ((double) (unsigned char) dataset[1200])
+			+ (((unsigned int) (unsigned char) dataset[1201]) << 8)
+			+ (((unsigned int) (unsigned char) dataset[1202]) << 16)
+			+ (((unsigned int) (unsigned char) dataset[1203]) << 24);
 	return time;
 }
 
@@ -135,9 +134,11 @@ void VdDataset::getAzimuths(double azimuths[], double rotation[]) {
 
 void VdDataset::convertData() {
 	/** converts binary data to objects */
-	double t_between_laser = iniparser_getdouble(conf, "device:tinterbeams", 2.304);
+	double t_between_laser = iniparser_getdouble(conf, "device:tinterbeams",
+			2.304);
 	double t_recharge = iniparser_getdouble(conf, "device:trecharge", 20.736);
-	double part_rotation = iniparser_getdouble(conf, "device:ratiorotation", 0.041666666666666664);
+	double part_rotation = iniparser_getdouble(conf, "device:ratiorotation",
+			0.041666666666666664);
 
 	// create empty lists
 	double azimuth[24];

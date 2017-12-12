@@ -19,7 +19,7 @@ public:
 	VdTxtFile(string filename = "");
 
 protected:
-	void open (string filename = "");
+	void open(string filename = "");
 	string format(VdPoint);
 };
 

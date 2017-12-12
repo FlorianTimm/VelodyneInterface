@@ -34,7 +34,7 @@ string VdObjFile::format(VdPoint point) {
 	 */
 	VdXYZ xyz = point.getXYZ();
 	char result[50];
-	sprintf (result, "v %.3f %.3f %.3f\n", xyz.getX(), xyz.getY(), xyz.getZ());
+	sprintf(result, "v %.3f %.3f %.3f\n", xyz.getX(), xyz.getY(), xyz.getZ());
 	return (string(result));
 }
 

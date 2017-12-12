@@ -12,6 +12,7 @@ from vdPoint import VdPoint
 
 
 class VdSQLite(VdFile):
+
     """ class for writing data to sqlite database """
 
     def _open(self, filename):

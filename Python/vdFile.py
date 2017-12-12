@@ -13,6 +13,7 @@ from vdPoint import VdPoint
 
 
 class VdFile(ABC):
+
     """ abstract class for saving data """
 
     def __init__(self, conf, filename=""):

@@ -11,6 +11,7 @@ from vdPoint import VdPoint
 
 
 class VdXYZFile(VdASCIIFile):
+
     """ creates and fills an xyz-file """
 
     def _open(self, filename=""):

@@ -3,7 +3,7 @@
 
 """
 @author: Florian Timm
-@version: 2017.11.19
+@version: 2017.12.12
 """
 
 import os
@@ -16,6 +16,7 @@ from vdInterface import VdInterface
 
 
 class VdBuffer(Process):
+
     """ process for buffering binary data """
 
     def __init__(self, master):
@@ -57,7 +58,8 @@ class VdBuffer(Process):
         # checks time for file name and runtime
         self.__date.value = datetime.now()
         dir = self.__conf.get("file", "namePre")
-        dir += self.__date.value.strftime(self.__conf.get("file", "timeFormat"))
+        dir += self.__date.value.strftime(
+            self.__conf.get("file", "timeFormat"))
         self.__folder = dir + "/_buffer"
         # make folder
         os.makedirs(self.__folder)

@@ -3,7 +3,7 @@
 
 """
 @author: Florian Timm
-@version: 2017.11.20
+@version: 2017.12.12
 """
 import os
 import signal
@@ -120,9 +120,9 @@ class VdTransformer(Process):
                     f.close()
                     break
                 else:
-                    #print(filename)
-                    #print(fileformat)
-                    #print(new_file)
+                    # print(filename)
+                    # print(fileformat)
+                    # print(new_file)
                     result = subprocess.run(
                         ['./' + trans, "bin", filename, fileformat, new_file],
                                             stdout=subprocess.PIPE)

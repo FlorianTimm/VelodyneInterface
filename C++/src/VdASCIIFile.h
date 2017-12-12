@@ -12,7 +12,7 @@
 #include "VdFile.h"
 #include <fstream>
 
-class VdASCIIFile : public VdFile {
+class VdASCIIFile: public VdFile {
 public:
 	void write();
 protected:

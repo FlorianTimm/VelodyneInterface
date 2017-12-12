@@ -12,6 +12,7 @@ from abc import abstractmethod, ABC
 
 
 class VdASCIIFile(VdFile):
+
     """ abstract class for writing ascii files """
 
     def _open_ascii(self, filename, file_format):

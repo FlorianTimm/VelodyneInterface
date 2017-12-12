@@ -11,6 +11,7 @@ import sys
 
 
 class VdInterface(object):
+
     """ interface to velodyne scanner """
 
     @staticmethod

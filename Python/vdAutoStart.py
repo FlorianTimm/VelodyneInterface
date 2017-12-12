@@ -3,7 +3,7 @@
 
 """
 @author: Florian Timm
-@version: 2017.11.20
+@version: 2017.12.12
 """
 
 import configparser
@@ -26,6 +26,7 @@ from vdGNSSTime import VdGNSSTime
 
 
 class VdAutoStart(object):
+
     """ main script for automatic start """
 
     def __init__(self, web_interface):
@@ -348,7 +349,7 @@ def web_index():
     if ms.date.value is not None:
         time_diff = datetime.now() - ms.date.value
         td_sec = time_diff.seconds + \
-                 (int(time_diff.microseconds / 1000) / 1000.)
+            (int(time_diff.microseconds / 1000) / 1000.)
         seconds = td_sec % 60
         minutes = int((td_sec // 60) % 60)
         hours = int(td_sec // 3600)
@@ -371,8 +372,10 @@ def web_index():
     <content>
         <h2>VLP16-Data-Interface</h2>
         <table>
-            <tr><td id="column1">GNSS-status:</td><td>""" + ms.gnss_status + """</td></tr>
-            <tr><td>Scanner:</td><td>""" + ms.scanner_status.value + """</td></tr>
+            <tr><td id="column1">GNSS-status:</td>
+            <td>""" + ms.gnss_status + """</td></tr>
+            <tr><td>Scanner:</td>
+            <td>""" + ms.scanner_status.value + """</td></tr>
             <tr><td>Datasets</td>
                 <td>""" + str(ms.dataset_cnt.value) + """</td></tr>
             <tr><td>Queue:</td>
@@ -394,7 +397,9 @@ def web_index():
     # <a href="/exit" id="exit">Terminate script<br />
     #   (control by SSH available only)</a><br />
     output += """
-        <a target="vlp" href="http://""" + ms.conf.get("network", "Config_IP") + """" id="vlp">Open Velodyne Config</a><br />
+        <a target="vlp" href="http://""" + \
+        ms.conf.get("network", "Config_IP") + \
+        """" id="vlp">Open Velodyne Config</a><br />
         <a href="/files" id="files">Show files</a><br />
         <a href="/shutdown" id="shutdown">Shutdown Raspberry Pi</a>
     </content>
@@ -498,10 +503,11 @@ def web_files():
     files = glob.glob(ms.conf.get("file", "namePre") + "*/*.*")
     filesS = sorted(files, reverse=True)
     for f in filesS:
-        ausgabe += "<tr><td>" + f + "</td><td>" + '{:.1f}'.format(
-            os.path.getsize(
-                f) / 1024 / 1024) + " MB</td><td><a href=\"/file?file=" + urllib.parse.quote_plus(
-            f) + "\">Download</a></td></tr>"
+        ausgabe += "<tr><td>" + f + "</td><td>" + \
+                   "{:.1f}".format(os.path.getsize(f) / 1024 / 1024) + \
+                   " MB</td><td><a href=\"/file?file=" + \
+                   urllib.parse.quote_plus(f) + \
+                   "\">Download</a></td></tr>"
 
     ausgabe += "</table></body></html>"
     return ausgabe

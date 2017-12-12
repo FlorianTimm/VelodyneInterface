@@ -18,7 +18,8 @@ class VdFile {
 public:
 	std::list<VdPoint>& getWritingQueue();
 	void clearWritingQueue();
-	std::string makeFilename (std::string file_format, std::string file_name=std::string(""));
+	std::string makeFilename(std::string file_format, std::string file_name =
+			std::string(""));
 	void addPoint(VdPoint point);
 	void addDataset(std::list<VdPoint>* dataset);
 	void writeData(std::list<VdPoint>* data);
@@ -29,6 +30,5 @@ protected:
 	virtual void close() = 0;
 	std::list<VdPoint> writingQueue;
 };
-
 
 #endif /* VDFILE_H_ */

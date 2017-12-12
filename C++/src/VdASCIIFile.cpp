@@ -30,8 +30,8 @@ void VdASCIIFile::write2file(string data) {
 	 * writes ascii data to file
 	 * @param data data to write
 	 */
-	if (this->file!=NULL) {
-		fputs (data.c_str(),this->file);
+	if (this->file != NULL) {
+		fputs(data.c_str(), this->file);
 	}
 }
 

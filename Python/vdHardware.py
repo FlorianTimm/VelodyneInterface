@@ -3,7 +3,7 @@
 
 """
 @author: Florian Timm
-@version: 2017.11.20
+@version: 2017.12.07
 """
 
 import RPi.GPIO as GPIO
@@ -13,6 +13,7 @@ import threading
 
 
 class VdHardware(Thread):
+
     """ controls hardware control, extends Thread """
 
     def __init__(self, master):
