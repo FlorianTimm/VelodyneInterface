@@ -20,6 +20,7 @@ using namespace std;
 #include "VdTxtFile.h"
 #include "VdObjFile.h"
 #include "VdSQLite.h"
+#include "VdSQLiteXYZ.h"
 extern "C" {
 #include "iniparser/iniparser.h"
 }
@@ -71,7 +72,7 @@ void start(string old_format, string filename_old, string new_format,
 	 * transforms files
 	 * @param old_format format of input file (bin, txt)
 	 * @param filename_old name of input file
-	 * @param new_format format of output file (txt, xyz, obj, sql)
+	 * @param new_format format of output file (txt, xyz, obj, sql, sqlxyz)
 	 * @param filename_new name of output file
 	 */
 	if (old_format == "bin") {
@@ -93,6 +94,10 @@ void start(string old_format, string filename_old, string new_format,
 			cout << "sql" << endl;
 			VdSQLite sql = VdSQLite(filename_new);
 			transformBin2x(filename_old, &sql);
+		} else if (new_format == "sqlxyz") {
+			cout << "sqlxyz" << endl;
+			VdSQLiteXYZ sqlxyz = VdSQLiteXYZ(filename_new);
+			transformBin2x(filename_old, &sqlxyz);
 		} else {
 			cout << "unknown file format" << endl;
 		}
@@ -126,7 +131,7 @@ int main(int argc, char* argv[]) {
 		start(argv[1], argv[2], argv[3], argv[4]);
 	} else {
 		cout << "No parameters!" << endl;
-		cout << "usage: veloTrans [bin|txt] old_file [txt|xyz|obj|sql] new_file"
+		cout << "usage: veloTrans [bin|txt] old_file [txt|xyz|obj|sql|sqltxt] new_file"
 				<< endl;
 	}
 	return (0);
