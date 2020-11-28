@@ -2,7 +2,7 @@
  *  \brief		class for writing data to sqlite database
  *
  *  \author		Florian Timm
- *  \version	2017.11.29
+ *  \version	2020.11.28
  *  \copyright	MIT License
  */
 

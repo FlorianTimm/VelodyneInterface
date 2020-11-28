@@ -3,7 +3,7 @@
 
 """
 @author: Florian Timm
-@version: 2017.12.12
+@version: 2020.11.28
 """
 import os
 import signal
@@ -16,6 +16,7 @@ from vdDataset import VdDataset
 from vdTxtFile import VdTxtFile
 from vdXYZFile import VdXYZFile
 from vdSQLite import VdSQLite
+from vdSQLiteXYZ import VdSQLiteXYZ
 from vdObjFile import VdObjFile
 
 
@@ -81,6 +82,8 @@ class VdTransformer(Process):
                     new_file = dir + "/xyz_file" + str(self.__number)
                 elif fileformat == "sql":
                     new_file = dir + "/sqlite"
+                elif fileformat == "sqlxyz":
+                    new_file = dir + "/sqlite"
 
                 if trans == "python":
                     if folder != old_folder:
@@ -95,6 +98,9 @@ class VdTransformer(Process):
                                 self.__conf, new_file)
                         elif fileformat == "sql":
                             vd_file = VdSQLite(
+                                self.__conf, new_file)
+                        elif fileformat == "sqlxyz":
+                            vd_file = VdSQLiteXYZ(
                                 self.__conf, new_file)
                         old_folder = folder
 
